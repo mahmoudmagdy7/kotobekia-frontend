@@ -4,3 +4,10 @@ body {
   min-height: 100vh;
   
 }
+
+
+
+.slick-prev::before,
+.slick-next::before {
+  color: #464646!important;
+}
