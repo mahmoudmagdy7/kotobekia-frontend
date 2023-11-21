@@ -2,7 +2,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as solarIcons from "solar-icon-set";
-import notoFont from "./NotoFont.json";
+import notoFont from "../NotoFont.json";
 
 const SliderCategory = () => {
   const settings = {

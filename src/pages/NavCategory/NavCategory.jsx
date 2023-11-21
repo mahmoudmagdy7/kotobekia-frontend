@@ -1,6 +1,6 @@
 import * as solarIcons from "solar-icon-set";
 import SliderCategory from "./SliderCategory";
-import notoFont from "./NotoFont.json";
+import notoFont from "../NotoFont.json";
 
 const NavCategory = () => {
   // Noto Font
