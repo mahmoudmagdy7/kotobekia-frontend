@@ -1,10 +1,10 @@
 import * as solarIcons from "solar-icon-set";
-import logo from "../../../assets/logo.png";
+import logo from "../../assets/logo.png";
 
-const NavHome = () => {
+const NavHeader = () => {
   return (
     <>
-      <nav>
+      <nav className="pb-3 border-1 border-[#F3F4F7]">
         <div className="container">
           <div className="nav_top flex items-center justify-between">
             <div className="start flex items-center  flex-1 justify-between  md:justify-start gap-6">
@@ -115,4 +115,4 @@ const NavHome = () => {
   );
 };
 
-export default NavHome;
+export default NavHeader;

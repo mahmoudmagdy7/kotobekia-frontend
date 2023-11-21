@@ -1,5 +1,5 @@
-import palestine from "../../../assets/palestine.png";
-import NavHome from './../Nav_Home/NavHome';
+import palestine from "../../assets/palestine.png";
+import NavHeader from './../NavHeader/NavHeader';
 
 const Main_Header = () => {
   return (
@@ -58,7 +58,7 @@ const Main_Header = () => {
         {/* top header  */}
 
           {/* navbar  */}
-            <NavHome/>
+            <NavHeader/>
           {/* navbar  */}
 
       </header>
