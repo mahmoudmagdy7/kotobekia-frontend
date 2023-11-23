@@ -6,7 +6,6 @@ import { ThemeProvider } from "@material-tailwind/react";
 import Layout from "./pages/Layout.jsx";
 import Home from "./pages/Home/Home";
 import Category from "./pages/Category/Category";
-
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
   { path: "*", element: <h1>Not found</h1> },
