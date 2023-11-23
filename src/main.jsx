@@ -1,11 +1,10 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import Home from "./pages/Home.jsx";
 import "./index.css";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider } from "@material-tailwind/react";
 import Layout from "./pages/Layout.jsx";
+import Home from "./pages/Home/Home";
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
   { path: "*", element: <h1>Not found</h1> },
