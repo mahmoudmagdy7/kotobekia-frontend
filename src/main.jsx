@@ -5,6 +5,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider } from "@material-tailwind/react";
 import Layout from "./pages/Layout.jsx";
 import Home from "./pages/Home/Home";
+import Category from "./pages/Category/Category";
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
   { path: "*", element: <h1>Not found</h1> },
@@ -17,7 +18,7 @@ const route = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/category", element: <h1>category</h1> },
+      { path: "/category", element: <Category /> },
       { path: "/ad", element: <h1>ad page</h1> },
       { path: "/ad/new", element: <h1>Adding new add</h1> },
       { path: "/account/:id", element: <h1>User account</h1> },
