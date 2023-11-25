@@ -1,13 +1,7 @@
-import { Swiper, SwiperSlide } from "swiper/react";
 import slider from "/assets/slider.png";
-// import required modules
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
 import * as solarIcons from "solar-icon-set";
 import SliderCategory from "../NavCategory/SliderCategory";
 
-import { FreeMode, Pagination } from "swiper/modules";
 const MainSlider = () => {
   return (
     <>

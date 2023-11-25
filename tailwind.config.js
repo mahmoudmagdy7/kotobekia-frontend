@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 // tailwind.config.js
-const { nextui } = require("@nextui-org/react");
-const withMT = require("@material-tailwind/react/utils/withMT");
+const { nextui } = require("@nextui-org/react"); // Calling nextui
+const withMT = require("@material-tailwind/react/utils/withMT"); // Calling material-tailwind
 /** @type {import('tailwindcss').Config} */
 module.exports = withMT({
   content: [
