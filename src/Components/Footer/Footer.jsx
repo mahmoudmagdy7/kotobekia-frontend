@@ -7,13 +7,13 @@ import ReviewSection from "./ReviewSection";
 const Footer = () => {
   return (
     <>
-      <footer className="pt-10 pb-4 bg-white border-b-2 border-[#dddcde]">
+      <footer className="pt-10 pb-4 bg-[#f3f4f7] border-b-2 border-[#dddcde] mb-10">
         <div className="container">
           <div className="parent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="item py-5 px-6">
               <img src={footerLogo} alt="Kotobekia Logo" />
 
-              <div className="icons my-4 flex justify-center ">
+              <div className="icons my-4 flex justify-start lg:justify-center ">
                 <div className="flex items-center gap-[10px] ">
                   <div className="icon w-[28px] h-[28px] rounded-[50%] bg-[#D9D9D9] flex justify-center items-center">
                     <span className="text-[14px] text-black font-bold  ">f</span>
@@ -40,14 +40,14 @@ const Footer = () => {
             <ReviewSection />
           </div>
         </div>
-      </footer>
-      <div className="copyRight pt-4 pb-3 bg-white text-black">
+      <div className="copyRight pt-2 mt-2 pb-3 border-t-2 border text-black">
         <p className=" m-0 flex justify-center gap-1 items-center">
           All rights received for
           <span className="text-[#28D8AE] font-semibold">Kotobekia</span>
           <solarIcons.ShieldCheck size={20} color="#28D8AE" className="mt-1" />
         </p>
       </div>
+      </footer>
     </>
   );
 };

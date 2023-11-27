@@ -6,7 +6,7 @@ function NavigationBar() {
   const { t } = useTranslation();
   return (
     <div>
-      <ul className="flex items-center justify-around lg:hidden gap-1 fixed start-0 end-0 bg-white bottom-0 pb-1 pt-2 rounded-t-3xl  sm:text-sm px-3">
+      <ul className="flex z-[9999999999] text-black items-center justify-around lg:hidden gap-1 fixed start-0 end-0 bg-white bottom-0 pb-1 pt-2 rounded-t-3xl text-xs sm:text-sm   px-3">
         <li className="flex items-center flex-col">
           <solarIcons.User size={23} color="#28D8AE" />
           <span className="font-bold">{t("navigation_bar.account")}</span>{" "}

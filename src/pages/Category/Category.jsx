@@ -10,22 +10,6 @@ function Category() {
     <div className="text-black">
       {t("governorates.cairo")}
 
-      {/* <Button
-        onClick={() => {
-          window.location.reload();
-
-          if (Cookies.get("i18next") == "en") {
-            Cookies.set("i18next", "ar");
-            document.body.dir = "rtl";
-          } else {
-            Cookies.set("i18next", "en");
-            document.body.dir = "ltr";
-          }
-        }}
-      >
-        click me!
-      </Button> */}
-
       <Button
         onClick={async () => {
           if (localStorage.getItem("i18nextLng") == "en") {
@@ -41,7 +25,6 @@ function Category() {
       >
         click me!
       </Button>
-      <NavigationBar />
     </div>
   );
 }

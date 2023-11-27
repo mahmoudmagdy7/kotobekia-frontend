@@ -1,6 +1,10 @@
 import Cookies from "js-cookie";
 import { useLayoutEffect } from "react";
 import { Outlet } from "react-router-dom";
+import Footer from "../Components/Footer/Footer";
+import NavCategory from "../Components/NavCategory/NavCategory";
+import MainHeader from "../Components/Header/MainHeader";
+import NavigationBar from "../Components/NavigationBar/NavigationBar";
 function Layout() {
   useLayoutEffect(() => {
     if (localStorage.getItem("i18nextLng") == "en") {
@@ -10,9 +14,14 @@ function Layout() {
     }
   }, []);
   return (
-    <div>
+    <>
+          <MainHeader />
+      <NavCategory />
       <Outlet />
-    </div>
+      <Footer />
+      <NavigationBar />
+
+    </>
   );
 }
 
