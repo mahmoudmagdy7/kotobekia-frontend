@@ -8,7 +8,7 @@ const SliderCategory = () => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 3,
     slidesToScroll: 2,
   };
 
@@ -17,21 +17,21 @@ const SliderCategory = () => {
       {/* Use the Slider component with the specified settings */}
       <Slider {...settings} className="flex  items-center gap-1 m-auto">
         <div className="">
-          <div className="item flex items-center cursor-pointer  gap-1">
+          <div className="item flex justify-center  items-center cursor-pointer  gap-1">
             <solarIcons.Home size={20} color="#28D8AE" />
             <span className="text-[#464646] text-[12px] lg:text-[14px]">Home</span>
           </div>
         </div>
 
         <div className="">
-          <div className="item flex items-center cursor-pointer  gap-1">
+          <div className="item flex  justify-center items-center cursor-pointer  gap-1">
             <solarIcons.Backpack size={20} color="#28D8AE" />
-            <span className="text-[#464646] text-[12px] lg:text-[14px]">Kindergarten</span>
+            <span className="text-[#464646] text-[12px] lg:text-[14px] text-center">Kindergarten</span>
           </div>
         </div>
 
         <div className="">
-          <div className="item flex items-center cursor-pointer  gap-1">
+          <div className="item flex items-center justify-center cursor-pointer  gap-1">
             <solarIcons.CaseMinimalistic size={20} color="#28D8AE" />
             <span className="text-[#464646] text-[12px] lg:text-[14px]">Primary </span>
           </div>

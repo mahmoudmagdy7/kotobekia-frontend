@@ -13,7 +13,7 @@ const Footer = () => {
             <div className="item py-5 px-6">
               <img src={footerLogo} alt="Kotobekia Logo" />
 
-              <div className="icons my-4 flex justify-center ">
+              <div className="icons my-4 flex justify-start lg:justify-center ">
                 <div className="flex items-center gap-[10px] ">
                   <div className="icon w-[28px] h-[28px] rounded-[50%] bg-[#D9D9D9] flex justify-center items-center">
                     <span className="text-[14px] text-black font-bold  ">f</span>
