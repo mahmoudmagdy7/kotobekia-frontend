@@ -1,5 +1,6 @@
 import "../../App.css";
 import * as solarIcons from "solar-icon-set";
+
 import MainHeader from "../../Components/Header/MainHeader";
 import NavCategory from "../../Components/NavCategory/NavCategory";
 import PartnerSection from "../../Components/PartnerSection/PartnerSection";

@@ -3,7 +3,7 @@ import { useLayoutEffect } from "react";
 import { Outlet } from "react-router-dom";
 function Layout() {
   useLayoutEffect(() => {
-    if (Cookies.get("i18next") == "en") {
+    if (localStorage.getItem("i18nextLng") == "en") {
       document.body.dir = "ltr";
     } else {
       document.body.dir = "rtl";

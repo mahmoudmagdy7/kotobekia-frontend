@@ -10,7 +10,7 @@ function Category() {
     <div className="text-black">
       {t("governorates.cairo")}
 
-      <Button
+      {/* <Button
         onClick={() => {
           window.location.reload();
 
@@ -24,9 +24,9 @@ function Category() {
         }}
       >
         click me!
-      </Button>
+      </Button> */}
 
-      {/* <Button
+      <Button
         onClick={async () => {
           if (localStorage.getItem("i18nextLng") == "en") {
             localStorage.setItem("i18nextLng", "ar");
@@ -40,7 +40,7 @@ function Category() {
         }}
       >
         click me!
-      </Button> */}
+      </Button>
       <NavigationBar />
     </div>
   );
