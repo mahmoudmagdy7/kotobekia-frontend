@@ -1,12 +1,8 @@
 import "../../App.css";
 import * as solarIcons from "solar-icon-set";
-import MainHeader from "../../Components/Header/MainHeader";
-import NavCategory from "../../Components/NavCategory/NavCategory";
 import PartnerSection from "../../Components/PartnerSection/PartnerSection";
-import Footer from "../../Components/Footer/Footer";
 import MainSlider from "../../Components/MainSlider/MainSlider";
 import PartsOfCategory from "../../Components/PartsOfCategory/PartsOfCategory";
-import Slider from "react-slick";
 
 function Home() {
   const result = [
@@ -605,8 +601,7 @@ function Home() {
   // console.log(result[0]);
   return (
     <>
-      <MainHeader />
-      <NavCategory />
+
 
       <MainSlider />
 
@@ -618,7 +613,7 @@ function Home() {
       {/* <PartsOfCategory title={"Secondary Education"} icon={<solarIcons.CaseRound size={24} className="icon-outline" />} data={result[3]} /> */}
       {/* <PartsOfCategory title={"General Books"} icon={<solarIcons.NotebookBookmark size={24} className="icon-outline" />} data={result[4]} /> */}
       <PartnerSection />
-      <Footer />
+  
     </>
   );
 }
