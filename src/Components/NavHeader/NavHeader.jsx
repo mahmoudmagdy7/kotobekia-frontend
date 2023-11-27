@@ -86,9 +86,34 @@ const NavHeader = () => {
               </form>
             </div>
 
-            {/* Mobile Setting  */}
-            <div className="navbar-setting lg:hidden">
+            {/* Mobile / Tablet Setting  */}
+            <div className="navbar-setting lg:hidden flex items-center gap-1 cursor-pointer">
               <solarIcons.Tuning size={26} color="#1C274C" />
+              <div className="alarm relative">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="41"
+                  height="40"
+                  viewBox="0 0 41 40"
+                  fill="none"
+                >
+                  <rect
+                    opacity="0.1"
+                    x="0.38501"
+                    width="40"
+                    height="40"
+                    rx="20"
+                    fill="#FA5057"
+                  />
+                  <path
+                    d="M20.13 12C16.8429 12 14.1782 14.6647 14.1782 17.9518V18.4925C14.1782 19.0277 14.0198 19.551 13.7229 19.9963L12.8408 21.3194C11.817 22.8551 12.5986 24.9425 14.3792 25.4281C14.9595 25.5864 15.5447 25.7202 16.1333 25.8297L16.1347 25.8336C16.7253 27.4094 18.3037 28.5114 20.13 28.5114C21.9562 28.5114 23.5346 27.4094 24.1252 25.8336L24.1266 25.8297C24.7152 25.7202 25.3005 25.5864 25.8808 25.4281C27.6614 24.9425 28.443 22.8551 27.4192 21.3194L26.5371 19.9963C26.2402 19.551 26.0818 19.0277 26.0818 18.4925V17.9518C26.0818 14.6647 23.4171 12 20.13 12ZM22.723 26.0439C21.0005 26.2497 19.2594 26.2497 17.5369 26.0439C18.0829 26.8284 19.0326 27.3594 20.13 27.3594C21.2274 27.3594 22.177 26.8284 22.723 26.0439ZM15.3302 17.9518C15.3302 15.3009 17.4791 13.152 20.13 13.152C22.7809 13.152 24.9298 15.3009 24.9298 17.9518V18.4925C24.9298 19.2552 25.1556 20.0007 25.5786 20.6353L26.4607 21.9584C27.0483 22.8399 26.5997 24.038 25.5777 24.3167C22.011 25.2895 18.249 25.2895 14.6823 24.3167C13.6603 24.038 13.2117 22.8399 13.7993 21.9584L14.6814 20.6353C15.1044 20.0007 15.3302 19.2552 15.3302 18.4925V17.9518Z"
+                    fill="#FA5057"
+                  />
+                </svg>
+                <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
+                  <span className="text-[10px] font-semibold">0</span>
+                </div>
+              </div>
             </div>
             {/* Mobile Setting  */}
 
@@ -116,8 +141,8 @@ const NavHeader = () => {
             </div>
             {/* Desktop user  */}
             {/* Desktop notifcations */}
-            <div className="notifcations flex items-center gap-4">
-              <div className="msg relative hidden lg:block fill-[#1C274C]">
+            <div className="notifcations hidden lg:flex items-center cursor-pointer gap-4">
+              <div className="msg relative fill-[#1C274C]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="23"
@@ -155,7 +180,7 @@ const NavHeader = () => {
                     fill="#FA5057"
                   />
                 </svg>
-                <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
+                <div className="num absolute top-[-5px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
                   <span className="text-[10px] font-semibold">0</span>
                 </div>
               </div>

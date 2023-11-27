@@ -22,7 +22,7 @@ const PartsOfCategory = ({ title, icon, data }) => {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -47,7 +47,7 @@ const PartsOfCategory = ({ title, icon, data }) => {
     <>
       <section className="cards mb-5">
         <div className="max-w-screen-2xl m-auto px-3 pt-10">
-          <div className="head flex justify-between items-center">
+          <div className="head flex justify-between items-center px-6">
             <div className="title py-2  w-fit  flex items-center gap-1 ">
               <h2 className="text-[24px] border-b-2 text-[#1F292F] font-bold border-[#C8C5C5]">
                 {title}
