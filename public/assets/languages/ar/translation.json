@@ -3,10 +3,10 @@
     "search": "بحث"
   },
   "navigation_bar": {
-    "home": "Home",
-    "my_posts": "My Ads",
-    "messages": "Messages",
-    "account": "Account"
+    "home": "الرئيسية",
+    "my_posts": "اعلاناتي",
+    "messages": "المحادثات",
+    "account": "الحساب"
   },
   "education_levels": {
     "kindergarten": "Kindergarten",
