@@ -41,7 +41,6 @@ function Category() {
       >
         click me!
       </Button> */}
-      <NavigationBar />
     </div>
   );
 }
