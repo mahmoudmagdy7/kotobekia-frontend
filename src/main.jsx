@@ -25,7 +25,7 @@ const route = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "", element: <Home /> },
-      { path: "cate", element: <Category /> },
+      { path: "/cate/:id", element: <Category /> },
       { path: "ad", element: <h1>ad page</h1> },
       { path: "ad/new", element: <h1>Adding new add</h1> },
       { path: "account/:id", element: <h1>User account</h1> },
@@ -46,7 +46,6 @@ i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .use(LanguageDetector) // passes
   .use(HttpApi)
-
   .init({
     supportedLangs: ["ar", "en"],
     detection: {
