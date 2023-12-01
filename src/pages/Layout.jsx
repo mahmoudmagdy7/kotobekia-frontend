@@ -2,9 +2,9 @@ import Cookies from "js-cookie";
 import { useLayoutEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "../Components/Footer/Footer";
-import NavCategory from "../Components/NavCategory/NavCategory";
 import MainHeader from "../Components/Header/MainHeader";
 import NavigationBar from "../Components/NavigationBar/NavigationBar";
+import NavCategory from "../Components/Header/NavCategory/NavCategory";
 function Layout() {
   useLayoutEffect(() => {
     if (Cookies.get("i18next") == "en") {
@@ -15,12 +15,11 @@ function Layout() {
   }, []);
   return (
     <>
-          <MainHeader />
+      <MainHeader />
       <NavCategory />
       <Outlet />
       <Footer />
       <NavigationBar />
-
     </>
   );
 }

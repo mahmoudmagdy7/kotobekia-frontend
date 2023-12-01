@@ -598,7 +598,6 @@ function Home() {
   
 
 
-  // console.log(result[0]);
   return (
     <>
 
