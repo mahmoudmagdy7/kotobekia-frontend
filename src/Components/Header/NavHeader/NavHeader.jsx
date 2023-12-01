@@ -1,10 +1,13 @@
 import * as solarIcons from "solar-icon-set";
 import logo from "/assets/logo.png";
 import userAvatar from "../../../../public/assets/images/user.png";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Button } from "@nextui-org/react";
 
 const NavHeader = () => {
   const [makeScroll, setMakeScroll] = useState(false);
+
+  const [lang, setLang] = useState(null);
 
   useLayoutEffect(() => {
     window.onscroll = () => {
@@ -14,6 +17,15 @@ const NavHeader = () => {
         setMakeScroll(false);
       }
     };
+  }, []);
+  useEffect(() => {
+    if (lang === null && localStorage.getItem("i18next") === "en") {
+      setLang("ar");
+    } else if (lang === null && localStorage.getItem("i18next") === "ar") {
+      setLang("en");
+    }
+    console.log(localStorage.getItem("i18next"));
+    console.log(lang);
   }, []);
 
   return (
@@ -151,10 +163,29 @@ const NavHeader = () => {
                     className="navbar-lang h-[48px] hidden   bg-[#F3F4F7] w-[90px] cursor-pointer lg:flex items-center justify-center gap-[5px] rounded-[10px]"
                     style={{ fontFamily: "Noto Sans Arabic" }}
                   >
-                    <span className="text-[#464646] text-[12px] font-bold">
-                      English
-                    </span>
-                    <solarIcons.AltArrowDown size={16} color="#1C274C" />
+                    {/* <span className="text-[#464646] text-[12px] font-bold">
+                    </span> */}
+                    <Button
+                      className="h-full text-[#464646] text-[12px] font-bold w-full"
+                      onClick={() => {
+                        // window.location.reload();
+
+                        if (localStorage.getItem("i18next") == "en") {
+                          localStorage.setItem("i18next", "ar");
+                          setLang(localStorage.getItem("i18next"));
+                          document.body.dir = "rtl";
+                        } else {
+                          localStorage.setItem("i18next", "en");
+                          setLang(localStorage.getItem("i18next"));
+                          document.body.dir = "ltr";
+                        }
+                      }}
+                      color="#F3F4F7"
+                    >
+                      {lang === "en" ? "AR" : "EN"}
+                    </Button>
+
+                    {/* <solarIcons.AltArrowDown size={16} color="#1C274C" /> */}
                   </div>
                   {/* Desktop-Lang */}
 
@@ -302,13 +333,32 @@ const NavHeader = () => {
 
                 {/* Desktop-Lang */}
                 <div
-                  className="navbar-lang h-[48px] hidden   bg-[#F3F4F7] w-[90px] cursor-pointer lg:flex items-center justify-center gap-[5px] rounded-[10px]"
+                  className="navbar-lang h-[48px] hidden   bg-[#F3F4F7] w-fit cursor-pointer lg:flex items-center justify-center gap-[5px] rounded-[10px]"
                   style={{ fontFamily: "Noto Sans Arabic" }}
                 >
-                  <span className="text-[#464646] text-[12px] font-bold">
+                  {/* <span className="text-[#464646] text-[12px] font-bold">
                     English
                   </span>
-                  <solarIcons.AltArrowDown size={16} color="#1C274C" />
+                  <solarIcons.AltArrowDown size={16} color="#1C274C" /> */}
+                  <Button
+                    className="h-full text-[#464646] text-[12px] font-bold w-full"
+                    onClick={() => {
+                      // window.location.reload();
+
+                      if (localStorage.getItem("i18next") == "en") {
+                        localStorage.setItem("i18next", "ar");
+                        setLang(localStorage.getItem("i18next"));
+                        document.body.dir = "rtl";
+                      } else {
+                        localStorage.setItem("i18next", "en");
+                        setLang(localStorage.getItem("i18next"));
+                        document.body.dir = "ltr";
+                      }
+                    }}
+                    color="#F3F4F7"
+                  >
+                    {lang == "en" ? "AR" : "EN"}
+                  </Button>
                 </div>
                 {/* Desktop-Lang */}
 
