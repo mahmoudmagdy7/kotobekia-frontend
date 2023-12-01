@@ -1,6 +1,4 @@
 import slider from "/assets/slider.png";
-import * as solarIcons from "solar-icon-set";
-import SliderCategory from "../NavCategory/SliderCategory";
 
 const MainSlider = () => {
   return (
