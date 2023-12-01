@@ -53,8 +53,9 @@ i18n
   .init({
     supportedLangs: ["ar", "en"],
     detection: {
-      order: ["localStorage", , "path", "htmlTag", "subdomain"],
-      // order: ["path", "cookie", "htmlTag", "localStorage", "subdomain"],
+
+      order: ["localStorage", "htmlTag", "subdomain"],
+ 
       caches: ["localStorage"],
     },
     fallbackLng: "en",

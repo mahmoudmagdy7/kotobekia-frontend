@@ -1,5 +1,5 @@
 import palestine from "/assets/palestine.png";
-import NavHeader from "../NavHeader/NavHeader";
+import NavHeader from './NavHeader/NavHeader';
 
 const MainHeader = () => {
   return (
