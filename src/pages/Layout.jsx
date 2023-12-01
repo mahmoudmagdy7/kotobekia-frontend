@@ -7,7 +7,7 @@ import NavigationBar from "../Components/NavigationBar/NavigationBar";
 import NavCategory from "../Components/Header/NavCategory/NavCategory";
 function Layout() {
   useLayoutEffect(() => {
-    if (Cookies.get("i18next") == "en") {
+    if (localStorage.getItem("i18nextLng") == "en") {
       document.body.dir = "ltr";
     } else {
       document.body.dir = "rtl";
