@@ -9,14 +9,16 @@
     "account": "Account"
   },
   "education_levels": {
-    "kindergarten": "Kindergarten",
+  "KG": "KG",
+    "title": "Education Level",
     "primary": "Primary Education",
-    "preparatory": "Preparatory Education",
+    "mid_level": "mid-level Education",
     "secondary": "Secondary Education",
     "general": "General"
   },
   "see_more": "See More",
   "grades": {
+    "title": "Grade",
     "grade_one": "one",
     "grade_two": "two",
     "grade_three": "three",
@@ -39,7 +41,12 @@
     "one_year": "year",
     "years": "years"
   },
-  "price": {
+  "education_type": {
+  "title": "Educatino type",
+    "general": "general",
+    "azhar": "Azhar"
+  },
+   "post_type": {
     "free": "free",
     "EG": "EG"
   },

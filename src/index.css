@@ -20,4 +20,27 @@
   /* -moz-osx-font-smoothing: grayscale; */
 
   box-sizing: border-box;
+  /* height: -webkit-fill-available; */
+
+  /* colors */
+  --primary: #28d8ae;
+  --secondary: #30a79f;
+  --tertiary: #f3f4f7;
+  --quaternary: #464646;
+}
+/* body {
+  height: -webkit-fill-available;
+} */
+.check-button span:nth-child(2) {
+  border-radius: 5px;
+  background-color: #fff;
+}
+.check-button span:last-child {
+  color: #464646;
+}
+.bgc-primary {
+  background-color: var(--primary);
+}
+.ct-primary {
+  color: var(--primary);
 }
