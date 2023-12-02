@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "keen-slider/keen-slider.min.css";
 import Card from "./../Card/Card";
 import ad1 from "../../../public/assets/images/ad/Ad_1.png";
+import { Link } from "react-router-dom";
 
 const PartsOfCategory = ({ title, icon, data }) => {
   const settings = {
@@ -48,16 +49,14 @@ const PartsOfCategory = ({ title, icon, data }) => {
         <div className="max-w-screen-2xl m-auto px-3 pt-10">
           <div className="head flex justify-between items-center px-6">
             <div className="title py-2  w-fit  flex items-center gap-1 ">
-              <h2 className="text-[24px] border-b-2 text-[#1F292F] font-bold border-[#C8C5C5]">
-                {title}
-              </h2>
+              <h2 className="text-[24px] border-b-2 text-[#1F292F] font-bold border-[#C8C5C5]">{title}</h2>
               <span className="mt-2 icon">{icon}</span>
             </div>
 
             <div className="more cursor-pointer">
-              <span className="text-[14px] lg:text-[18px] text-[#464646] underline">
+              <Link to={"/cate/" + data?._id} className="text-[14px] lg:text-[18px] text-[#464646] underline">
                 See More
-              </span>
+              </Link>
             </div>
           </div>
 
@@ -68,33 +67,25 @@ const PartsOfCategory = ({ title, icon, data }) => {
                 return (
                   <>
                     <div className="h-[300px] lg:h-[360px]">
-                      <Card data={data} />
+                      <Card post={post} />
                     </div>
                   </>
                 );
               })}
               <div className="h-360px pt-1">
-                <img
-                  src={ad1}
-                  alt="Ad_1"
-                  className="w-full hidden h-[300px] lg:h-[360px]"
-                />
+                <img src={ad1} alt="Ad_1" className="w-full hidden h-[300px] lg:h-[340px]" />
               </div>
               {data?.posts.slice(3, 6).map((post, idx) => {
                 return (
                   <>
                     <div className="h-[300px] lg:h-[360px]">
-                      <Card data={data} />
+                      <Card post={post} />
                     </div>
                   </>
                 );
               })}
               <div className=" h-360px pt-1">
-                <img
-                  src={ad1}
-                  alt="Ad_1"
-                  className="w-full  h-[300px] lg:h-[360px]"
-                />
+                <img src={ad1} alt="Ad_1" className="w-full  h-[300px] lg:h-[360px]" />
               </div>
             </Slider>
           </div>
@@ -107,7 +98,7 @@ const PartsOfCategory = ({ title, icon, data }) => {
                   idx < 7 && (
                     <>
                       <div className="">
-                        <Card data={data} />
+                        <Card post={post} />
                       </div>
                     </>
                   )

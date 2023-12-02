@@ -27,6 +27,8 @@
   --secondary: #30a79f;
   --tertiary: #f3f4f7;
   --quaternary: #464646;
+
+  -webkit-tap-highlight-color: transparent; /* red highlight */
 }
 /* body {
   height: -webkit-fill-available;

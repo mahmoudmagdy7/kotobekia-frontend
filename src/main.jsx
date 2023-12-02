@@ -28,7 +28,7 @@ const route = createBrowserRouter([
     children: [
       { path: "", element: <Home /> },
       { path: "/cate/:id", element: <Category /> },
-      { path: "post", element: <AdminTesting /> },
+      { path: "post/:id", element: <AdminTesting /> },
       { path: "post/new", element: <h1>Adding new add</h1> },
       { path: "account/:id", element: <h1>User account</h1> },
       { path: "user-posts/", element: <h1>User posts</h1> },
@@ -53,10 +53,9 @@ i18n
   .init({
     supportedLangs: ["ar", "en"],
     detection: {
-
-      order: ["localStorage", "htmlTag", "subdomain"],
- 
-      caches: ["localStorage"],
+      order: ["localStorage", , "path", "htmlTag", "subdomain"],
+      // order: ["path", "cookie", "htmlTag", "localStorage", "subdomain"],
+      caches: ["cookie"],
     },
     fallbackLng: "en",
     backend: {

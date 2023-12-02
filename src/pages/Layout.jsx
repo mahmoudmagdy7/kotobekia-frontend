@@ -13,6 +13,7 @@ function Layout() {
       document.body.dir = "rtl";
     }
   }, []);
+
   return (
     <>
       <MainHeader />
