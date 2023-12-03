@@ -1,7 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap");
 :root {
   /* font-family: "Noto Sans Arabic", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
   font-family: "Noto Sans Arabic", sans-serif;
@@ -20,4 +20,29 @@
   /* -moz-osx-font-smoothing: grayscale; */
 
   box-sizing: border-box;
+  /* height: -webkit-fill-available; */
+
+  /* colors */
+  --primary: #28d8ae;
+  --secondary: #30a79f;
+  --tertiary: #f3f4f7;
+  --quaternary: #464646;
+
+  -webkit-tap-highlight-color: transparent; /* red highlight */
+}
+/* body {
+  height: -webkit-fill-available;
+} */
+.check-button span:nth-child(2) {
+  border-radius: 5px;
+  background-color: #fff;
+}
+.check-button span:last-child {
+  color: #464646;
+}
+.bgc-primary {
+  background-color: var(--primary);
+}
+.ct-primary {
+  color: var(--primary);
 }

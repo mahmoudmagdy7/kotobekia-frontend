@@ -24,7 +24,7 @@ const NavCategory = () => {
 
                 <div className="item flex items-center cursor-pointer gap-1">
                   <solarIcons.Backpack size={20} color="#1C274D" />
-                  <span className="text-[#464646] text-[11px] lg:text-[14px]">Kindergarten</span>
+                  <span className="text-[#464646] text-[11px] lg:text-[14px]">KG</span>
                 </div>
 
                 <div className="item flex items-center cursor-pointer gap-1">
@@ -34,7 +34,7 @@ const NavCategory = () => {
 
                 <div className="item flex items-center cursor-pointer gap-1">
                   <solarIcons.CaseRound size={20} color="#1C274D" />
-                  <span className="text-[#464646] text-[11px] lg:text-[14px]">Preparatory </span>
+                  <span className="text-[#464646] text-[11px] lg:text-[14px]">Mid-level </span>
                 </div>
 
                 <div className="item flex items-center cursor-pointer gap-1">

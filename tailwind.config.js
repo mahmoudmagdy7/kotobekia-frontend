@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 // tailwind.config.js
-const { nextui } = require("@nextui-org/react");
-const withMT = require("@material-tailwind/react/utils/withMT");
+const { nextui } = require("@nextui-org/react"); // Calling nextui
+const withMT = require("@material-tailwind/react/utils/withMT"); // Calling material-tailwind
 /** @type {import('tailwindcss').Config} */
 module.exports = withMT({
   content: [
@@ -16,7 +16,7 @@ module.exports = withMT({
       padding: {
         DEFAULT: "1rem",
         sm: "2rem",
-        lg: "4rem",
+        lg: "3rem",
         xl: "5rem",
         "2xl": "6rem",
       },
