@@ -19,11 +19,11 @@ function Home() {
     <>
       <MainSlider />
 
-      <PartsOfCategory title={"KG"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[0]} />
-      <PartsOfCategory title={"primary_Education"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[1]} />
-      <PartsOfCategory title={"mid-level_education"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[2]} />
-      <PartsOfCategory title={"secondary_education"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[3]} />
-      <PartsOfCategory title={"general"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[4]} />
+      <PartsOfCategory isLoading={isLoading} title={"KG"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[0]} />
+      <PartsOfCategory isLoading={isLoading} title={"primary_Education"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[1]} />
+      <PartsOfCategory isLoading={isLoading} title={"mid-level_education"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[2]} />
+      <PartsOfCategory isLoading={isLoading} title={"secondary_education"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[3]} />
+      <PartsOfCategory isLoading={isLoading} title={"general"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[4]} />
       <PartnerSection />
     </>
   );
