@@ -1,8 +1,28 @@
-# React + Vite
+# User badges
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+First post badge = A1
+More than 5 posts badge = A2
+User got more love to his posts badge = A3
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Money Supporters badges
+
+20 EGP to 100 EGP badge = B1
+100 EGP+ badge = B2
+500 EGP+ badge = B3
+1000 EGP+ badge = B4
+10,000 EGP+ badge = B5
+
+## the behavior
+
+- The admin can give the user any badge depend on what the user did.
+- The user takes the badge when he do the requirements of the badge.
+
+---
+
+## report type | report id | reporter id
+
+## post | post id | user id |
+
+## chat | chat id | user id |

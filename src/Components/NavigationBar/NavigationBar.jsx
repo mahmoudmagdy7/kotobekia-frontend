@@ -28,8 +28,8 @@ function NavigationBar() {
           </Button>
         </li>
         <li>
-          <Link onClick={() => setCurrentLocation("/chats")} to="/chats" className="flex items-center flex-col">
-            {currentLocation === "/chats" ? <solarIcons.Letter size={23} color="#28D8AE" /> : <solarIcons.Letter size={23} color="#000" />}
+          <Link onClick={() => setCurrentLocation("/chat")} to="/chat" className="flex items-center flex-col">
+            {currentLocation === "/chat" ? <solarIcons.Letter size={23} color="#28D8AE" /> : <solarIcons.Letter size={23} color="#000" />}
             <span className="font-bold">{t("navigation_bar.messages")}</span>
           </Link>
         </li>

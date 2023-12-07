@@ -93,7 +93,7 @@ const NavHeader = () => {
                   <div className="navbar-btn hidden lg:block">
                     <button
                       style={{
-                        "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
+                        boxShadow: "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
                       }}
                       className="bg-[#28D8AE] p-3  rounded-[14px] text-[16px]  flex items-center justify-center gap-1"
                     >
@@ -103,7 +103,7 @@ const NavHeader = () => {
 
                   {/* Desktop-Location */}
                   <div className="navbar-location h-[48px] hidden lg:flex w-[150px] justify-center items-center gap-[10px] rounded-[10px] py-1  cursor-pointer bg-[#F3F4F7]">
-                    <div className="txt" style={{ "font-family": "Noto Sans Arabic" }}>
+                    <div className="txt">
                       <span className="text-[#939393] text-[10px] font-medium block">Your Location</span>
                       <span className="text-[#30A79F] text-[10px] font-bold ">Select a Location</span>
                     </div>
@@ -219,7 +219,7 @@ const NavHeader = () => {
                 <div className="navbar-btn hidden lg:block">
                   <button
                     style={{
-                      "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
+                      boxShadow: "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
                     }}
                     className="bg-[#28D8AE] w-[142px] rounded-[14px] text-[16px] h-12 flex items-center justify-center gap-1"
                   >
@@ -230,7 +230,7 @@ const NavHeader = () => {
 
                 {/* Desktop-Location */}
                 <div className="navbar-location h-[48px] hidden lg:flex w-[150px] justify-center items-center gap-[10px] rounded-[10px] py-1  cursor-pointer bg-[#F3F4F7]">
-                  <div className="txt" style={{ "font-family": "Noto Sans Arabic" }}>
+                  <div className="txt">
                     <span className="text-[#939393] text-[10px] font-medium block">Your Location</span>
                     <span className="text-[#30A79F] text-[10px] font-bold ">Select a Location</span>
                   </div>
