@@ -9,7 +9,7 @@ import config from "../../../config";
 
 function Home() {
   function getHomeData() {
-    return axios.get(`${config.bseUrl}/v1/levels/levels-posts`);
+    return axios.get(`${config.bseUrl}/api/v1/levels/levels-posts`);
   }
 
   const { isLoading, isError, data, refetch, isRefetching } = useQuery("getHomeData", getHomeData, {

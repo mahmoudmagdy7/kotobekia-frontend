@@ -21,7 +21,7 @@ function Category() {
   const [currentPage, setCurrentPage] = useState(parseInt(pageFromUrl, 10));
   const { id } = useParams();
   function getCategory(page) {
-    return axios.get(`${config.bseUrl}/v1/levels/specific/${id}?page=${page}`);
+    return axios.get(`${config.bseUrl}/api/v1/levels/specific/${id}?page=${page}`);
   }
 
   const { isLoading, isError, data, refetch, isRefetching } = useQuery(["getSpecificCategory", currentPage], () => getCategory(currentPage), {

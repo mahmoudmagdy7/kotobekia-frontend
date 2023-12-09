@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import CardSkeleton from "../Card/CardSkeleton";
 
 const PartsOfCategory = ({ title, icon, data, isLoading }) => {
+  
   const settings = {
     dots: false,
     infinite: false,
