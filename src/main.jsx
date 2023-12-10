@@ -13,9 +13,7 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
 import { QueryClient, QueryClientProvider } from "react-query";
-import PostDetails from "./Components/postDetails/PostDetails.jsx";
-import Register from './Components/auth/register/Register';
-import Login from './Components/auth/login/Login';
+import AdminTesting from "./pages/AdminTesting.jsx";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
@@ -33,15 +31,11 @@ const route = createBrowserRouter([
       { path: "post/new", element: <h1>Adding new add</h1> },
       { path: "account/:id", element: <h1>User account</h1> },
       { path: "user-posts/", element: <h1>User posts</h1> },
-      { path: "chats/", element: <h1>User Chats</h1> },
       {
-        path: "chat",
-        element: (
-          <h1>
-            User Chats <Outlet />
-          </h1>
-        ),
-        children: [{ path: ":chatId", element: <h1>user chat</h1> }],
+        path: "chat/",
+        element: <MainChat />,
+
+        children: [{ path: ":convId", element: <Conversation /> }],
       },
       { path: "/auth/login", element: <Login/> },
       { path: "/auth/register", element: <Register/> },
@@ -67,12 +61,15 @@ i18n
   });
 
 const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <NextUIProvider>
     <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={route} />
-      </QueryClientProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={route} />
+        </QueryClientProvider>
+      </Provider>
     </ThemeProvider>
   </NextUIProvider>
 );

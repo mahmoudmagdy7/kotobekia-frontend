@@ -1,5 +1,6 @@
 const config = {
   bseUrl: import.meta.env.VITE_BASE_URL,
+  any: "",
   categories: [
     { id: "655b4ec133dd362ae53081f7", name: "KG" },
     { id: "655b4ecd33dd362ae53081f9", name: "Primary_Education" },

@@ -3,6 +3,8 @@ import logo from "/assets/logo.png";
 import userAvatar from "../../../../public/assets/images/user.png";
 import {useLayoutEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
+import NavScroll from './NavScroll';
+import NavbarTop from "./NavbarTop";
 
 const NavHeader = () => {
   const [makeScroll, setMakeScroll] = useState(false);
