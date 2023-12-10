@@ -72,8 +72,6 @@ const NavHeader = () => {
               {/* Mobile-Location */}
             </div>
           </div>
-          {makeScroll ? <NavbarScroll /> : <NavbarTop />}
-
           {makeScroll ? <NavScroll /> : <NavbarTop />}
         </div>
       </nav>

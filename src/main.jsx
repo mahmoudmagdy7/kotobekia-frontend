@@ -18,6 +18,9 @@ import { MainChat } from "./pages/Chats/MainChat.jsx";
 import { Conversation } from "./pages/Chats/Conversation.jsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import PostDetails from './Components/postDetails/PostDetails';
+import Login from './Components/auth/login/Login';
+import Register from './Components/auth/register/Register';
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
