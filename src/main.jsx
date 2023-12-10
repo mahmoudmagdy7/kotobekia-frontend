@@ -14,6 +14,13 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
 import { QueryClient, QueryClientProvider } from "react-query";
 import AdminTesting from "./pages/AdminTesting.jsx";
+import PostDetails from "./Components/postDetails/PostDetails.jsx";
+import { MainChat } from './pages/Chats/MainChat';
+import { Conversation } from './pages/Chats/Conversation';
+import Login from './Components/auth/login/Login';
+import Register from "./Components/auth/register/Register.jsx";
+import { Provider } from 'react-redux';
+import { store } from './app/store';
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
