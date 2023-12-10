@@ -14,13 +14,14 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
 import { QueryClient, QueryClientProvider } from "react-query";
 import PostDetails from "./Components/postDetails/PostDetails.jsx";
+import Register from './Components/auth/register/Register';
+import Login from './Components/auth/login/Login';
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
   { path: "*", element: <h1>Not found</h1> },
   // { path: "not-authorized", element: <NoAccess /> },
-  { path: "/auth/login", element: <h1>Login</h1> },
-  { path: "/auth/register", element: <h1>Register</h1> },
+
   { path: "/auth/banned", element: <h1>Banned</h1> },
   {
     path: "/",
@@ -42,6 +43,8 @@ const route = createBrowserRouter([
         ),
         children: [{ path: ":chatId", element: <h1>user chat</h1> }],
       },
+      { path: "/auth/login", element: <Login/> },
+      { path: "/auth/register", element: <Register/> },
     ],
   },
 ]);
