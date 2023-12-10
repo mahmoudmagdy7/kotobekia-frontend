@@ -11,6 +11,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import CardSkeleton from "../../Components/Card/CardSkeleton";
 function Category() {
   const { t } = useTranslation();
   const location = useLocation();
@@ -20,7 +21,7 @@ function Category() {
   const [currentPage, setCurrentPage] = useState(parseInt(pageFromUrl, 10));
   const { id } = useParams();
   function getCategory(page) {
-    return axios.get(`${config.bseUrl}/v1/levels/specific/${id}?page=${page}`);
+    return axios.get(`${config.bseUrl}/api/v1/levels/specific/${id}?page=${page}`);
   }
 
   const { isLoading, isError, data, refetch, isRefetching } = useQuery(["getSpecificCategory", currentPage], () => getCategory(currentPage), {
@@ -31,140 +32,6 @@ function Category() {
     window.history.pushState(null, "", `?page=${currentPage}`);
   }, [currentPage]);
 
-  function CardSkeleton() {
-    return (
-      <div className="grid lg:grid-cols-3 grid-cols-2 mt-3 ">
-        <div className=" space-y-5 p-4" radius="lg">
-          <Skeleton isLoaded={!isLoading} className="rounded-lg">
-            <div className="h-24 rounded-lg bg-gray-400"></div>
-          </Skeleton>
-          <div className="space-y-3">
-            <Skeleton isLoaded={!isLoading} className="w-3/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-400"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-4/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-300"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-2/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-200"></div>
-            </Skeleton>
-          </div>
-        </div>{" "}
-        <div className=" space-y-5 p-4" radius="lg">
-          <Skeleton isLoaded={!isLoading} className="rounded-lg">
-            <div className="h-24 rounded-lg bg-gray-400"></div>
-          </Skeleton>
-          <div className="space-y-3">
-            <Skeleton isLoaded={!isLoading} className="w-3/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-400"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-4/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-300"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-2/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-200"></div>
-            </Skeleton>
-          </div>
-        </div>{" "}
-        <div className=" space-y-5 p-4" radius="lg">
-          <Skeleton isLoaded={!isLoading} className="rounded-lg">
-            <div className="h-24 rounded-lg bg-gray-400"></div>
-          </Skeleton>
-          <div className="space-y-3">
-            <Skeleton isLoaded={!isLoading} className="w-3/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-400"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-4/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-300"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-2/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-200"></div>
-            </Skeleton>
-          </div>
-        </div>{" "}
-        <div className=" space-y-5 p-4" radius="lg">
-          <Skeleton isLoaded={!isLoading} className="rounded-lg">
-            <div className="h-24 rounded-lg bg-gray-400"></div>
-          </Skeleton>
-          <div className="space-y-3">
-            <Skeleton isLoaded={!isLoading} className="w-3/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-400"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-4/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-300"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-2/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-200"></div>
-            </Skeleton>
-          </div>
-        </div>{" "}
-        <div className=" space-y-5 p-4" radius="lg">
-          <Skeleton isLoaded={!isLoading} className="rounded-lg">
-            <div className="h-24 rounded-lg bg-gray-400"></div>
-          </Skeleton>
-          <div className="space-y-3">
-            <Skeleton isLoaded={!isLoading} className="w-3/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-400"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-4/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-300"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-2/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-200"></div>
-            </Skeleton>
-          </div>
-        </div>{" "}
-        <div className=" space-y-5 p-4" radius="lg">
-          <Skeleton isLoaded={!isLoading} className="rounded-lg">
-            <div className="h-24 rounded-lg bg-gray-400"></div>
-          </Skeleton>
-          <div className="space-y-3">
-            <Skeleton isLoaded={!isLoading} className="w-3/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-400"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-4/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-300"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-2/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-200"></div>
-            </Skeleton>
-          </div>
-        </div>{" "}
-        <div className=" space-y-5 p-4" radius="lg">
-          <Skeleton isLoaded={!isLoading} className="rounded-lg">
-            <div className="h-24 rounded-lg bg-gray-400"></div>
-          </Skeleton>
-          <div className="space-y-3">
-            <Skeleton isLoaded={!isLoading} className="w-3/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-400"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-4/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-300"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-2/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-200"></div>
-            </Skeleton>
-          </div>
-        </div>{" "}
-        <div className=" space-y-5 p-4" radius="lg">
-          <Skeleton isLoaded={!isLoading} className="rounded-lg">
-            <div className="h-24 rounded-lg bg-gray-400"></div>
-          </Skeleton>
-          <div className="space-y-3">
-            <Skeleton isLoaded={!isLoading} className="w-3/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-400"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-4/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-300"></div>
-            </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="w-2/5 rounded-lg">
-              <div className="h-3 w-full rounded-lg bg-gray-200"></div>
-            </Skeleton>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="text-black py-5">
@@ -209,7 +76,7 @@ function Category() {
           </div>
           {/* ============================== Categories main content  ============================== */}
           {isLoading ? (
-            <CardSkeleton />
+            <CardSkeleton isLoading={isLoading} />
           ) : (
             <div className="grid lg:grid-cols-3 grid-cols-2 mt-3 ">
               {data?.data?.result?.map((post) => {
