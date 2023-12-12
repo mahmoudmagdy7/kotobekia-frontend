@@ -1,11 +1,11 @@
 import moment from "moment";
+
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getConversationMessages, setActiveUser } from "../../app/Slices/chatSlice";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
-
 export const ContactCard = ({ conv }) => {
   const { id } = jwtDecode(Cookies.get("userToken"));
   const myId = id;

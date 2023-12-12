@@ -5,6 +5,7 @@ import Footer from "../Components/Footer/Footer";
 import MainHeader from "../Components/Header/MainHeader";
 import NavigationBar from "../Components/NavigationBar/NavigationBar";
 import NavCategory from "../Components/Header/NavCategory/NavCategory";
+import { useSocket } from "../app/SocketContext";
 function Layout() {
   useLayoutEffect(() => {
     if (localStorage.getItem("i18nextLng") == "en") {
