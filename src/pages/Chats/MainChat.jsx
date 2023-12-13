@@ -1,109 +1,21 @@
-import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
 import { ContactCard } from "./ContactCard";
 import { useDispatch, useSelector } from "react-redux";
-import chatSlice, { getUserConversations, increase } from "../../app/Slices/chatSlice";
-
+import { getUserConversations } from "../../app/Slices/chatSlice";
+import { io } from "socket.io-client";
+import { Button } from "@nextui-org/react";
+import isMobile from "../../hooks/useAgent";
+import * as solarIcons from "solar-icon-set";
+import { useSocket } from "../../app/SocketContext";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 export const MainChat = () => {
-  const myId = "656a2f930e68eb5bd87455ec";
+  const token = jwtDecode(Cookies.get("userToken"));
+  const socket = useSocket();
 
-  const conversations = [
-    {
-      _id: "656fb95525cbb58627930dcf",
-      name: "zaher",
-      picture: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-      isGroup: false,
-      users: [
-        {
-          _id: "656a2f930e68eb5bd87455ec",
-          name: "ahmed",
-          email: "ahm3@gmail.com",
-          picture: "https://res.cloudinary.com/djaxppgjc/image/upload/v1701457812/tstpoau8tgaauvwqco2z.jpg",
-          status: "",
-          createdAt: "2023-12-01T19:10:11.381Z",
-          updatedAt: "2023-12-01T19:10:11.381Z",
-          __v: 0,
-        },
-        {
-          picture: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-          _id: "656a2d1465365cc6a8df58d4",
-          name: "zaher",
-          email: "ahmed@gmail.com",
-          profilePic: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-          status: "",
-          createdAt: "2023-12-01T18:59:32.656Z",
-          updatedAt: "2023-12-01T18:59:32.656Z",
-          __v: 0,
-        },
-      ],
-      createdAt: "2023-12-05T23:59:17.916Z",
-      updatedAt: "2023-12-06T00:00:03.636Z",
-      __v: 0,
-      latestMessage: {
-        _id: "656fb98325cbb58627930dd9",
-        sender: {
-          _id: "656a2f930e68eb5bd87455ec",
-          name: "ahmed",
-          email: "ahm3@gmail.com",
-          picture: "https://res.cloudinary.com/djaxppgjc/image/upload/v1701457812/tstpoau8tgaauvwqco2z.jpg",
-          status: "",
-        },
-        message: "hallo to zaher Con ",
-        conversation: "656fb95525cbb58627930dcf",
-        files: [],
-        createdAt: "2023-12-06T00:00:03.606Z",
-        updatedAt: "2023-12-06T00:00:03.606Z",
-        __v: 0,
-      },
-    },
-    {
-      _id: "656ce9d87ff3091c2107ddf8",
-      name: "ahmed",
-      picture: "https://res.cloudinary.com/djaxppgjc/image/upload/v1701613777/dsudldgzx6eqcnba7egb.jpg",
-      isGroup: false,
-      users: [
-        {
-          _id: "656a2f930e68eb5bd87455ec",
-          name: "ahmed",
-          email: "ahm3@gmail.com",
-          picture: "https://res.cloudinary.com/djaxppgjc/image/upload/v1701457812/tstpoau8tgaauvwqco2z.jpg",
-          status: "",
-          createdAt: "2023-12-01T19:10:11.381Z",
-          updatedAt: "2023-12-01T19:10:11.381Z",
-          __v: 0,
-        },
-        {
-          _id: "656c90d12130b531edf0445c",
-          name: "mahmoud",
-          email: "ahmedashraf@gmail.com",
-          picture: "https://res.cloudinary.com/djaxppgjc/image/upload/v1701613777/dsudldgzx6eqcnba7egb.jpg",
-          status: "صل علي قدوتنا وحبيبنا ",
-          createdAt: "2023-12-03T14:29:37.505Z",
-          updatedAt: "2023-12-03T14:29:37.505Z",
-          __v: 0,
-        },
-      ],
-      createdAt: "2023-12-03T20:49:28.024Z",
-      updatedAt: "2023-12-05T23:55:44.522Z",
-      __v: 0,
-      latestMessage: {
-        _id: "656fb880b8dfb9f1463f9f99",
-        sender: {
-          _id: "656a2f930e68eb5bd87455ec",
-          name: "ahmed",
-          email: "ahm3@gmail.com",
-          picture: "https://res.cloudinary.com/djaxppgjc/image/upload/v1701457812/tstpoau8tgaauvwqco2z.jpg",
-          status: "",
-        },
-        message: "hallo ffffffff3 ",
-        conversation: "656ce9d87ff3091c2107ddf8",
-        files: [],
-        createdAt: "2023-12-05T23:55:44.500Z",
-        updatedAt: "2023-12-05T23:55:44.500Z",
-        __v: 0,
-      },
-    },
-  ];
+  const myId = token.id;
+
   const { userConversationsCount, userConversations, activeUser } = useSelector((state) => state.chat);
   const store = useSelector((state) => state.chat);
   const dispatch = useDispatch();
@@ -112,25 +24,48 @@ export const MainChat = () => {
     dispatch(getUserConversations());
   }, [dispatch]);
 
-  // console.log(store);
+  // console.log(socket);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const sideToggler = () => {
+    if (isOpen && isMobile()) {
+      setIsOpen(false);
+
+      console.log("close");
+    } else {
+      setIsOpen(true);
+
+      console.log("open");
+    }
+  };
+  useEffect(() => {
+    socket?.emit("join", myId);
+    isMobile() ? document.body.classList.add("overflow-hidden") : document.body.classList.remove("overflow-hidden");
+  }, []);
+
   return (
     <section className="container ">
-      <div className="text-black bg-white mb-5 h-[40rem] grid grid-cols-12">
-        <aside className="border-e-2 col-span-4 ">
-          <div className="flex items-center p-3 gap-2 border-b-2 relative">
+      <div className="text-black bg-white mb-5 lg:h-[40rem] grid grid-cols-12 z-[99999999999999999999999] fixed lg:relative  inset-0 h-screen">
+        <aside id="chat-sidebar" className={` w-full ${isOpen ? "border-e-2 col-span-12 lg:col-span-4 lg:h-auto h-screen" : "hidden col-span-4"}`}>
+          <div className="flex items-center  p-3 gap-2 border-b-2 relative">
             <h3>Inbox</h3> <span className="inline-flex items-center justify-center h-5 w-5 bg-[#28D8AE] rounded-md">{userConversationsCount}</span>
             <span className="absolute bottom-1 h-[3px] w-16 bg-[#28D8AE]"></span>
+            <Button isIconOnly className=" ms-auto" color="transparent" as={Link} to="/">
+              <solarIcons.AltArrowLeft size={25} />
+            </Button>
           </div>
 
           {/* ---------- contacts ------------ */}
           <div className=" h-[37rem]">
             {userConversations?.conversations?.map((conv) => (
-              <ContactCard conv={conv} key={conv._id} />
+              <div key={conv._id} onClick={sideToggler}>
+                <ContactCard conv={conv} key={conv._id} />
+              </div>
             ))}
           </div>
         </aside>
-        <section className="col-span-8 w-full overflow-hidden ">
-          <Outlet />
+        <section className={isOpen ? "col-span-8 w-full overflow-hidden " : " col-span-full w-full overflow-hidden"}>
+          <Outlet context={sideToggler} />
         </section>
       </div>
     </section>

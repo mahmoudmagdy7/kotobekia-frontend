@@ -6,15 +6,21 @@ import PartsOfCategory from "../../Components/PartsOfCategory/PartsOfCategory";
 import { useQuery } from "react-query";
 import axios from "axios";
 import config from "../../../config";
+import { useSocket } from "../../app/SocketContext";
+import { useEffect } from "react";
 
 function Home() {
   function getHomeData() {
     return axios.get(`${config.bseUrl}/api/v1/levels/levels-posts`);
   }
+  document.body.classList.remove("overflow-hidden");
 
   const { isLoading, isError, data, refetch, isRefetching } = useQuery("getHomeData", getHomeData, {
     refetchOnWindowFocus: false, // to prevent the refetching on window focus
   });
+
+  const socket = useSocket();
+
   return (
     <>
       <MainSlider />

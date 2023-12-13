@@ -27,7 +27,6 @@ export const getConversationMessages = createAsyncThunk("chat/getConversationMes
       },
     });
 
-    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -50,8 +49,6 @@ export const sendNewMessage = createAsyncThunk("chat/sendNewMessage", async (con
       }
     );
 
-    console.log(data.message);
-
     return data;
   } catch (err) {
     console.log(err);
@@ -68,13 +65,15 @@ const chatSlice = createSlice({
     lastMessage: "",
   },
   reducers: {
-    increase: function (state) {
-      state.userConversationsCount++;
-    },
-    setActiveUser: function (state, action) {
+    setActiveUser(state, action) {
       state.activeUser = action.payload;
     },
+    receiveMessage(state, action) {
+      console.log("receive------------");
+      state.activeConversation = [...state.activeConversation, action.payload];
+    },
   },
+
   extraReducers: (builder) => {
     builder.addCase(getUserConversations.fulfilled, (state, action) => {
       state.userConversations = action.payload;
@@ -82,14 +81,13 @@ const chatSlice = createSlice({
     builder.addCase(getConversationMessages.fulfilled, (state, action) => {
       state.activeConversation = action.payload;
     });
+
     builder.addCase(sendNewMessage.fulfilled, (state, action) => {
       state.lastMessage = action.payload;
-      console.log(state.lastMessage);
       state.activeConversation = [...state.activeConversation, action.payload];
-      console.log(state.activeConversation);
     });
   },
 });
 
-export const { increase, setActiveUser } = chatSlice.actions;
+export const { receiveMessage, setActiveUser } = chatSlice.actions;
 export default chatSlice.reducer;

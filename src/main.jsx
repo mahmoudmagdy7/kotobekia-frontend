@@ -18,9 +18,10 @@ import { MainChat } from "./pages/Chats/MainChat.jsx";
 import { Conversation } from "./pages/Chats/Conversation.jsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import PostDetails from './Components/postDetails/PostDetails';
-import Login from './Components/auth/login/Login';
-import Register from './Components/auth/register/Register';
+import PostDetails from "./Components/postDetails/PostDetails";
+import Login from "./Components/auth/login/Login";
+import Register from "./Components/auth/register/Register";
+import { SocketProvider } from "./app/SocketContext";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
@@ -44,8 +45,8 @@ const route = createBrowserRouter([
 
         children: [{ path: ":convId", element: <Conversation /> }],
       },
-      { path: "/auth/login", element: <Login/> },
-      { path: "/auth/register", element: <Register/> },
+      { path: "/auth/login", element: <Login /> },
+      { path: "/auth/register", element: <Register /> },
     ],
   },
 ]);
@@ -68,15 +69,18 @@ i18n
   });
 
 const queryClient = new QueryClient();
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <NextUIProvider>
     <ThemeProvider>
+      {/* -------------------------------------- */}
       <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={route} />
-        </QueryClientProvider>
+        <SocketProvider>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={route} />
+          </QueryClientProvider>
+        </SocketProvider>
       </Provider>
+      {/* -------------------------------------- */}
     </ThemeProvider>
   </NextUIProvider>
 );
