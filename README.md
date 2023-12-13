@@ -2,7 +2,10 @@
 
 First post badge = A1
 More than 5 posts badge = A2
-User got more love to his posts badge = A3
+
+---
+
+User got more 10 love to his posts badge = A3
 
 ---
 
