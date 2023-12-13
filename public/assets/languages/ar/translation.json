@@ -9,20 +9,23 @@
     "account": "الحساب"
   },
   "education_levels": {
-    "kindergarten": "Kindergarten",
-    "primary": "Primary Education",
-    "preparatory": "Preparatory Education",
-    "secondary": "Secondary Education",
-    "general": "General"
+    "KG": "KG",
+    "title": "Education Level",
+    "primary": "الابتدائي",
+    "mid_level": "الإعدادي",
+    "secondary": "الثانوي",
+    "general": "عام"
   },
   "see_more": "See More",
   "grades": {
-    "grade_one": "one",
-    "grade_two": "two",
-    "grade_three": "three",
-    "grade_four": "four",
-    "grade_five": "five",
-    "grade_six": "six"
+    "title": "الصف",
+
+    "grade_one": "الاول",
+    "grade_two": "الثاني",
+    "grade_three": "الثالث",
+    "grade_four": "الرابع",
+    "grade_five": "الخامس",
+    "grade_six": "السادس"
   },
   "timeUnits": {
     "now": "now",

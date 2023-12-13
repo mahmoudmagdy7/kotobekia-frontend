@@ -32,7 +32,6 @@ function Category() {
     window.history.pushState(null, "", `?page=${currentPage}`);
   }, [currentPage]);
 
-
   return (
     <div className="text-black py-5">
       <section className="container m-auto grid gap-3 grid-cols-12 relative gap-y-5 ">

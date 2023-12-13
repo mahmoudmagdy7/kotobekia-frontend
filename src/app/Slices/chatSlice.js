@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 // get all the logged in user conversations
 export const getUserConversations = createAsyncThunk("chat/getUserConversations", async () => {
   try {
-    const { data } = await axios(config.bseUrl + "/v1/conversations/get", {
+    const { data } = await axios(config.bseUrl + "/api/v1/conversations/get", {
       headers: {
         token: Cookies.get("userToken"),
       },
@@ -21,7 +21,7 @@ export const getUserConversations = createAsyncThunk("chat/getUserConversations"
 
 export const getConversationMessages = createAsyncThunk("chat/getConversationMessages", async (conversationId) => {
   try {
-    const { data } = await axios(config.bseUrl + `/v1/messages/get/${conversationId}`, {
+    const { data } = await axios(config.bseUrl + `/api/v1/messages/get/${conversationId}`, {
       headers: {
         token: Cookies.get("userToken"),
       },
@@ -39,7 +39,7 @@ export const sendNewMessage = createAsyncThunk("chat/sendNewMessage", async (con
   console.log(conversation);
   try {
     const { data } = await axios.post(
-      config.bseUrl + `/v1/messages/send-message`,
+      config.bseUrl + `/api/v1/messages/send-message`,
       { convo_id: conversation.convId, message: conversation.msg },
       {
         headers: {

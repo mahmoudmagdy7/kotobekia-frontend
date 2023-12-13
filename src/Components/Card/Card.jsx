@@ -2,12 +2,13 @@ import * as solarIcons from "solar-icon-set";
 import config from "../../../config";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 function Card({ post }) {
   const { t } = useTranslation();
   return (
     <>
-      <Link to={"/post/" + post?._id} className=" m-auto h-full pt-1 mb-5  ">
+      <div className=" m-auto h-full pt-1 mb-5  ">
         <div className=" mx-2   shadow-[0_11px_22.5px_-15px_rgba(0,0,0,0.1)] rounded-xl">
           <figure className="w-full max-h-48 overflow-hidden rounded-t-xl relative">
             {/* <img className="w-full object-fill " src={"https://kotobekia-backend.onrender.com/" + post?.images[0]} alt="img" /> */}
@@ -15,8 +16,9 @@ function Card({ post }) {
           </figure>{" "}
           <div className="txt bg-white py-2 px-3 rounded-b-[14px]">
             <div className="card-title flex items-center justify-between gap-2">
-              <h3 className=" text-[14px] md:text-[16px] text-black font-semibold  line-clamp-1">{post?.title}</h3>
-
+              <Link to={"/post/" + post?._id}>
+                <h3 className=" text-[14px] md:text-[16px] text-black font-semibold  line-clamp-1">{post?.title}</h3>
+              </Link>
               <span className="  py-[2px] px-[10px] text-[12px] bg-[#d4f7ef] text-[#38BC9C]  rounded-[8px]">{post?.price}</span>
             </div>
 
@@ -26,7 +28,8 @@ function Card({ post }) {
 
             <div className="cardVarient text-[#0F172A] my-1 pb-1 border-b-1 border-[#EFEFEF] flex items-center justify-between flex-wrap">
               <h5 className="md:text-[14px] text-xs">
-                {t(`grades.${post?.grade}`)}, {config.getCategoryName(post?.educationLevel)}
+                {/* {localStorage.getItem("i18nextLng") == "en" ? "garde " : " الصف"} */}
+                {t(`grades.title`)} {t(`grades.${post?.grade}`)},{t(`education_levels.${config.getCategoryName(post?.educationLevel)}`)}
               </h5>
               <div className="icons flex gap-2 items-center mt-2">
                 <div className="item flex items-center gap-1">
@@ -59,12 +62,12 @@ function Card({ post }) {
                   <solarIcons.ClockCircle size={14} color="#464646" />
                 </span>
 
-                <span className="text-[#464646] ">5 days</span>
+                <span className="text-[#464646] ">{moment(post?.createdAt).fromNow()}</span>
               </div>
             </div>
           </div>
         </div>
-      </Link>
+      </div>
     </>
   );
 }

@@ -9,11 +9,11 @@
     "account": "Account"
   },
   "education_levels": {
-  "KG": "KG",
+    "KG": "KG",
     "title": "Education Level",
-    "primary": "Primary Education",
-    "mid_level": "mid-level Education",
-    "secondary": "Secondary Education",
+    "primary": "Primary",
+    "mid_level": "mid-level",
+    "secondary": "Secondary",
     "general": "General"
   },
   "see_more": "See More",
@@ -42,11 +42,11 @@
     "years": "years"
   },
   "education_type": {
-  "title": "Educatino type",
+    "title": "Education type",
     "general": "general",
     "azhar": "Azhar"
   },
-   "post_type": {
+  "post_type": {
     "free": "free",
     "EG": "EG"
   },

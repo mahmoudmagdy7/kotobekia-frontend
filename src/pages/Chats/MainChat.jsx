@@ -11,13 +11,12 @@ import { useSocket } from "../../app/SocketContext";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 export const MainChat = () => {
-  console.log(Cookies.get("userToken"));
-  let tokende = Cookies.get("userToken");
-  const token = jwtDecode(tokende);
+  const token = jwtDecode(Cookies.get("userToken"));
   const socket = useSocket();
+
   const myId = token.id;
 
-  const { userConversationsCount, userConversations } = useSelector((state) => state.chat);
+  const { userConversationsCount, userConversations, activeUser } = useSelector((state) => state.chat);
   const store = useSelector((state) => state.chat);
   const dispatch = useDispatch();
 

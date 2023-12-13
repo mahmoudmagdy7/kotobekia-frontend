@@ -10,19 +10,19 @@ const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const day = useRef("");
-  const mounth = useRef("");
-  const year = useRef("");
-
+  // const day = useRef("");
+  // const month = useRef("");
+  // const year = useRef("");
   // Validation function
+
   const validation = (value) => {
     const error = {};
-
+    // const { setFieldValue, setFieldTouched } = formikBag;
     // validate name
     if (!value.fullName) {
       error.fullName = "Your name is required";
     } else if (value.fullName.length < 2) {
-      error.fullName = "Your name must be larger than 3 chrachter";
+      error.fullName = "Your name must be larger than 3 character";
     }
 
     // validate email
@@ -36,8 +36,7 @@ const Register = () => {
     if (!value.password) {
       error.password = "Password is Required";
     } else if (!/^[A-Za-z0-9]{8,}$/i.test(value.password)) {
-      error.password =
-        "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
+      error.password = "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
     }
 
     // validate Gender
@@ -45,21 +44,49 @@ const Register = () => {
       error.gender = "Gender is required";
     }
 
-    // validate Date
-    // if (!value.birthDate) {
-    //   error.birthDate = "Your date is required";
-    // }
+    /*   Mojanad  */
+
+    if (
+      !value.birthDate ||
+      !value.birthDate.day ||
+      value.birthDate.day === "00" ||
+      !value.birthDate ||
+      !value.birthDate.month ||
+      value.birthDate.month === "00" ||
+      !value.birthDate ||
+      !value.birthDate.year
+    ) {
+      error.birthDate = {
+        day: null,
+        month: null,
+        year: null,
+      };
+    }
+    if (!value.birthDate || !value.birthDate.day || value.birthDate.day === "00") {
+      error.birthDate.day = "Required";
+    }
+    if (!value.birthDate || !value.birthDate.month || value.birthDate.month === "00") {
+      error.birthDate.month = "Required";
+    }
+    if (!value.birthDate || !value.birthDate.year || !/^\d{4}$/.test(value.birthDate.year)) {
+      error.birthDate.year = "Enter valid year";
+    }
+    console.log(error);
 
     return error;
   };
 
-
-// Submit Form 
-const submit = (value)=>{
-
-  console.log(value);
-}
-
+  // Submit Form
+  const submit = (value) => {
+    if (value.birthDate.day < 10) {
+      value.birthDate.day = `0${value.birthDate.day}`;
+    }
+    if (value.birthDate.month < 10) {
+      value.birthDate.month = `0${value.birthDate.month}`;
+    }
+    // Reset date formatting
+    value.birthDate = value.birthDate.day + "/" + value.birthDate.month + "/" + value.birthDate.year;
+  };
 
   // Formik
   const formik = useFormik({
@@ -67,12 +94,15 @@ const submit = (value)=>{
       fullName: "",
       email: "",
       password: "",
-      phoneNumber: "",
       gender: "",
-      birthDate: "",
+      birthDate: {
+        day: "",
+        month: "",
+        year: "",
+      },
     },
     validate: validation,
-    onSubmit: submit 
+    onSubmit: submit,
   });
 
   return (
@@ -80,72 +110,36 @@ const submit = (value)=>{
       <section className="register py-10 max-w-2xl mx-auto select-none">
         <div className="container">
           <div className="title">
-            <h2 className="text-xl text-[#131313] font-bold text-center">
-              إنشاء حساب
-            </h2>
-            <h4 className="text-xl text-[#131313] font-bold mt-[50px] text-center md:text-start">
-              أنشئ حساب وابحث عن الخير او اصنع خير جديد .
-            </h4>
+            <h2 className="text-xl text-[#131313] font-bold text-center">إنشاء حساب</h2>
+            <h4 className="text-xl text-[#131313] font-bold mt-[50px] text-center md:text-start">أنشئ حساب وابحث عن الخير او اصنع خير جديد .</h4>
           </div>
-          <div className="soials">
+          <div className="social">
             {/*------- Facebook ------- */}
             <div className="soial bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
               <div className="icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 28 28"
-                  fill="none"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                   <rect width="28" height="28" rx="14" fill="#E6E6E6" />
-                  <circle
-                    cx="14"
-                    cy="14"
-                    r="12.25"
-                    fill="url(#paint0_linear_1605_6547)"
-                  />
+                  <circle cx="14" cy="14" r="12.25" fill="url(#paint0_linear_1605_6547)" />
                   <path
                     d="M18.562 17.7464L19.1061 14.2888H15.7021V12.0461C15.7021 11.1 16.1767 10.1772 17.7014 10.1772H19.25V7.23362C19.25 7.23362 17.8452 7 16.5027 7C13.698 7 11.8665 8.65632 11.8665 11.6536V14.2888H8.75V17.7464H11.8665V26.1052C12.4921 26.201 13.1322 26.25 13.7843 26.25C14.4363 26.25 15.0764 26.201 15.7021 26.1052V17.7464H18.562Z"
                     fill="white"
                   />
                   <defs>
-                    <linearGradient
-                      id="paint0_linear_1605_6547"
-                      x1="14"
-                      y1="1.75"
-                      x2="14"
-                      y2="26.1773"
-                      gradientUnits="userSpaceOnUse"
-                    >
+                    <linearGradient id="paint0_linear_1605_6547" x1="14" y1="1.75" x2="14" y2="26.1773" gradientUnits="userSpaceOnUse">
                       <stop stop-color="#18ACFE" />
                       <stop offset="1" stop-color="#0163E0" />
                     </linearGradient>
                   </defs>
                 </svg>
               </div>
-              <span className="text-lg text-[#131313]  font-normal">
-                التسجيل باستخدام حساب فيسبوك
-              </span>
+              <span className="text-lg text-[#131313]  font-normal">التسجيل باستخدام حساب فيسبوك</span>
             </div>
             {/* ------- Facebook ------- */}
             {/* ------- Google ------- */}
             <div className="soial bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
               <div className="icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 28 28"
-                  fill="none"
-                >
-                  <rect
-                    y="0.560059"
-                    width="28"
-                    height="26.88"
-                    rx="13.44"
-                    fill="#E6E6E6"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <rect y="0.560059" width="28" height="26.88" rx="13.44" fill="#E6E6E6" />
                   <path
                     d="M26.2512 14.2612C26.2512 13.2943 26.1678 12.5887 25.9873 11.8569H14.2512V16.2211H21.14C21.0012 17.3057 20.2512 18.9391 18.5845 20.0366L18.5612 20.1827L22.2719 22.8872L22.529 22.9113C24.89 20.8598 26.2512 17.8414 26.2512 14.2612Z"
                     fill="#4285F4"
@@ -164,28 +158,21 @@ const submit = (value)=>{
                   />
                 </svg>
               </div>
-              <span className="text-lg text-[#131313]  font-normal">
-                التسجيل باستخدام حساب جوجل{" "}
-              </span>
+              <span className="text-lg text-[#131313]  font-normal">التسجيل باستخدام حساب جوجل </span>
             </div>
             {/* ------- Google ------- */}
           </div>
 
           <div className="or mt-8 relative">
             <div className="line h-[2px] bg-[#909091] w-[75%] mx-auto"></div>
-            <span className=" block text-[#909091] px-3 text-xl font-medium bg-[#eae9eb] absolute top-[-20px] start-[50%] translate-x-[50%]">
-              او
-            </span>
+            <span className=" block text-[#909091] px-3 text-xl font-medium bg-[#eae9eb] absolute top-[-20px] start-[50%] translate-x-[50%]">او</span>
           </div>
           {/* -------- Form --------  */}
           <div className="form mt-4">
             <form onSubmit={formik.handleSubmit}>
               {/* ------- User Name ------- */}
               <div className="form-group mb-4">
-                <label
-                  htmlFor=""
-                  className="text-base text-[#131313] font-medium"
-                >
+                <label htmlFor="" className="text-base text-[#131313] font-medium">
                   الإسم بالكامل
                 </label>
 
@@ -220,10 +207,7 @@ const submit = (value)=>{
               {/* ------- User Name ------- */}
               {/* ------- Email ------- */}
               <div className="form-group mb-4">
-                <label
-                  htmlFor=""
-                  className="text-base text-[#131313] font-medium"
-                >
+                <label htmlFor="" className="text-base text-[#131313] font-medium">
                   البريد الالكتروني
                 </label>
                 {formik.errors.email && formik.touched.email ? (
@@ -276,10 +260,7 @@ const submit = (value)=>{
               {/* ------- Phone Number ------- */}
               {/* ------- Password ------- */}
               <div className="form-group  mb-4">
-                <label
-                  htmlFor=""
-                  className="text-base text-[#131313] font-medium"
-                >
+                <label htmlFor="" className="text-base text-[#131313] font-medium">
                   الرقم السري
                 </label>
                 {formik.errors.password && formik.touched.password ? (
@@ -295,11 +276,7 @@ const submit = (value)=>{
                     errorMessage={formik.errors.password}
                     placeholder="********"
                     endContent={
-                      <button
-                        className="focus:outline-none"
-                        type="button"
-                        onClick={toggleVisibility}
-                      >
+                      <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                         {isVisible ? (
                           <solarIcons.Eye color="#000" />
                         ) : (
@@ -321,11 +298,7 @@ const submit = (value)=>{
                     value={formik.values.password}
                     placeholder="********"
                     endContent={
-                      <button
-                        className="focus:outline-none"
-                        type="button"
-                        onClick={toggleVisibility}
-                      >
+                      <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                         {isVisible ? (
                           <solarIcons.Eye color="#000" />
                         ) : (
@@ -342,9 +315,7 @@ const submit = (value)=>{
               {/* ------- Password ------- */}
               {/* ------- Gendar ------- */}
               <div className="form-group mb-4">
-                <span className="text-base text-[#131313] font-medium">
-                  الجنس
-                </span>
+                <span className="text-base text-[#131313] font-medium">الجنس</span>
                 {formik.errors.gender && formik.touched.gender ? (
                   <RadioGroup
                     label=""
@@ -392,54 +363,119 @@ const submit = (value)=>{
 
               {/* ------- date ------- */}
               <div className="form-group  mb-8">
-                <label
-                  htmlFor=""
-                  className="text-base text-[#131313] font-medium block mb-1 "
-                >
+                <label htmlFor="" className="text-base text-[#131313] font-medium block mb-1 ">
                   تاريخ الميلاد
                 </label>
 
                 <div className="date text-[#333] flex gap-5">
-                  <div className="day">
-                    <input
-                      type="text"
-                      placeholder="يوم"
-                      ref={day}
-                      onBlur={(e) => {
-                        if (day.current.value < 10) {
-                          day.current.value = `0${+e.target.value}`;
-                        }
-                        if (e.target.value === "00") {
-                          console.log("done");
-                        }
-                      }}
-                      className="text-center w-[100px] outline-none hover:bg-[#e4e4e7] focus:bg-white rounded-xl  py-3"
-                    />
-                  </div>
-                  <div className="mounth">
-                    <input
-                      type="text"
-                      placeholder="شهر"
-                      ref={mounth}
-                      onBlur={(e) => {
-                        if (mounth.current.value < 10) {
-                          mounth.current.value = `0${+e.target.value}`;
-                        }
-                      }}
-                      className="text-center w-[100px] outline-none hover:bg-[#e4e4e7] focus:bg-white rounded-xl  py-3"
-                    />
+                  {formik.errors?.birthDate?.day && formik.touched?.birthDate?.day ? (
+                    <div className="day">
+                      <Input
+                        type="text"
+                        id="day"
+                        name="birthDate.day"
+                        placeholder="يوم"
+                        isInvalid={true}
+                        variant="bordered"
+                        maxLength={2}
+                        // ref={day}
+                        value={formik.values?.birthDate?.day}
+                        errorMessage={formik.errors?.birthDate?.day}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        className={`text-center w-[100px]   focus:bg-white rounded-xl  py-3`}
+                      />
+                    </div>
+                  ) : (
+                    <div className="day">
+                      <Input
+                        type="text"
+                        id="day"
+                        name="birthDate.day"
+                        placeholder="يوم"
+                        maxLength={2}
+                        variant="bordered"
+                        value={formik.values?.birthDate?.day}
+                        // ref={day}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        className={`text-center outline-none w-[100px]   focus:bg-white rounded-xl  py-3`}
+                      />
+                    </div>
+                  )}
+                  <div className="month">
+                    {formik.errors?.birthDate?.month && formik.touched?.birthDate?.month ? (
+                      <div className="month">
+                        <Input
+                          type="text"
+                          id="month"
+                          name="birthDate.month"
+                          placeholder="شهر"
+                          isInvalid={true}
+                          variant="bordered"
+                          maxLength={2}
+                          // ref={month}
+                          value={formik.values?.birthDate?.month}
+                          errorMessage={formik.errors?.birthDate?.month}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          className={`text-center w-[100px]   focus:bg-white rounded-xl  py-3`}
+                        />
+                      </div>
+                    ) : (
+                      <div className="month">
+                        <Input
+                          type="text"
+                          id="month"
+                          name="birthDate.month"
+                          placeholder="يوم"
+                          maxLength={2}
+                          variant="bordered"
+                          value={formik.values?.birthDate?.month}
+                          // ref={month}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          className={`text-center outline-none w-[100px]   focus:bg-white rounded-xl  py-3`}
+                        />
+                      </div>
+                    )}
                   </div>
                   <div className="year flex-1 ">
-                    <input
-                      type="text"
-                      id="birthDate"
-                      name="birthDate"
-                      onBlur={formik.handleBlur}
-                      ref={year}
-                      onChange={(e) => (year.current = +e.target.value)}
-                      placeholder="سنه"
-                      className="text-center w-full outline-none hover:bg-[#e4e4e7] focus:bg-white rounded-xl  py-3"
-                    />
+                    {formik.errors?.birthDate?.year && formik.touched?.birthDate?.year ? (
+                      <div className="year w-full">
+                        <Input
+                          type="text"
+                          id="year"
+                          name="birthDate.year"
+                          placeholder="year"
+                          isInvalid={true}
+                          variant="bordered"
+                          maxLength={2}
+                          // ref={year}
+                          value={formik.values?.birthDate?.year}
+                          errorMessage={formik.errors?.birthDate?.year}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          className={`text-center w-full  focus:bg-white rounded-xl  py-3`}
+                        />
+                      </div>
+                    ) : (
+                      <div className="year w-full">
+                        <Input
+                          type="text"
+                          id="year"
+                          name="birthDate.year"
+                          placeholder="year"
+                          maxLength={2}
+                          variant="bordered"
+                          value={formik.values?.birthDate?.year}
+                          // ref={year}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          className={`text-center outline-none w-full  focus:bg-white rounded-xl  py-3`}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
