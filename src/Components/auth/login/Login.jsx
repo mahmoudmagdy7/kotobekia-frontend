@@ -1,12 +1,62 @@
-import { Input, Checkbox } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import { useState } from "react";
 import * as solarIcons from "solar-icon-set";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import axios from "axios";
+import config from "../../../../config";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const nav = useNavigate();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  // Validation function
+  const validation = (value) => {
+    const error = {};
+
+    // validate email
+    if (!value.email) {
+      error.email = "Email is Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value.email)) {
+      error.email = "Email is not valid";
+    }
+
+    // validate Password
+    if (!value.password) {
+      error.password = "Password is Required";
+    } else if (!/^[A-Za-z0-9]{8,}$/i.test(value.password)) {
+      error.password =
+        "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
+    }
+
+    return error;
+  };
+
+  const submit = async (value) => {
+    const { data } = await axios.post(
+      `${config.bseUrl}/api/v1/auth/logIn`,
+      value
+    );
+
+    if (data.message === "تم تسجيل الحساب") {
+      nav("/");
+    }
+  };
+
+  // Formik
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate: validation,
+    onSubmit: (value) => {
+      submit(value);
+    },
+  });
+
   return (
     <>
       <section className="register py-10 max-w-2xl mx-auto select-none">
@@ -26,7 +76,7 @@ const Login = () => {
           {/* -------- Title --------  */}
           {/* -------- Form --------  */}
           <div className="form mt-6">
-            <form action="">
+            <form onSubmit={formik.handleSubmit}>
               {/* ------- Email ------- */}
               <div className="form-group mb-4">
                 <label
@@ -35,11 +85,32 @@ const Login = () => {
                 >
                   البريد الالكتروني
                 </label>
-                <Input
-                  type="email"
-                  placeholder="mohamed@gmail.com"
-                  className="mt-1 text-[#333]"
-                />
+                {formik.errors.email && formik.touched.email ? (
+                  <Input
+                    type="email"
+                    name="email"
+                    id="email"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.email}
+                    isInvalid={true}
+                    variant="bordered"
+                    errorMessage={formik.errors.email}
+                    placeholder="mohamed@gmail.com"
+                    className="mt-1 text-[#333]"
+                  />
+                ) : (
+                  <Input
+                    type="email"
+                    name="email"
+                    id="email"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.email}
+                    placeholder="mohamed@gmail.com"
+                    className="mt-1 text-[#333]"
+                  />
+                )}
               </div>
               {/* ------- Email ------- */}
               {/* ------- Password ------- */}
@@ -50,29 +121,67 @@ const Login = () => {
                 >
                   الرقم السري
                 </label>
-                <Input
-                  type={isVisible ? "text" : "password"}
-                  placeholder="********"
-                  endContent={
-                    <button
-                      className="focus:outline-none"
-                      type="button"
-                      onClick={toggleVisibility}
-                    >
-                      {isVisible ? (
-                        <solarIcons.Eye color="#000" />
-                      ) : (
-                        <solarIcons.EyeClosed color="#000" />
 
-                        // <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      )}
-                    </button>
-                  }
-                  className="mt-1 text-[#333]"
-                />
+                {formik.errors.password && formik.touched.password ? (
+                  <Input
+                    type={isVisible ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                    isInvalid={true}
+                    variant="bordered"
+                    errorMessage={formik.errors.password}
+                    placeholder="********"
+                    endContent={
+                      <button
+                        className="focus:outline-none"
+                        type="button"
+                        onClick={toggleVisibility}
+                      >
+                        {isVisible ? (
+                          <solarIcons.Eye color="#000" />
+                        ) : (
+                          <solarIcons.EyeClosed color="#000" />
+
+                          // <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                        )}
+                      </button>
+                    }
+                    className="mt-1 text-[#333]"
+                  />
+                ) : (
+                  <Input
+                    type={isVisible ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                    placeholder="********"
+                    endContent={
+                      <button
+                        className="focus:outline-none"
+                        type="button"
+                        onClick={toggleVisibility}
+                      >
+                        {isVisible ? (
+                          <solarIcons.Eye color="#000" />
+                        ) : (
+                          <solarIcons.EyeClosed color="#000" />
+
+                          // <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                        )}
+                      </button>
+                    }
+                    className="mt-1 text-[#333]"
+                  />
+                )}
               </div>
               {/* ------- Password ------- */}
               <button
+                type="submit"
                 style={{
                   "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
                 }}
@@ -81,6 +190,8 @@ const Login = () => {
                 <span className="text-base">تسجيل الدخول</span>
               </button>
             </form>
+
+            {/* forget password  */}
             <Link className="text-[#131313] text-sm font-semibold text-center">
               هل نسيت كلمة السر ؟
             </Link>
@@ -125,10 +236,7 @@ const Login = () => {
                       x2="14"
                       y2="26.1773"
                       gradientUnits="userSpaceOnUse"
-                    >
-                      <stop stop-color="#18ACFE" />
-                      <stop offset="1" stop-color="#0163E0" />
-                    </linearGradient>
+                    ></linearGradient>
                   </defs>
                 </svg>
               </div>
