@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { ContactCard } from "./ContactCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserConversations, setOnlineUsers } from "../../app/Slices/chatSlice";
@@ -13,7 +13,7 @@ import { jwtDecode } from "jwt-decode";
 export const MainChat = () => {
   const token = jwtDecode(Cookies.get("userToken"));
   const socket = useSocket();
-
+  const router = useNavigate();
   const myId = token.id;
 
   const { userConversationsCount, userConversations, onlineUsers } = useSelector((state) => state.chat);
@@ -78,12 +78,8 @@ export const MainChat = () => {
             <h3>Inbox</h3> <span className="inline-flex items-center justify-center h-5 w-5 bg-[#28D8AE] rounded-md">{userConversationsCount}</span>
             <span className="absolute bottom-1 h-[3px] w-16 bg-[#28D8AE]"></span>
             {isMobile() ? (
-              <Button isIconOnly color="transparent" className="ms-auto">
-                {localStorage.getItem("i18nextLng") == "en" ? (
-                  <solarIcons.AltArrowRight size={32} onClick={sideToggler} />
-                ) : (
-                  <solarIcons.AltArrowLeft size={32} onClick={sideToggler} />
-                )}
+              <Button onClick={() => router("/")} isIconOnly color="transparent" className="ms-auto">
+                {localStorage.getItem("i18nextLng") == "en" ? <solarIcons.AltArrowRight size={32} /> : <solarIcons.AltArrowLeft size={32} />}
               </Button>
             ) : (
               ""
