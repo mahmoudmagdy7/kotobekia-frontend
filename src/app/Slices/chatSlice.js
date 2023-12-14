@@ -10,7 +10,6 @@ export const getUserConversations = createAsyncThunk("chat/getUserConversations"
         token: Cookies.get("userToken"),
       },
     });
-
     return data;
   } catch (err) {
     console.log(err);
@@ -63,10 +62,14 @@ const chatSlice = createSlice({
     userConversations: null,
     activeConversation: [],
     lastMessage: "",
+    onlineUsers: [],
   },
   reducers: {
     setActiveUser(state, action) {
       state.activeUser = action.payload;
+    },
+    setOnlineUsers(state, action) {
+      state.onlineUsers = action.payload;
     },
     receiveMessage(state, action) {
       console.log("receive------------");
@@ -89,5 +92,5 @@ const chatSlice = createSlice({
   },
 });
 
-export const { receiveMessage, setActiveUser } = chatSlice.actions;
+export const { receiveMessage, setActiveUser, setOnlineUsers } = chatSlice.actions;
 export default chatSlice.reducer;

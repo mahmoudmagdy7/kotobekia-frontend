@@ -1,7 +1,7 @@
 import { Button, Input } from "@nextui-org/react";
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import * as solarIcons from "solar-icon-set";
 import { getConversationMessages, getUserConversations, receiveMessage, sendNewMessage, setActiveUser } from "../../app/Slices/chatSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,23 +10,24 @@ import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 
 import { useSocket } from "../../app/SocketContext";
+import isLoggedIn from "../../hooks/useAuth";
+import isMobile from "../../hooks/useAgent";
 export const Conversation = (props) => {
   const sideToggler = useOutletContext();
-  const user = {
-    name: "Ahmed mohammed",
-    image: "https://i.pravatar.cc/300",
-    lastMessage: "lorem ipsum",
-    time: "now",
-  };
+  const [isOnline, setIsOnline] = useState(false);
+
   const token = jwtDecode(Cookies.get("userToken"));
   const socket = useSocket();
-
   const myId = token.id;
-
+  const router = useNavigate();
   const dispatch = useDispatch();
-  const { activeUser, activeConversation, userConversations } = useSelector((state) => state.chat);
+  const { activeUser, activeConversation, userConversations, onlineUsers } = useSelector((state) => state.chat);
   const msgRef = useRef(null);
-
+  useLayoutEffect(() => {
+    if (!activeUser) {
+      router("/chat");
+    }
+  }, []);
   useEffect(() => {
     const conversationBody = document.getElementById("conversation-body");
 
@@ -487,6 +488,15 @@ export const Conversation = (props) => {
   //   });
   // }, []);
 
+  useEffect(() => {
+    console.log(activeUser);
+    if (onlineUsers.some((user) => user.userId === activeUser?._id)) {
+      setIsOnline(true);
+    } else {
+      setIsOnline(false);
+    }
+    console.log();
+  }, [onlineUsers, activeUser]);
   return (
     <>
       {activeUser ? (
@@ -494,16 +504,32 @@ export const Conversation = (props) => {
           {/* ------- conversation header ------- */}
 
           <div className="flex  justify-between p-5 relative shadow-[0_4px_20px_-10px_rgba(0,0,0,0.25)]">
-            <div className="flex gap-3 ">
-              <img src={user?.image} className="w-12 h-12 rounded-full" alt="" />
-              <div>
-                <h3 className="font-semibold">{activeUser?.name}</h3>
-                <p className="text-gray-700">online</p>
-              </div>
+            <div>
+              {" "}
+              <Button isIconOnly color="transparent">
+                <solarIcons.ShieldUser size={32} color="#0DCA86" />
+              </Button>{" "}
             </div>
-            <Button isIconOnly color="transparent">
-              <solarIcons.AltArrowLeft size={32} onClick={sideToggler} />
-            </Button>
+            <div>
+              <h3 className="font-semibold">{activeUser?.fullName}</h3>
+            </div>
+            <div className="flex gap-3  ">
+              <div className="relative">
+                <img src={activeUser.gender == "male" ? "/assets/images/male.png" : "/assets/images/female.png"} className="w-12 h-12 rounded-full" alt="" />
+                {isOnline ? <span className="bottom-0 end-0 inline-block w-4 h-4 rounded-full absolute bg-success-400 border-2 border-white"></span> : ""}{" "}
+              </div>{" "}
+              {isMobile() ? (
+                <Button isIconOnly color="transparent">
+                  {localStorage.getItem("i18nextLng") == "en" ? (
+                    <solarIcons.AltArrowRight size={32} onClick={sideToggler} />
+                  ) : (
+                    <solarIcons.AltArrowLeft size={32} onClick={sideToggler} />
+                  )}
+                </Button>
+              ) : (
+                ""
+              )}
+            </div>
             {/* <span className="absolute end-5 bottom-1 h-[1px] w-4/5 bg-[#EDEDED]"></span> */}
           </div>
           {/* ------- conversation body ------- */}
@@ -513,15 +539,27 @@ export const Conversation = (props) => {
                 return (
                   <div key={m._id}>
                     <div className={m.sender._id === myId ? "  text-start " : " text-end  "}>
-                      <p
-                        className={
-                          m.sender._id === myId
-                            ? "bg-[#28D8AE] w-fit  py-1 px-5  rounded-xl rounded-br-none "
-                            : "bg-[#F3F2F7] w-fit ms-auto py-1 px-5  rounded-xl rounded-bl-none"
-                        }
-                      >
-                        {m.message}
-                      </p>
+                      {localStorage.getItem("i18nextLng") == "en" ? (
+                        <p
+                          className={
+                            m.sender._id === myId
+                              ? "bg-[#28D8AE] w-fit  py-1 px-5  rounded-xl rounded-bl-none "
+                              : "bg-[#F3F2F7] w-fit ms-auto py-1 px-5  rounded-xl rounded-br-none"
+                          }
+                        >
+                          {m.message}
+                        </p>
+                      ) : (
+                        <p
+                          className={
+                            m.sender._id === myId
+                              ? "bg-[#28D8AE] w-fit  py-1 px-5  rounded-xl rounded-br-none "
+                              : "bg-[#F3F2F7] w-fit ms-auto py-1 px-5  rounded-xl rounded-bl-none"
+                          }
+                        >
+                          {m.message}
+                        </p>
+                      )}
                       <span className="text-xs  ">{moment(m.createdAt).format("HH:mm")}</span>
                     </div>
                   </div>

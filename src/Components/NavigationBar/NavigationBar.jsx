@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import * as solarIcons from "solar-icon-set";
+import isLoggedIn from "../../hooks/useAuth";
 
 function NavigationBar() {
   const { t } = useTranslation();
@@ -28,10 +29,17 @@ function NavigationBar() {
           </Button>
         </li>
         <li>
-          <Link onClick={() => setCurrentLocation("/chat")} to="/chat" className="flex items-center flex-col">
-            {currentLocation === "/chat" ? <solarIcons.Letter size={23} color="#28D8AE" /> : <solarIcons.Letter size={23} color="#000" />}
-            <span className="font-bold">{t("navigation_bar.messages")}</span>
-          </Link>
+          {isLoggedIn() ? (
+            <Link onClick={() => setCurrentLocation("/chat")} to="/chat" className="flex items-center flex-col">
+              {currentLocation === "/chat" ? <solarIcons.Letter size={23} color="#28D8AE" /> : <solarIcons.Letter size={23} color="#000" />}
+              <span className="font-bold">{t("navigation_bar.messages")}</span>
+            </Link>
+          ) : (
+            <Link to="/auth/login" className="flex items-center flex-col">
+              {currentLocation === "/chat" ? <solarIcons.Letter size={23} color="#28D8AE" /> : <solarIcons.Letter size={23} color="#000" />}
+              <span className="font-bold">{t("navigation_bar.messages")}</span>
+            </Link>
+          )}
         </li>
         <li>
           <Link onClick={() => setCurrentLocation("/")} to="/" className="flex items-center flex-col">

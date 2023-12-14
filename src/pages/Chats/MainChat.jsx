@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { ContactCard } from "./ContactCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserConversations } from "../../app/Slices/chatSlice";
+import { getUserConversations, setOnlineUsers } from "../../app/Slices/chatSlice";
 import { io } from "socket.io-client";
 import { Button } from "@nextui-org/react";
 import isMobile from "../../hooks/useAgent";
@@ -16,12 +16,38 @@ export const MainChat = () => {
 
   const myId = token.id;
 
-  const { userConversationsCount, userConversations, activeUser } = useSelector((state) => state.chat);
-  const store = useSelector((state) => state.chat);
+  const { userConversationsCount, userConversations, onlineUsers } = useSelector((state) => state.chat);
   const dispatch = useDispatch();
+  // const [onlineUsersList, setOnlineUsersList] = useState([]);
 
   useEffect(() => {
+    // Listen for the "get-online-users" event
+    socket.on("get-online-users", (onlineUsers) => {
+      // Handle the onlineUsers data received from the backend
+      console.log("Online Users:", onlineUsers);
+      // setOnlineUsers(onlineUsers);
+      dispatch(setOnlineUsers(onlineUsers));
+      // You can update the state or perform any other actions based on the onlineUsers data
+    });
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      socket.off("get-online-users");
+    };
+  }, [socket, onlineUsers]);
+
+  useEffect(() => {
+    //   console.log("get");
     dispatch(getUserConversations());
+  }, [dispatch]);
+  useEffect(() => {
+    //   console.log("get");
+    socket.on("receive message", () => {
+      dispatch(getUserConversations());
+
+      // the second solution to prevent re-rendering
+      // dispatch(getConversationMessages(convId));
+    });
   }, [dispatch]);
 
   // console.log(socket);
@@ -39,6 +65,7 @@ export const MainChat = () => {
     }
   };
   useEffect(() => {
+    console.log("get chat");
     socket?.emit("join", myId);
     isMobile() ? document.body.classList.add("overflow-hidden") : document.body.classList.remove("overflow-hidden");
   }, []);
@@ -50,9 +77,17 @@ export const MainChat = () => {
           <div className="flex items-center  p-3 gap-2 border-b-2 relative">
             <h3>Inbox</h3> <span className="inline-flex items-center justify-center h-5 w-5 bg-[#28D8AE] rounded-md">{userConversationsCount}</span>
             <span className="absolute bottom-1 h-[3px] w-16 bg-[#28D8AE]"></span>
-            <Button isIconOnly className=" ms-auto" color="transparent" as={Link} to="/">
-              <solarIcons.AltArrowLeft size={25} />
-            </Button>
+            {isMobile() ? (
+              <Button isIconOnly color="transparent" className="ms-auto">
+                {localStorage.getItem("i18nextLng") == "en" ? (
+                  <solarIcons.AltArrowRight size={32} onClick={sideToggler} />
+                ) : (
+                  <solarIcons.AltArrowLeft size={32} onClick={sideToggler} />
+                )}
+              </Button>
+            ) : (
+              ""
+            )}
           </div>
 
           {/* ---------- contacts ------------ */}
