@@ -560,7 +560,7 @@ export const Conversation = (props) => {
                           {m.message}
                         </p>
                       )}
-                      <span className="text-xs  ">{moment(m.createdAt).format("HH:mm")}</span>
+                      <span className="text-xs  ">{moment(m.createdAt).format("hh:mm A")}</span>
                     </div>
                   </div>
                 );
