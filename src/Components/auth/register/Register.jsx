@@ -12,14 +12,13 @@ const Register = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const [verify, setVerify] = useState(false);
-
   const nav = useNavigate();
 
   ///////////////////// Register Formik /////////////////////
   // Validation function
   const validation = (value) => {
     const error = {};
-    // const { setFieldValue, setFieldTouched } = formikBag;
+    // const { setFieldValue, setFieldTouched } = formikBag;nmp 
     // validate name
     if (!value.fullName) {
       error.fullName = "Your name is required";
