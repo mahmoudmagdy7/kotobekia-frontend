@@ -8,6 +8,8 @@ import config from "../../../../config";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [verify, setVerify] = useState(false);
+
   const nav = useNavigate();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -41,11 +43,7 @@ const Login = () => {
     );
 
     if (data.message === "تم تسجيل الحساب") {
-      await axios.post(`${config.bseUrl}/api/v1/auth/reSend-OTP`, {
-        "email": value.email,
-      }).then((res)=>{
-        console.log(res);
-      });
+      nav("/");
     }
   };
 
