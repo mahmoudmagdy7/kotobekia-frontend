@@ -1,66 +1,4 @@
-import { Input } from "@nextui-org/react";
-import { useState } from "react";
-import * as solarIcons from "solar-icon-set";
-import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-import axios from "axios";
-import config from "../../../../config";
-
-const Login = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const nav = useNavigate();
-
-  const toggleVisibility = () => setIsVisible(!isVisible);
-
-  // Validation function
-  const validation = (value) => {
-    const error = {};
-
-    // validate email
-    if (!value.email) {
-      error.email = "Email is Required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value.email)) {
-      error.email = "Email is not valid";
-    }
-
-    // validate Password
-    if (!value.password) {
-      error.password = "Password is Required";
-    } else if (!/^[A-Za-z0-9]{8,}$/i.test(value.password)) {
-      error.password =
-        "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
-    }
-
-    return error;
-  };
-
-  const submit = async (value) => {
-    const { data } = await axios.post(
-      `${config.bseUrl}/api/v1/auth/logIn`,
-      value
-    );
-
-    if (data.message === "تم تسجيل الحساب") {
-      await axios.post(`${config.bseUrl}/api/v1/auth/reSend-OTP`, {
-        "email": value.email,
-      }).then((res)=>{
-        console.log(res);
-      });
-    }
-  };
-
-  // Formik
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validate: validation,
-    onSubmit: (value) => {
-      submit(value);
-    },
-  });
-
+const Verify = () => {
   return (
     <>
       <section className="login py-10 max-w-2xl mx-auto select-none">
@@ -303,4 +241,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Verify;
