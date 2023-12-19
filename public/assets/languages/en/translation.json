@@ -44,7 +44,14 @@
   "education_type": {
     "title": "Education type",
     "general": "general",
-    "azhar": "Azhar"
+    "azhar": "Azhar",
+    "other": "other"
+  },
+  "education_terms": {
+    "title": "term",
+    "first": "first",
+    "second": "second",
+    "both": "both"
   },
   "post_type": {
     "free": "free",

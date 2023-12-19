@@ -10,14 +10,14 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     console.log("sockt in");
-    if (isLoggedIn()) {
+    if (isLoggedIn) {
       const userToken = Cookies.get("userToken");
       const id = jwtDecode(userToken).id;
 
       socket.emit("join", id);
     }
     return () => {
-      if (isLoggedIn()) {
+      if (isLoggedIn) {
         const userToken = Cookies.get("userToken");
         const id = jwtDecode(userToken).id;
         socket.emit("disconnect", id);

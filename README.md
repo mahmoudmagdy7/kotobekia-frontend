@@ -24,11 +24,13 @@ User got more 10 love to his posts badge = A3
 
 ---
 
-<!-- ## report type | report id | reporter id
+<!--
+## report type | report id | reporter id
 
 ## post | post id | user id |
 
-## chat | chat id | user id | -->
+## chat | chat id | user id |
+-->
 
 <!-- --- -->
 
@@ -47,3 +49,38 @@ User got more 10 love to his posts badge = A3
   </div>
 
 ---
+
+api-post
+
+report type : post - chat,
+id : postId - chatId,
+
+<!-- reporter id : userId, -->
+
+feedback: ""
+reportedUser : userId
+
+---
+
+api-get
+
+report_type : post - chat,
+id : postId - chatId,
+reporter_id : userId,
+feedback: ""
+reportedUser : userId
+status : under review
+
+---
+
+api-change status
+
+status : resolved - rejected
+feedback : 'required'
+
++++++++++++++++++
+
+sorting : latest and oldest
+filters : all, resolved, rejected , under review
+
++++++++++++++++++

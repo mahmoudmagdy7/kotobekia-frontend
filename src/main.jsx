@@ -23,6 +23,7 @@ import Login from "./Components/auth/login/Login";
 import Register from "./Components/auth/register/Register";
 import { SocketProvider } from "./app/SocketContext";
 import { LoginProtector } from "./Components/Protectors/LoginProtector.jsx";
+import AddBook from "./pages/AddBook/AddBook.jsx";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
@@ -36,8 +37,8 @@ const route = createBrowserRouter([
     children: [
       { path: "", element: <Home /> },
       { path: "/cate/:id", element: <Category /> },
-      { path: "/post/:id", element: <PostDetails /> },
-      { path: "/post/new", element: <h1>Adding new add</h1> },
+      { path: "/book/:id", element: <PostDetails /> },
+      { path: "/book/new", element: <AddBook /> },
       { path: "/account/:id", element: <h1>User account</h1> },
       { path: "/user-posts/", element: <h1>User posts</h1> },
       {

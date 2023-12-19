@@ -57,12 +57,8 @@ const NavHeader = () => {
               {/* Mobile-Location */}
               <div className="navbar-location ms-auto  px-4  flex lg:hidden w-[150px] justify-center items-center gap-[10px] rounded-[8px] py-1  cursor-pointer bg-[#F3F4F7]">
                 <div className="txt">
-                  <span className="text-[#939393] text-[10px] font-medium block">
-                    Your Location
-                  </span>
-                  <span className="text-[#30A79F] text-[10px] font-bold ">
-                    Select a Location
-                  </span>
+                  <span className="text-[#939393] text-[10px] font-medium block">Your Location</span>
+                  <span className="text-[#30A79F] text-[10px] font-bold ">Select a Location</span>
                 </div>
 
                 <div className="arrows">
