@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./addBook.css";
-import { Stepper, Step, Typography } from "@material-tailwind/react";
-import { Input, Button, Select, SelectItem, Textarea, Checkbox, CheckboxGroup, RadioGroup, Radio } from "@nextui-org/react";
+import { Stepper, Step } from "@material-tailwind/react";
+import { Input, Button, Select, SelectItem, Textarea } from "@nextui-org/react";
 import * as solarIcons from "solar-icon-set";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import config from "../../../config";
 import i18next from "i18next";
-import { siteDirection, siteLanguage } from "../../hooks/useLocale";
-import { jwtDecode } from "jwt-decode";
+import { siteDirection } from "../../hooks/useLocale";
 import Cookies from "js-cookie";
 import DotsLoading from "../../Components/Loaders/DotsLoading";
 import { gotTop } from "../../hooks/useTop";
@@ -39,7 +38,6 @@ const AddPost = () => {
   const [checkedEducationType, setCheckedEducationType] = useState(null);
   const [checkedEducationTerm, setCheckedEducationTerm] = useState(null);
   const { t } = i18next;
-  const nav = useNavigate();
   const maxPrice = 50;
   siteDirection;
   console.log(isLoggedIn);
