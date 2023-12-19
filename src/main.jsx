@@ -53,6 +53,7 @@ const route = createBrowserRouter([
       },
       { path: "/auth/login", element: <Login /> },
       { path: "/auth/register", element: <Register /> },
+      { path: "/auth/verify", element: <Register /> },
     ],
   },
 ]);
