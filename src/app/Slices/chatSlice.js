@@ -63,6 +63,8 @@ const chatSlice = createSlice({
     activeConversation: [],
     lastMessage: "",
     onlineUsers: [],
+    loadingConversations: false,
+    loadingConversationMessages: false,
   },
   reducers: {
     setActiveUser(state, action) {
@@ -78,12 +80,27 @@ const chatSlice = createSlice({
   },
 
   extraReducers: (builder) => {
+    /* get  user conversations function cases */
+    builder.addCase(getUserConversations.pending, (state) => {
+      state.loadingConversations = true;
+    });
     builder.addCase(getUserConversations.fulfilled, (state, action) => {
+      state.loadingConversations = false;
+
       state.userConversations = action.payload;
     });
+
+    /* get  user messages function cases */
+
+    builder.addCase(getConversationMessages.pending, (state) => {
+      state.loadingConversationMessages = true;
+    });
     builder.addCase(getConversationMessages.fulfilled, (state, action) => {
+      state.loadingConversationMessages = false;
+
       state.activeConversation = action.payload;
     });
+    /* get  send message function cases */
 
     builder.addCase(sendNewMessage.fulfilled, (state, action) => {
       state.lastMessage = action.payload;

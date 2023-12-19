@@ -23,12 +23,14 @@
   /* height: -webkit-fill-available; */
 
   /* colors */
+  --primary-light: #90ffe5;
   --primary: #28d8ae;
   --secondary: #30a79f;
   --tertiary: #f3f4f7;
   --quaternary: #464646;
 
   -webkit-tap-highlight-color: transparent; /* red highlight */
+  min-height: 100vh;
 }
 /* body {
   height: -webkit-fill-available;
@@ -55,4 +57,33 @@
 ::-webkit-scrollbar-thumb {
   background-color: #ddd;
   border-radius: 5px;
+}
+
+/* HTML: <div class="loader"></div>  loader*/
+.loader {
+  width: 15px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+  0% {
+    box-shadow: 20px 0 var(--primary), -20px 0 var(--primary-light);
+    background: var(--primary);
+  }
+  33% {
+    box-shadow: 20px 0 var(--primary), -20px 0 var(--primary-light);
+    background: var(--primary-light);
+  }
+  66% {
+    box-shadow: 20px 0 var(--primary-light), -20px 0 var(--primary);
+    background: var(--primary-light);
+  }
+  100% {
+    box-shadow: 20px 0 var(--primary-light), -20px 0 var(--primary);
+    background: var(--primary);
+  }
+}
+.radio-submit > span {
+  opacity: 0;
 }

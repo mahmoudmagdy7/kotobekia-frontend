@@ -87,6 +87,12 @@
     "education_year": "education year",
     "term": "term"
   },
+  "education_terms": {
+    "title": "term",
+    "first": "first",
+    "second": "second",
+    "both": "both"
+  },
   "chat_screen": {
     "search_by_name": "search by name",
     "typing": "typing",
