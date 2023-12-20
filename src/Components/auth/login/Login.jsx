@@ -5,10 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import config from "../../../../config";
+import { siteDirection } from "../../../hooks/useLocale";
+import DotsLoading from "../../Loaders/DotsLoading";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [verify, setVerify] = useState(false);
+  const [spinner, setSpinner] = useState(false);
 
   const nav = useNavigate();
 
@@ -37,14 +40,20 @@ const Login = () => {
   };
 
   const submit = async (value) => {
-    const { data } = await axios.post(
-      `${config.bseUrl}/api/v1/auth/logIn`,
-      value
-    );
+    setSpinner(true);
+    await axios
+      .post(`${config.bseUrl}/api/v1/auth/logIn`, value)
+      .then(({ data }) => {
+        // set token to cookies
+        Cookies.set("userToken", data.token, {
+          expires: 365,
+        });
 
-    if (data.message === "تم تسجيل الحساب") {
-      nav("/");
-    }
+        if (data.message === "تم تسجيل الحساب") {
+          setSpinner(false);
+          nav("/");
+        }
+      });
   };
 
   // Formik
@@ -182,15 +191,23 @@ const Login = () => {
                 )}
               </div>
               {/* ------- Password ------- */}
-              <button
-                type="submit"
-                style={{
-                  "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
-                }}
-                className="bg-[#28D8AE] rounded-[14px] text-[16px] h-12 flex items-center justify-center gap-1 w-full mb-4"
-              >
-                <span className="text-base">تسجيل الدخول</span>
-              </button>
+              {spinner ? (
+                <>
+                  <div className="flex justify-center items-center">
+                    <DotsLoading />
+                  </div>
+                </>
+              ) : (
+                <button
+                  type="submit"
+                  style={{
+                    "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
+                  }}
+                  className="bg-[#28D8AE] rounded-[14px] text-[16px] h-12 flex cursor-pointer items-center justify-center gap-1 w-full mb-4"
+                >
+                  <span className="text-base">تسجيل الدخول</span>
+                </button>
+              )}
             </form>
 
             {/* forget password  */}
@@ -208,7 +225,7 @@ const Login = () => {
           </div>
           {/* -------- or --------  */}
           {/* -------- Social --------  */}
-          <div className="socials">
+          <div style={{ direction: `${siteDirection}` }} className="socials">
             {/*------- Facebook ------- */}
             <div className="social cursor-pointer bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
               <div className="icon">
