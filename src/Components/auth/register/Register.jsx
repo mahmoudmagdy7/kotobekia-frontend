@@ -7,6 +7,7 @@ import * as solarIcons from "solar-icon-set";
 import config from "../../../../config";
 import Cookies from "js-cookie";
 import DotsLoading from "./../../Loaders/DotsLoading";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -97,26 +98,34 @@ const Register = () => {
 
     return error;
   };
+  // Validation function
 
   // fetch Register Api
   const apiRegister = async (val) => {
     setSpinner(true);
-    const { data } = await axios.post(
-      `${config.bseUrl}/api/v1/auth/signUp`,
-      val
-    );
+    const { data } = await axios
+      .post(`${config.bseUrl}/api/v1/auth/signUp`, val)
+      .catch(({ response }) => {
+        setSpinner(false);
+        if (response.data.msgError === "الايميل مستخدم بالفعل") {
+          toast.error(response.data.msgError);
+        }
+      });
+    // Navigate to Home
+    if (data.message === "تم تسجيل الحساب") {
+      setSpinner(false);
+      setTimeout(() => {
+        setVerify(true);
+      }, 1000);
+    }
+    // Navigate to Home
 
     // set token to cookies
     Cookies.set("userToken", data.token, {
       expires: 365,
     });
-
-    // Navigate to Home
-    if (data.message === "تم تسجيل الحساب") {
-      setSpinner(false);
-      setVerify(true);
-    }
   };
+  // fetch Register Api
   // Submit Form
   const submit = async (value) => {
     if (value.birthDate.day < 10) {
@@ -132,11 +141,11 @@ const Register = () => {
       value.birthDate.month +
       "-" +
       value.birthDate.year;
-    console.log(value);
     await apiRegister(value);
 
     setVerify(true);
   };
+  // Submit Form
   // Register Formik
   const registerFormik = useFormik({
     initialValues: {
@@ -153,10 +162,10 @@ const Register = () => {
     validate: validation,
     onSubmit: submit,
   });
+  // Register Formik
 
   ///////////////////// Verify Formik /////////////////////
-
-  // Validate Func
+  // Start Validate Func
   const vaidateVerify = (value) => {
     const error = {};
 
@@ -209,8 +218,18 @@ const Register = () => {
 
     return error;
   };
+  //  End Validate Func
 
-  // Verify Formik
+  //  Start  default input
+  const inputDefault = (value) => {
+    value.num1 = "";
+    value.num2 = "";
+    value.num3 = "";
+    value.num4 = "";
+  };
+  // End  default input
+
+  // Start Verify Formik
   const verifyFormik = useFormik({
     initialValues: {
       email: "",
@@ -226,16 +245,44 @@ const Register = () => {
       value.email = registerFormik.values.email;
       value.OTP = `${value.OTP.num1}${value.OTP.num2}${value.OTP.num3}${value.OTP.num4}`;
       setSpinner(true);
-      const { data } = await axios.post(
-        `${config.bseUrl}/api/v1/auth/verify-OTP`,
-        value
-      );
-      if (data.message === "OTP Verified Successfully") {
+      try {
+        await axios
+          .post(`${config.bseUrl}/api/v1/auth/verify-OTP`, value)
+          .then(({ data }) => {
+            if (data.message === "OTP Verified Successfully") {
+              setSpinner(false);
+              toast.success(data.message);
+              setTimeout(() => {
+                nav("/");
+              }, 2000);
+            }
+          });
+      } catch ({ response }) {
         setSpinner(false);
-        nav("/");
+        inputDefault(value);
+        if (response.data.msgError === "Invalid OTP") {
+          toast.error(response.data.msgError);
+        }
       }
     },
   });
+  //  End Verify Formik
+
+  //****** Resend OTP ******//
+  const resendOtp = async () => {
+    await axios
+      .post(`${config.bseUrl}/api/v1/auth/reSend-OTP`, {
+        email: registerFormik.values.email,
+      })
+      .then(({ data }) => {
+        toast.success(data.message);
+      })
+      .catch(({ response }) => {
+        console.log(response);
+      });
+  };
+  //****** Resend OTP ******//
+
   /******************* Verify Formik *******************/
 
   return (
@@ -246,7 +293,7 @@ const Register = () => {
             verify ? "bg-white" : ""
           }  py-6 rounded-[14px]`}
         >
-          {/* Head Title  */}
+          {/* $$$$$$$$$$$$$$$$$ Head Title $$$$$$$$$$$$$$$$$  */}
           <div className="title ">
             {verify ? (
               <>
@@ -304,10 +351,11 @@ const Register = () => {
               </>
             )}
           </div>
-          {/* Head Title  */}
+          {/* $$$$$$$$$$$$$$$$$ Head Title $$$$$$$$$$$$$$$$$ */}
 
-          {verify ? null : (
+          {!verify ? (
             <>
+              {/*########## Social {/*########## */}
               <div className="social">
                 {/*------- Facebook ------- */}
                 <div className="soial bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
@@ -388,40 +436,46 @@ const Register = () => {
                 </div>
                 {/* ------- Google ------- */}
               </div>
-
+              {/*########## Social {/*########## */}
+              {/*********** Or Line {/*********** */}
               <div className="or mt-8 relative">
                 <div className="line h-[2px] bg-[#909091] w-[75%] mx-auto"></div>
                 <span className=" block text-[#909091] px-3 text-xl font-medium bg-[#eae9eb] absolute top-[-20px] start-[50%] translate-x-[50%]">
                   او
                 </span>
               </div>
+              {/*********** Or Line {/*********** */}
             </>
-          )}
+          ) : null}
           {/* -------- Form --------  */}
           <div className="form mt-4">
             {verify ? (
               <>
                 {/* -------- Verify Form --------  */}
                 <form onSubmit={verifyFormik.handleSubmit}>
-                  {/* ------- Verify OTP ------- */}
-                  <h5 className="text-base text-center block mb-8 text-[#131313] font-medium">
-                    أدخل رمز OTP
-                  </h5>
+                  {/* -------  OTP Head------- */}
+                  <div className="otp-head">
+                    <h5 className="text-base text-center block mb-8 text-[#131313] font-medium">
+                      أدخل رمز OTP
+                    </h5>
 
-                  <p className="text-sm text-center text-black font-normal">
-                    تم إرسال كود OTP مكون من{" "}
-                    <span className="text-[#939393]">4</span> ارقام علي بريدك
-                    الإلكتروني.
-                  </p>
-                  <span className="text-sm text-black font-normal text-center block  ">
-                    قم بإدخال الكود:
-                  </span>
+                    <p className="text-sm text-center text-black font-normal">
+                      تم إرسال كود OTP مكون من{" "}
+                      <span className="text-[#939393]">4</span> ارقام علي بريدك
+                      الإلكتروني.
+                    </p>
+                    <span className="text-sm text-black font-normal text-center block  ">
+                      قم بإدخال الكود:
+                    </span>
+                  </div>
+                  {/* -------  OTP Head------- */}
 
+                  {/* ------ Inputs Form ------ */}
                   <div
                     style={{ direction: "ltr" }}
                     className="nums mt-4 mb-8 flex gap-5  justify-center  "
                   >
-                    {/* num1  */}
+                    {/* Start num1  */}
                     {verifyFormik.errors?.OTP?.num1 &&
                     verifyFormik.touched?.OTP?.num1 ? (
                       <Input
@@ -450,8 +504,8 @@ const Register = () => {
                         className="  w-[75px] text-[#333] rounded-[14px] text-center bg-[#EFEFEF] outline-none "
                       ></Input>
                     )}
-                    {/* num1  */}
-                    {/* num2  */}
+                    {/* End num1  */}
+                    {/* Start num2  */}
                     {verifyFormik.errors?.OTP?.num2 &&
                     verifyFormik.touched?.OTP?.num2 ? (
                       <Input
@@ -480,9 +534,9 @@ const Register = () => {
                         className="  w-[75px] text-[#333] text-center rounded-[14px] bg-[#EFEFEF] outline-none "
                       ></Input>
                     )}
-                    {/* num2  */}
+                    {/* End num2  */}
 
-                    {/* num3  */}
+                    {/* Start num3  */}
                     {verifyFormik.errors?.OTP?.num3 &&
                     verifyFormik.touched?.OTP?.num3 ? (
                       <Input
@@ -511,8 +565,8 @@ const Register = () => {
                         className="  w-[75px] text-[#333] text-center rounded-[14px] bg-[#EFEFEF] outline-none "
                       ></Input>
                     )}
-                    {/* num3  */}
-                    {/* num4  */}
+                    {/* End num3  */}
+                    {/* Start num4  */}
                     {verifyFormik.errors?.OTP?.num4 &&
                     verifyFormik.touched?.OTP?.num4 ? (
                       <Input
@@ -541,10 +595,11 @@ const Register = () => {
                         className="  w-[75px] text-[#333] text-center rounded-[14px] bg-[#EFEFEF] outline-none "
                       ></Input>
                     )}
-                    {/* num4  */}
+                    {/* End num4  */}
                   </div>
+                  {/* ------ Inputs Form ------ */}
 
-                  {/* ------- Verify OTP ------- */}
+                  {/* Submit Botton  */}
                   {spinner ? (
                     <>
                       <div className="flex justify-center items-center">
@@ -562,7 +617,22 @@ const Register = () => {
                       value={"تأكيد"}
                     />
                   )}
+                  {/* Submit Botton  */}
                 </form>
+                {/* Resend Otp  */}
+                {verify ? (
+                  <p className="text-[#131313] text-[13px] font-bold text-center  mt-6">
+                    <span
+                      className="text-[#28D8AE] underline cursor-pointer"
+                      onClick={() => resendOtp()}
+                    >
+                      إعادة ارسال الكود
+                    </span>
+                    <span> OTP </span>
+                    لم تتلقي رمز ؟
+                  </p>
+                ) : null}
+                {/* Resend Otp  */}
                 {/* -------- Verify Form --------  */}
               </>
             ) : (
@@ -912,7 +982,7 @@ const Register = () => {
                     </div>
                   </div>
                   {/* ------- date ------- */}
-
+                  {/* Submit Botton  */}
                   {spinner ? (
                     <>
                       <div className="flex justify-center items-center">
@@ -932,17 +1002,25 @@ const Register = () => {
                       value={"إنشاء حساب"}
                     />
                   )}
+                  {/* Submit Botton  */}
                 </form>
-                {/* -------- Register Form --------  */}
+                {/* if you have Account  */}
+                {verify ? null : (
+                  <p className="text-[#131313] text-[13px] font-bold text-center mt-6">
+                    لديك حساب؟
+                    <Link
+                      to={"/auth/login"}
+                      className="text-[#28D8AE] underline"
+                    >
+                      {" "}
+                      تسجيل الدخول
+                    </Link>
+                  </p>
+                )}
+                {/* if you have Account  */}
               </>
             )}
-
-            <p className="text-[#131313] text-[13px] font-bold text-center mt-6">
-              {verify ? <> لم تتلقى رمز OTP؟ </> : <>لديك حساب؟ </>}
-              <Link to={"/auth/login"} className="text-[#28D8AE] underline">
-                {verify ? <>إعادة إرسال الكود</> : <>تسجيل الدخول</>}
-              </Link>
-            </p>
+            {/* -------- Register Form --------  */}
           </div>
           {/* -------- Form --------  */}
         </div>

@@ -25,6 +25,9 @@ import { SocketProvider } from "./app/SocketContext";
 import { LoginProtector } from "./Components/Protectors/LoginProtector.jsx";
 import AddBook from "./pages/AddBook/AddBook.jsx";
 
+// react hot toast
+import toast, { Toaster } from "react-hot-toast";
+
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
   { path: "*", element: <h1>Not found</h1> },
