@@ -4,9 +4,12 @@ import { useLayoutEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
 import NavScroll from "./NavScroll";
 import NavbarTop from "./NavbarTop";
+import config from "../../../../config";
 
 const NavHeader = () => {
   const [makeScroll, setMakeScroll] = useState(false);
+  const [location, setLocation] = useState(false);
+  const locationList = config.getCityList();
 
   // const [lang, setLang] = useState(null);
 
@@ -29,15 +32,14 @@ const NavHeader = () => {
               <div className="logo py-4">
                 <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" />
               </div>
-              {/* mobile-Lang */}
-
+              {/* ---------- mobile-Lang ----------*/}
               <div
-                className="navbar-lang  flex items-center    bg-[#F3F4F7] w-10 cursor-pointer lg:flex items-center justify-center gap-[5px] rounded-[10px]"
+                className="navbar-lang  flex bg-[#F3F4F7] w-10 cursor-pointer lg:hidden items-center justify-center gap-[5px] rounded-[10px]"
                 style={{ fontFamily: "Noto Sans Arabic" }}
               >
                 <Button
                   size="sm"
-                  className=" text-[#464646] text-[14px] font-bold w-full text-center items-center"
+                  className=" text-[#464646] text-[14px] font-bold w-full text-center"
                   onClick={() => {
                     if (localStorage.getItem("i18nextLng") == "en") {
                       localStorage.setItem("i18nextLng", "ar");
@@ -54,18 +56,61 @@ const NavHeader = () => {
                   {localStorage.getItem("i18nextLng") == "en" ? "AR" : "EN"}
                 </Button>
               </div>
-              {/* Mobile-Location */}
-              <div className="navbar-location ms-auto  px-4  flex lg:hidden w-[150px] justify-center items-center gap-[10px] rounded-[8px] py-1  cursor-pointer bg-[#F3F4F7]">
-                <div className="txt">
-                  <span className="text-[#939393] text-[10px] font-medium block">Your Location</span>
-                  <span className="text-[#30A79F] text-[10px] font-bold ">Select a Location</span>
-                </div>
+              {/* ---------- mobile-Lang ---------- */}
+              {/* ---------- Mobile/Tablet-Location ---------- */}
+              <div className="navbar-location ms-auto  px-4 relative block lg:hidden w-[150px] h-[48px]  rounded-[8px] py-1  cursor-pointer bg-[#F3F4F7]">
+                <div className="flex justify-center items-center gap-[10px]">
+                  <div
+                    className="txt"
+                    style={{ "font-family": "Noto Sans Arabic" }}
+                  >
+                    <span className="text-[#939393] text-[10px] font-medium block">
+                    {localStorage.getItem("i18nextLng") == "en" ? "Your Location" : "موقعك"}
 
-                <div className="arrows">
-                  <solarIcons.AltArrowDown size={16} color="#1C274C" />
+                    </span>
+                    <span className="text-[#30A79F] text-[10px] font-bold ">
+                    {localStorage.getItem("i18nextLng") == "en" ? "Select a Location" : "اختر الموقع"}
+                      
+                    </span>
+                  </div>
+                  <div className="arrows">
+                    {location ? (
+                      <div className="icon" onClick={() => setLocation(false)}>
+                        <solarIcons.CloseSquare size={16} color="#1C274C" />
+                      </div>
+                    ) : (
+                      <div className="icon" onClick={() => setLocation(true)}>
+                        <solarIcons.AltArrowDown size={16} color="#1C274C" />
+                      </div>
+                    )}
+                  </div>
                 </div>
+                {/* ----------- Location List ----------- */}
+                {location ? (
+                  <>
+                    <div className=" location-list z-[999999] overflow-auto absolute start-0 top-[101%] border-1 border-[#75757569] flex lg:hidden w-[150px] justify-center items-center gap-[10px] rounded-[10px] cursor-pointer text-[#333] bg-[#F3F4F7]">
+                      <ul
+                        name=""
+                        id=""
+                        className=" list-none w-full max-h-[350px] "
+                      >
+                        {locationList.map((item) => (
+                          <>
+                            <li
+                              value={item.city}
+                              className="select-none transition-all hover:bg-[#e2e2e2] py-1 px-3"
+                            >
+                              {item.value}
+                            </li>
+                          </>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                ) : null}
+                {/* ----------- Location List ----------- */}
               </div>
-              {/* Mobile-Location */}
+              {/* ---------- Mobile/Tablet-Location ---------- */}
             </div>
           </div>
           {makeScroll ? <NavScroll /> : <NavbarTop />}

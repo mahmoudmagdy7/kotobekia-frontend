@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as solarIcons from "solar-icon-set";
 import config from "../../../../config";
 import Cookies from "js-cookie";
+import DotsLoading from "./../../Loaders/DotsLoading";
 
 const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -14,11 +15,13 @@ const Register = () => {
   const [verify, setVerify] = useState(false);
   const nav = useNavigate();
 
+  const [spinner, setSpinner] = useState(false);
+
   ///////////////////// Register Formik /////////////////////
   // Validation function
   const validation = (value) => {
     const error = {};
-    // const { setFieldValue, setFieldTouched } = formikBag;nmp 
+    // const { setFieldValue, setFieldTouched } = formikBag;nmp
     // validate name
     if (!value.fullName) {
       error.fullName = "Your name is required";
@@ -97,6 +100,7 @@ const Register = () => {
 
   // fetch Register Api
   const apiRegister = async (val) => {
+    setSpinner(true);
     const { data } = await axios.post(
       `${config.bseUrl}/api/v1/auth/signUp`,
       val
@@ -107,9 +111,9 @@ const Register = () => {
       expires: 365,
     });
 
-    console.log(data);
     // Navigate to Home
     if (data.message === "تم تسجيل الحساب") {
+      setSpinner(false);
       setVerify(true);
     }
   };
@@ -221,12 +225,13 @@ const Register = () => {
     onSubmit: async (value) => {
       value.email = registerFormik.values.email;
       value.OTP = `${value.OTP.num1}${value.OTP.num2}${value.OTP.num3}${value.OTP.num4}`;
-
+      setSpinner(true);
       const { data } = await axios.post(
         `${config.bseUrl}/api/v1/auth/verify-OTP`,
         value
       );
       if (data.message === "OTP Verified Successfully") {
+        setSpinner(false);
         nav("/");
       }
     },
@@ -412,7 +417,10 @@ const Register = () => {
                     قم بإدخال الكود:
                   </span>
 
-                  <div className="nums mt-4 mb-8 flex gap-5  justify-center  ">
+                  <div
+                    style={{ direction: "ltr" }}
+                    className="nums mt-4 mb-8 flex gap-5  justify-center  "
+                  >
                     {/* num1  */}
                     {verifyFormik.errors?.OTP?.num1 &&
                     verifyFormik.touched?.OTP?.num1 ? (
@@ -537,26 +545,20 @@ const Register = () => {
                   </div>
 
                   {/* ------- Verify OTP ------- */}
-                  {verify ? (
-                    <input
-                      type="submit"
-                      style={{
-                        "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
-                      }}
-                      disabled={!(verifyFormik.isValid && verifyFormik.dirty)}
-                      className="bg-[#28D8AE] rounded-[14px]  text-base h-12 flex items-center justify-center gap-1 w-full"
-                      value={"تأكيد"}
-                    />
+                  {spinner ? (
+                    <>
+                      <div className="flex justify-center items-center">
+                        <DotsLoading />
+                      </div>
+                    </>
                   ) : (
                     <input
                       type="submit"
                       style={{
                         "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
                       }}
-                      disabled={
-                        !(registerFormik.isValid && registerFormik.dirty)
-                      }
-                      className="bg-[#28D8AE] rounded-[14px]  text-base h-12 flex items-center justify-center gap-1 w-full"
+                      disabled={!(verifyFormik.isValid && verifyFormik.dirty)}
+                      className="bg-[#28D8AE] rounded-[14px]  text-base h-12 cursor-pointer flex items-center justify-center gap-1 w-full"
                       value={"تأكيد"}
                     />
                   )}
@@ -645,23 +647,23 @@ const Register = () => {
                   {/* ------- Email ------- */}
                   {/* ------- Phone Number ------- */}
                   {/* <div className="form-group mb-4">
-                <label
-                  htmlFor=""
-                  className="text-base text-[#131313] font-medium"
-                >
-                  رقم التليفون
-                </label>
-                <Input
-                  type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  onChange={registerFormik.handleChange}
-                  onBlur={registerFormik.handleBlur}
-                  value={registerFormik.values.phoneNumber}
-                  placeholder="201123456789+"
-                  className="mt-1 text-[#333]"
-                />
-              </div> */}
+                    <label
+                      htmlFor=""
+                      className="text-base text-[#131313] font-medium"
+                    >
+                      رقم التليفون
+                    </label>
+                    <Input
+                      type="text"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      onChange={registerFormik.handleChange}
+                      onBlur={registerFormik.handleBlur}
+                      value={registerFormik.values.phoneNumber}
+                      placeholder="201123456789+"
+                      className="mt-1 text-[#333]"
+                    />
+                  </div> */}
                   {/* ------- Phone Number ------- */}
                   {/* ------- Password ------- */}
                   <div className="form-group  mb-4">
@@ -910,15 +912,26 @@ const Register = () => {
                     </div>
                   </div>
                   {/* ------- date ------- */}
-                  <input
-                    type="submit"
-                    style={{
-                      "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
-                    }}
-                    disabled={!(registerFormik.isValid && registerFormik.dirty)}
-                    className="bg-[#28D8AE] rounded-[14px]  text-base h-12 flex items-center justify-center gap-1 w-full"
-                    value={"إنشاء حساب"}
-                  />
+
+                  {spinner ? (
+                    <>
+                      <div className="flex justify-center items-center">
+                        <DotsLoading />
+                      </div>
+                    </>
+                  ) : (
+                    <input
+                      type="submit"
+                      style={{
+                        "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
+                      }}
+                      disabled={
+                        !(registerFormik.isValid && registerFormik.dirty)
+                      }
+                      className="bg-[#28D8AE] rounded-[14px]  text-base h-12 flex items-center cursor-pointer justify-center gap-1 w-full"
+                      value={"إنشاء حساب"}
+                    />
+                  )}
                 </form>
                 {/* -------- Register Form --------  */}
               </>
