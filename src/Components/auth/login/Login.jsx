@@ -8,6 +8,7 @@ import config from "../../../../config";
 import { siteDirection } from "../../../hooks/useLocale";
 import DotsLoading from "../../Loaders/DotsLoading";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -38,25 +39,38 @@ const Login = () => {
 
     return error;
   };
-
+  // Validation function
+  // Submit Function
   const submit = async (value) => {
     setSpinner(true);
-    await axios
-      .post(`${config.bseUrl}/api/v1/auth/logIn`, value)
-      .then(({ data }) => {
-        // set token to cookies
-        Cookies.set("userToken", data.token, {
-          expires: 365,
+
+    try {
+      await axios
+        .post(`${config.bseUrl}/api/v1/auth/logIn`, value)
+        .then(({ data }) => {
+          // set token to cookies
+          Cookies.set("userToken", data.token, {
+            expires: 365,
+          });
+
+          if (data.message === "تم تسجيل الحساب") {
+            toast.success(data.message);
+            setSpinner(false);
+            setTimeout(() => {
+              nav("/");
+            }, 1500);
+          }
         });
-
-        if (data.message === "تم تسجيل الحساب") {
-          setSpinner(false);
-          nav("/");
-        }
-      });
+    } catch ({ response }) {
+      if (response.data.msgError === "هذا الحساب غير موجود") {
+        toast.error(response.data.msgError);
+        setSpinner(false);
+      }
+    }
   };
+  // Submit Function
 
-  // Formik
+  // Register Formik
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -67,6 +81,7 @@ const Login = () => {
       submit(value);
     },
   });
+  // Register Formik
 
   return (
     <>
@@ -307,12 +322,15 @@ const Login = () => {
           </div>
           {/* -------- Social --------  */}
         </div>
-        <p className="text-[#131313] text-[13px] font-bold text-center mt-6">
+
+        {/* if you have Dont Account  */}
+        <p className="text-[#131313] text-[13px] font-bold text-center cursor-pointer mt-6">
           ليس لديك حساب؟
           <Link to={"/auth/register"} className="text-[#28D8AE] underline ms-1">
             سجل الأن
           </Link>
         </p>
+        {/* if you have Dont Account  */}
       </section>
     </>
   );
