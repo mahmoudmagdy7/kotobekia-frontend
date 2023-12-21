@@ -1,15 +1,15 @@
 import * as solarIcons from "solar-icon-set";
 import { useParams } from "react-router";
-import PartsOfCategory from "../PartsOfCategory/PartsOfCategory";
+import PartsOfCategory from "../../Components/PartsOfCategory/PartsOfCategory";
 import { useQuery } from "react-query";
 import axios from "axios";
 // keen slider
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { useState } from "react";
-import Card from "./../Card/Card";
+import Card from "../../Components/Card/Card";
 import config from "../../../config";
-import CardSkeleton from "./../Card/CardSkeleton";
+import CardSkeleton from "../../Components/Card/CardSkeleton";
 
 const PostDetails = () => {
   const { id } = useParams();

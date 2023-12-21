@@ -37,7 +37,7 @@ function Layout() {
 
   return (
     <>
-      <div className=" fixed w-[400px] z-[9999999999999999999] bg-green-400 text-white">
+      <div className=" fixed w-[400px] z-[9999999999999999999]">
         <Toaster   toastOptions={toastOption}  />
       </div>
       <MainHeader />

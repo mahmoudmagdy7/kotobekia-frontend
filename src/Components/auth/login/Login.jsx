@@ -10,13 +10,33 @@ import DotsLoading from "../../Loaders/DotsLoading";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
+import { getDataFromToken } from "../../../app/Slices/userDataSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
+
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [spinner, setSpinner] = useState(false);
+  const dispatch = useDispatch();
 
   const nav = useNavigate();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+
+  const x = useSelector((state) => state.userData);
+
+  if(x){
+    console.log(x);
+  }
+
+  const handleUser = () => {
+    // const inCodedData = ;
+    // const deCodedData = jwtDecode(inCodedData);
+    // console.log(deCodedData);
+    dispatch(getDataFromToken(jwtDecode(Cookies.get("userToken"))));
+    window.location.reload();
+  };
 
   // Validation function
   const validation = (value) => {
@@ -54,11 +74,13 @@ const Login = () => {
           });
 
           if (data.message === "تم تسجيل الحساب") {
+            handleUser();
+
             toast.success(data.message);
             setSpinner(false);
             setTimeout(() => {
               nav("/");
-            }, 1500);
+            },3000);
           }
         });
     } catch ({ response }) {
@@ -70,7 +92,7 @@ const Login = () => {
   };
   // Submit Function
 
-  // Register Formik
+  // Login Formik
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -81,7 +103,7 @@ const Login = () => {
       submit(value);
     },
   });
-  // Register Formik
+  // Login Formik
 
   return (
     <>

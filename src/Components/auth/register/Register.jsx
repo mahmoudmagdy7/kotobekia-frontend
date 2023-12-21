@@ -103,27 +103,26 @@ const Register = () => {
   // fetch Register Api
   const apiRegister = async (val) => {
     setSpinner(true);
-    const { data } = await axios
+    await axios
       .post(`${config.bseUrl}/api/v1/auth/signUp`, val)
+      .then(({ data }) => {
+        // Navigate to Home
+        if (data.message === "تم تسجيل الحساب") {
+          setSpinner(false);
+          setVerify(true);
+        }
+        // Navigate to Home
+        // set token to cookies
+        Cookies.set("userToken", data.token, {
+          expires: 365,
+        });
+      })
       .catch(({ response }) => {
         setSpinner(false);
         if (response.data.msgError === "الايميل مستخدم بالفعل") {
           toast.error(response.data.msgError);
         }
       });
-    // Navigate to Home
-    if (data.message === "تم تسجيل الحساب") {
-      setSpinner(false);
-      setTimeout(() => {
-        setVerify(true);
-      }, 1000);
-    }
-    // Navigate to Home
-
-    // set token to cookies
-    Cookies.set("userToken", data.token, {
-      expires: 365,
-    });
   };
   // fetch Register Api
   // Submit Form

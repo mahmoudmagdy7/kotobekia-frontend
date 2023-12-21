@@ -8,24 +8,47 @@ import axios from "axios";
 import config from "../../../config";
 import { useSocket } from "../../app/SocketContext";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getDataFromToken } from "../../app/Slices/userDataSlice";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 function Home() {
+  const {value} = useSelector((state) => state.userData);
+  console.log(value);
+  const dispatch = useDispatch();
+  // console.log(state.data);
   function getHomeData() {
     return axios.get(`${config.bseUrl}/api/v1/levels/levels-posts`);
   }
   document.body.classList.remove("overflow-hidden");
 
-  const { isLoading, isError, data, refetch, isRefetching } = useQuery("getHomeData", getHomeData, {
-    refetchOnWindowFocus: false, // to prevent the refetching on window focus
-  });
+  const { isLoading, isError, data, refetch, isRefetching } = useQuery(
+    "getHomeData",
+    getHomeData,
+    {
+      refetchOnWindowFocus: false, // to prevent the refetching on window focus
+    }
+  );
 
   const socket = useSocket();
+
+  useEffect(() => {
+    if (!value) {
+      dispatch(getDataFromToken(jwtDecode(Cookies.get("userToken"))));
+    }
+  }, []);
 
   return (
     <>
       <MainSlider />
       {console.log("data from home" + data)}
-      <PartsOfCategory isLoading={isLoading} title={"KG"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[0]} />
+      <PartsOfCategory
+        isLoading={isLoading}
+        title={"KG"}
+        icon={<solarIcons.Backpack size={24} className="icon-outline" />}
+        data={data?.data?.result[0]}
+      />
       <PartsOfCategory
         isLoading={isLoading}
         title={"primary_Education"}
@@ -44,7 +67,12 @@ function Home() {
         icon={<solarIcons.Backpack size={24} className="icon-outline" />}
         data={data?.data?.result[3]}
       />
-      <PartsOfCategory isLoading={isLoading} title={"general"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[4]} />
+      <PartsOfCategory
+        isLoading={isLoading}
+        title={"general"}
+        icon={<solarIcons.Backpack size={24} className="icon-outline" />}
+        data={data?.data?.result[4]}
+      />
       <PartnerSection />
     </>
   );

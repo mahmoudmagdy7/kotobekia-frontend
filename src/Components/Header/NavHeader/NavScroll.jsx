@@ -2,15 +2,19 @@ import { Button } from "@nextui-org/react";
 import userAvatar from "../../../../public/assets/images/user.png";
 import logo from "/assets/logo.png";
 import * as solarIcons from "solar-icon-set";
-import isLoggedIn from "../../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { changeSiteLang, siteLanguage } from "../../../hooks/useLocale";
 import { useState } from "react";
 import config from "../../../../config";
+import { useAutho } from './../../../hooks/useAutho';
 
 const NavScroll = () => {
   const [location, setLocation] = useState(false);
   const locationList = config.getCityList();
+  const {isLoggedIn} = useAutho();
+
+
+
   return (
     <>
       <div
@@ -164,9 +168,12 @@ const NavScroll = () => {
                 <img src={userAvatar} alt="User" />
                 <div className="name text-[12px]">
                   <span className="block text-[#464646] ">hello, Mohamed</span>
-                  <span className="text-[#1F292F] font-semibold">
+                  <Link
+                    to={"/profile"}
+                    className="text-[#1F292F] font-semibold"
+                  >
                     Your account
-                  </span>
+                  </Link>
                 </div>
               </div>
               {/* Desktop user  */}
