@@ -118,6 +118,8 @@ const Register = () => {
         });
       })
       .catch(({ response }) => {
+        console.log(response.data.msgError);
+        setVerify(false);
         setSpinner(false);
         if (response.data.msgError === "الايميل مستخدم بالفعل") {
           toast.error(response.data.msgError);
@@ -142,7 +144,6 @@ const Register = () => {
       value.birthDate.year;
     await apiRegister(value);
 
-    setVerify(true);
   };
   // Submit Form
   // Register Formik
