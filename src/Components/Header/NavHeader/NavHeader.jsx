@@ -11,6 +11,9 @@ const NavHeader = () => {
   const [location, setLocation] = useState(false);
   const locationList = config.getCityList();
 
+  // const { isLoggedIn } = useSelector((state) => state.userData);
+  // const dispatch = useDispatch();
+
   // const [lang, setLang] = useState(null);
 
   useLayoutEffect(() => {
@@ -21,6 +24,10 @@ const NavHeader = () => {
         setMakeScroll(false);
       }
     };
+
+    // if (isLoggedIn === null && Cookies.get("userToken")) {
+    //   dispatch(getIsLogged());
+    // }
   }, []);
 
   return (
@@ -65,12 +72,14 @@ const NavHeader = () => {
                     style={{ "font-family": "Noto Sans Arabic" }}
                   >
                     <span className="text-[#939393] text-[10px] font-medium block">
-                    {localStorage.getItem("i18nextLng") == "en" ? "Your Location" : "موقعك"}
-
+                      {localStorage.getItem("i18nextLng") == "en"
+                        ? "Your Location"
+                        : "موقعك"}
                     </span>
                     <span className="text-[#30A79F] text-[10px] font-bold ">
-                    {localStorage.getItem("i18nextLng") == "en" ? "Select a Location" : "اختر الموقع"}
-                      
+                      {localStorage.getItem("i18nextLng") == "en"
+                        ? "Select a Location"
+                        : "اختر الموقع"}
                     </span>
                   </div>
                   <div className="arrows">

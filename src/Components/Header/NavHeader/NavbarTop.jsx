@@ -2,13 +2,20 @@ import * as solarIcons from "solar-icon-set";
 import { Button } from "@nextui-org/react";
 import userAvatar from "../../../../public/assets/images/user.png";
 import { Link } from "react-router-dom";
-import isLoggedIn from "../../../hooks/useAuth";
 import { useState } from "react";
 import config from "../../../../config";
+import { useSelector } from "react-redux";
 
 const NavbarTop = () => {
+  // to show location list
   const [location, setLocation] = useState(false);
+
+  // get data of location to append in location list
   const locationList = config.getCityList();
+
+  // get user data form redux
+  const { userData } = useSelector((state) => state.userData);
+
   return (
     <>
       <div className="navBar flex items-center gap-5">
@@ -91,7 +98,7 @@ const NavbarTop = () => {
         </div>
 
         {/* Mobile / Tablet Setting  */}
-        {isLoggedIn ? (
+        {userData ? (
           <div className="navbar-setting lg:hidden  flex items-center gap-1 cursor-pointer">
             <solarIcons.Tuning size={26} color="#1C274C" />
 
@@ -155,15 +162,15 @@ const NavbarTop = () => {
         {/* Desktop-Lang */}
 
         {/* Desktop user  */}
-        {isLoggedIn ? (
+        {userData ? (
           <>
             <div className="user hidden lg:flex items-center gap-3">
               <img src={userAvatar} alt="User" />
               <div className="name text-[12px]">
                 <span className="block text-[#464646] ">hello, Mohamed</span>
-                <span className="text-[#1F292F] font-semibold">
+                <Link to={"/profile"} className="text-[#1F292F] font-semibold">
                   Your account
-                </span>
+                </Link>
               </div>
             </div>
             {/* Desktop user  */}
