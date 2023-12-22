@@ -1,13 +1,13 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAutho } from "./../../hooks/useAutho";
+import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 export const LoginProtector = ({ children }) => {
-  const { isLoggedIn } = useAutho();
-  console.log(isLoggedIn);
-  if (isLoggedIn) {
-    return children;
-  } else {
+  const { userData } = useSelector((state) => state.userData);
+  if (!userData && !Cookies.get("userToken")) {
     return <Navigate to="/auth/login" />;
+  } else {
+    return children;
   }
 };

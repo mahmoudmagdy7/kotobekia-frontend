@@ -59,7 +59,14 @@ const route = createBrowserRouter([
       { path: "/auth/register", element: <Register /> },
       { path: "/auth/verify", element: <Register /> },
 
-      { path: "/profile", element: <ProfileData /> },
+      {
+        path: "/profile",
+        element: (
+          <LoginProtector>
+            <ProfileData />
+          </LoginProtector>
+        ),
+      },
     ],
   },
 ]);

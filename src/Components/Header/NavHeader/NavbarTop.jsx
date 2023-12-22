@@ -4,14 +4,17 @@ import userAvatar from "../../../../public/assets/images/user.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import config from "../../../../config";
-import { useAutho } from './../../../hooks/useAutho';
-
+import { useSelector } from "react-redux";
 
 const NavbarTop = () => {
+  // to show location list
   const [location, setLocation] = useState(false);
+
+  // get data of location to append in location list
   const locationList = config.getCityList();
 
-    const {isLoggedIn} = useAutho();
+  // get user data form redux
+  const { userData } = useSelector((state) => state.userData);
 
   return (
     <>
@@ -95,7 +98,7 @@ const NavbarTop = () => {
         </div>
 
         {/* Mobile / Tablet Setting  */}
-        {isLoggedIn ? (
+        {userData ? (
           <div className="navbar-setting lg:hidden  flex items-center gap-1 cursor-pointer">
             <solarIcons.Tuning size={26} color="#1C274C" />
 
@@ -159,7 +162,7 @@ const NavbarTop = () => {
         {/* Desktop-Lang */}
 
         {/* Desktop user  */}
-        {isLoggedIn ? (
+        {userData ? (
           <>
             <div className="user hidden lg:flex items-center gap-3">
               <img src={userAvatar} alt="User" />

@@ -9,15 +9,12 @@ import config from "../../../config";
 import { useSocket } from "../../app/SocketContext";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDataFromToken } from "../../app/Slices/userDataSlice";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 
 function Home() {
-  const {value} = useSelector((state) => state.userData);
-  console.log(value);
+  const { isLoggedIn } = useSelector((state) => state.userData);
   const dispatch = useDispatch();
-  // console.log(state.data);
   function getHomeData() {
     return axios.get(`${config.bseUrl}/api/v1/levels/levels-posts`);
   }
@@ -33,11 +30,11 @@ function Home() {
 
   const socket = useSocket();
 
-  useEffect(() => {
-    if (!value) {
-      dispatch(getDataFromToken(jwtDecode(Cookies.get("userToken"))));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isLoggedIn === null && Cookies.get("userToken")) {
+  //     dispatch(getIsLogged());
+  //   }
+  // }, []);
 
   return (
     <>

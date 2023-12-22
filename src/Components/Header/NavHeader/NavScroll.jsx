@@ -6,14 +6,16 @@ import { Link } from "react-router-dom";
 import { changeSiteLang, siteLanguage } from "../../../hooks/useLocale";
 import { useState } from "react";
 import config from "../../../../config";
-import { useAutho } from './../../../hooks/useAutho';
+import { useSelector } from "react-redux";
 
 const NavScroll = () => {
+  // to show location list
   const [location, setLocation] = useState(false);
+  // get data of location to append in location list
   const locationList = config.getCityList();
-  const {isLoggedIn} = useAutho();
 
-
+  // get user data form redux
+  const { userData } = useSelector((state) => state.userData);
 
   return (
     <>
@@ -109,7 +111,7 @@ const NavScroll = () => {
           </div>
 
           {/* Mobile / Tablet Setting  */}
-          {isLoggedIn ? (
+          {userData ? (
             <div className="navbar-setting lg:hidden  flex items-center gap-1 cursor-pointer">
               <solarIcons.Tuning size={26} color="#1C274C" />
               <div className="alarm relative">
@@ -161,7 +163,7 @@ const NavScroll = () => {
           </div>
           {/* Desktop-Lang */}
 
-          {isLoggedIn ? (
+          {userData ? (
             <>
               {/* Desktop user  */}
               <div className="user hidden lg:flex items-center gap-3">

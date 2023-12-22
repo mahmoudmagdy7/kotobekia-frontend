@@ -10,9 +10,9 @@ import DotsLoading from "../../Loaders/DotsLoading";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
-import { getDataFromToken } from "../../../app/Slices/userDataSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { jwtDecode } from "jwt-decode";
+import { getUserData } from "../../../app/Slices/userDataSlice";
+
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,21 +22,6 @@ const Login = () => {
   const nav = useNavigate();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
-
-
-  const x = useSelector((state) => state.userData);
-
-  if(x){
-    console.log(x);
-  }
-
-  const handleUser = () => {
-    // const inCodedData = ;
-    // const deCodedData = jwtDecode(inCodedData);
-    // console.log(deCodedData);
-    dispatch(getDataFromToken(jwtDecode(Cookies.get("userToken"))));
-    window.location.reload();
-  };
 
   // Validation function
   const validation = (value) => {
@@ -60,11 +45,13 @@ const Login = () => {
     return error;
   };
   // Validation function
+
   // Submit Function
   const submit = async (value) => {
     setSpinner(true);
 
     try {
+      // Fetch api
       await axios
         .post(`${config.bseUrl}/api/v1/auth/logIn`, value)
         .then(({ data }) => {
@@ -73,19 +60,38 @@ const Login = () => {
             expires: 365,
           });
 
-          if (data.message === "تم تسجيل الحساب") {
-            handleUser();
+          // get data form token by jwtdecode
+          dispatch(getUserData());
 
+          if (data.message === "تم تسجيل الحساب") {
+            // message to show if login success
             toast.success(data.message);
+
+            // to stop spinner button
             setSpinner(false);
+
             setTimeout(() => {
+              // to navigate to home
               nav("/");
-            },3000);
+            }, 1500);
           }
         });
     } catch ({ response }) {
-      if (response.data.msgError === "هذا الحساب غير موجود") {
+      // Handle Error if Password is false
+      if (response.data.msgError === "كلمة المرور غير صحيحة") {
+        // message to show if login Error
         toast.error(response.data.msgError);
+
+        // to stop spinner button
+        setSpinner(false);
+      }
+
+      // Handle Error if Email is Not Found
+      if (response.data.msgError === "هذا الحساب غير موجود") {
+        // message to show if login Error
+        toast.error(response.data.msgError);
+
+        // to stop spinner button
         setSpinner(false);
       }
     }
