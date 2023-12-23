@@ -288,10 +288,10 @@ const ProfileDesktop = () => {
                         {userData.fullName}
                       </li>
                       <li className="text-[#939393] text-base mb-4">
-                        {userData.birthDate.split("T")[0]}
+                        1-1-1998
                       </li>
                       <li className="text-[#939393] text-base mb-4">
-                        {userData.gender}
+                        ذكر
                       </li>
                     </ul>
                   </div>

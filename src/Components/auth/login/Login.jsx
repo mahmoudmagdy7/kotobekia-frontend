@@ -63,9 +63,10 @@ const Login = () => {
           // get data form token by jwtdecode
           dispatch(getUserData());
 
-          if (data.message === "تم تسجيل الحساب") {
+          if (data.message) {
             // message to show if login success
-            toast.success(data.message);
+            console.log(data);
+            toast.success("نورتنا ي روحي ");
 
             // to stop spinner button
             setSpinner(false);
@@ -77,23 +78,25 @@ const Login = () => {
           }
         });
     } catch ({ response }) {
+      console.log(response);
+      setSpinner(false);
       // Handle Error if Password is false
-      if (response.data.msgError === "كلمة المرور غير صحيحة") {
+      if (response.data.msgError) {
         // message to show if login Error
-        toast.error(response.data.msgError);
+        // toast.error(response.data.msgError);
+        toast.error("في مشكله في الايميل او الباسورد ي توينكز");
 
         // to stop spinner button
-        setSpinner(false);
       }
 
       // Handle Error if Email is Not Found
-      if (response.data.msgError === "هذا الحساب غير موجود") {
-        // message to show if login Error
-        toast.error(response.data.msgError);
+      // if (response.data.msgError === "هذا الحساب غير موجود") {
+      //   // message to show if login Error
+      //   toast.error(response.data.msgError);
 
-        // to stop spinner button
-        setSpinner(false);
-      }
+      //   // to stop spinner button
+      //   setSpinner(false);
+      // }
     }
   };
   // Submit Function
