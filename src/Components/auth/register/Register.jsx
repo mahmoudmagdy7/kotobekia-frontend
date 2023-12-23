@@ -8,10 +8,14 @@ import config from "../../../../config";
 import Cookies from "js-cookie";
 import DotsLoading from "./../../Loaders/DotsLoading";
 import toast from "react-hot-toast";
+import { getUserData } from "../../../app/Slices/userDataSlice";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const dispatch = useDispatch();
 
   const [verify, setVerify] = useState(false);
   const nav = useNavigate();
@@ -106,8 +110,9 @@ const Register = () => {
     await axios
       .post(`${config.bseUrl}/api/v1/auth/signUp`, val)
       .then(({ data }) => {
+        console.log(data);
         // Navigate to Home
-        if (data.message === "تم تسجيل الحساب") {
+        if (data.message) {
           setSpinner(false);
           setVerify(true);
         }
@@ -121,7 +126,7 @@ const Register = () => {
         console.log(response.data.msgError);
         setVerify(false);
         setSpinner(false);
-        if (response.data.msgError === "الايميل مستخدم بالفعل") {
+        if (response.data.msgError) {
           toast.error(response.data.msgError);
         }
       });
@@ -143,7 +148,6 @@ const Register = () => {
       "-" +
       value.birthDate.year;
     await apiRegister(value);
-
   };
   // Submit Form
   // Register Formik
@@ -249,9 +253,12 @@ const Register = () => {
         await axios
           .post(`${config.bseUrl}/api/v1/auth/verify-OTP`, value)
           .then(({ data }) => {
-            if (data.message === "OTP Verified Successfully") {
+            dispatch(getUserData());
+
+            if (data.message) {
               setSpinner(false);
-              toast.success(data.message);
+              // toast.success(data.message);
+              toast.success("احلي مسا علي عيونك ي رايق");
               setTimeout(() => {
                 nav("/");
               }, 2000);
@@ -260,8 +267,9 @@ const Register = () => {
       } catch ({ response }) {
         setSpinner(false);
         inputDefault(value);
-        if (response.data.msgError === "Invalid OTP") {
-          toast.error(response.data.msgError);
+        if (response.data.msgError) {
+          // toast.error(response.data.msgError);
+          toast.error("الرمز غلط ي غالي");
         }
       }
     },
