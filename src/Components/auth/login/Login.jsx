@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import config from "../../../../config";
-import { siteDirection } from "../../../hooks/useLocale";
+import { siteDirection, siteLanguage } from "../../../hooks/useLocale";
 import DotsLoading from "../../Loaders/DotsLoading";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -49,11 +49,14 @@ const Login = () => {
   // Submit Function
   const submit = async (value) => {
     setSpinner(true);
-
     try {
       // Fetch api
       await axios
-        .post(`${config.bseUrl}/api/v1/auth/logIn`, value)
+        .post(`${config.bseUrl}/api/v1/auth/logIn`, value, {
+          headers: {
+            lang: siteLanguage,
+          },
+        })
         .then(({ data }) => {
           // set token to cookies
           Cookies.set("userToken", data.token, {
@@ -63,13 +66,13 @@ const Login = () => {
           // get data form token by jwtdecode
           dispatch(getUserData());
 
+          // to stop spinner button
+          setSpinner(false);
+
           if (data.message) {
             // message to show if login success
             console.log(data);
-            toast.success("نورتنا ي روحي ");
-
-            // to stop spinner button
-            setSpinner(false);
+            toast.success(data.message);
 
             setTimeout(() => {
               // to navigate to home
@@ -79,24 +82,15 @@ const Login = () => {
         });
     } catch ({ response }) {
       console.log(response);
+
+      // to stop spinner button
       setSpinner(false);
+
       // Handle Error if Password is false
       if (response.data.msgError) {
         // message to show if login Error
-        // toast.error(response.data.msgError);
-        toast.error("في مشكله في الايميل او الباسورد ي توينكز");
-
-        // to stop spinner button
+        toast.error(response.data.msgError);
       }
-
-      // Handle Error if Email is Not Found
-      // if (response.data.msgError === "هذا الحساب غير موجود") {
-      //   // message to show if login Error
-      //   toast.error(response.data.msgError);
-
-      //   // to stop spinner button
-      //   setSpinner(false);
-      // }
     }
   };
   // Submit Function

@@ -169,7 +169,7 @@ const NavScroll = () => {
               <div className="user hidden lg:flex items-center gap-3">
                 <img src={userAvatar} alt="User" />
                 <div className="name text-[12px]">
-                  <span className="block text-[#464646] ">hello, Mohamed</span>
+                  <span className="block text-[#464646] ">hello , {userData.fullName}</span>
                   <Link
                     to={"/profile"}
                     className="text-[#1F292F] font-semibold"
