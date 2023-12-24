@@ -16,7 +16,7 @@ function Card({ post }) {
           </figure>{" "}
           <div className="txt bg-white py-2 px-3 rounded-b-[14px]">
             <div className="card-title flex items-center justify-between gap-2">
-              <Link to={"/post/" + post?._id}>
+              <Link to={"/book/" + post?._id}>
                 <h3 className=" text-[14px] md:text-[16px] text-black font-semibold  line-clamp-1">{post?.title}</h3>
               </Link>
               <span className="  py-[2px] px-[10px] text-[12px] bg-[#d4f7ef] text-[#38BC9C]  rounded-[8px]">{post?.price}</span>

@@ -1,5 +1,4 @@
-import { Skeleton, Button, Select, SelectItem } from "@nextui-org/react";
-import Cookies from "js-cookie";
+import { Button, Select, SelectItem } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import NavigationBar from "../../Components/NavigationBar/NavigationBar";
 import * as solaIcons from "solar-icon-set";
@@ -9,7 +8,7 @@ import MobileFilters from "./MobileFilters";
 import config from "../../../config";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardSkeleton from "../../Components/Card/CardSkeleton";
 function Category() {
@@ -21,12 +20,19 @@ function Category() {
   const [currentPage, setCurrentPage] = useState(parseInt(pageFromUrl, 10));
   const { id } = useParams();
   function getCategory(page) {
-    return axios.get(`${config.bseUrl}/api/v1/levels/specific/${id}?page=${page}`);
+    return axios.get(
+      `${config.bseUrl}/api/v1/levels/specific/${id}?page=${page}`
+    );
   }
 
-  const { isLoading, isError, data, refetch, isRefetching } = useQuery(["getSpecificCategory", currentPage], () => getCategory(currentPage), {
-    refetchOnWindowFocus: false, // to prevent the refetching on window focus
-  });
+  const { isLoading, isError, data, refetch, isRefetching } = useQuery(
+    ["getSpecificCategory", currentPage],
+    () => getCategory(currentPage),
+    {
+      refetchOnWindowFocus: false, // to prevent the refetching on window focus
+    }
+  );
+
 
   useEffect(() => {
     window.history.pushState(null, "", `?page=${currentPage}`);
@@ -37,7 +43,9 @@ function Category() {
       <section className="container m-auto grid gap-3 grid-cols-12 relative gap-y-5 ">
         <aside className="lg:col-span-3 hidden lg:block  bg-[#F3F4F7] sticky top-[5.25rem] h-fit   rounded-xl border border-[#EFEFEF] p-5 ">
           <div className=" ">
-            <h3 className="text-xl font-bold text-[#28D8AE] my-2">POST FILTERS</h3>
+            <h3 className="text-xl font-bold text-[#28D8AE] my-2">
+              POST FILTERS
+            </h3>
             <div className="ms-5">
               <DesktopFilters />
             </div>
@@ -60,7 +68,12 @@ function Category() {
             {/* -------- sorting -------- */}
             <div>
               <span className="text-sm">Sort by :</span>
-              <Select labelPlacement="inside" placeholder="Newest" size="xs" className=" w-24">
+              <Select
+                labelPlacement="inside"
+                placeholder="Newest"
+                size="xs"
+                className=" w-24"
+              >
                 <SelectItem key="Newest" value="Newest" className="text-black">
                   Newest
                 </SelectItem>

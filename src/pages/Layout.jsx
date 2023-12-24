@@ -8,9 +8,13 @@ import NavCategory from "../Components/Header/NavCategory/NavCategory";
 import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../app/Slices/userDataSlice";
+import { getCategory } from "../app/Slices/categorySlice";
 function Layout() {
   const { userData } = useSelector((state) => state.userData);
+  const { value } = useSelector((state) => state.category);
   const dispatch = useDispatch();
+
+  console.log(value);
 
   useLayoutEffect(() => {
     if (localStorage.getItem("i18nextLng") == "en") {
@@ -22,6 +26,8 @@ function Layout() {
     if (!userData && Cookies.get("userToken")) {
       dispatch(dispatch(getUserData()));
     }
+
+    dispatch(getCategory("655b4ec133dd362ae53081f7" , 1));
   }, []);
 
   const toastOption = {
