@@ -73,7 +73,6 @@ export const MainChat = () => {
     socket?.emit("join", myId);
     isMobile() ? document.body.classList.add("overflow-hidden") : document.body.classList.remove("overflow-hidden");
   }, []);
-  console.log(loadingConversationMessages);
   return (
     <section className="container ">
       <div className="text-black bg-white mb-5 lg:h-[40rem] grid grid-cols-12 z-[99999999999999999999999] fixed lg:relative  inset-0 h-screen">

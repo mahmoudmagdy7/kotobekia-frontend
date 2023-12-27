@@ -18,7 +18,6 @@ export const ContactCard = ({ conv }) => {
 
   const { onlineUsers } = useSelector((state) => state.chat);
   const socket = useSocket();
-  console.log(onlineUsers);
   useEffect(() => {
     if (onlineUsers.some((user) => user.userId === currentUser._id)) {
       setIsOnline(true);
@@ -61,6 +60,7 @@ export const ContactCard = ({ conv }) => {
             {conv?.latestMessage?.sender._id === myId ? "Me: " : ""}
             {conv?.latestMessage?.message}
           </p>
+          <span>{conv.unreadMessages[0].count}</span>
         </div>
       </div>
 

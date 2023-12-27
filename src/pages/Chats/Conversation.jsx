@@ -60,14 +60,15 @@ export const Conversation = (props) => {
   };
 
   useEffect(() => {
-    socket.on("receive message", (msg) => {
+    socket.on("receive-message", (msg) => {
+      console.log("msg");
       dispatch(receiveMessage(msg));
       // the second solution to prevent re-rendering
       // dispatch(getConversationMessages(convId));
     });
 
     return () => {
-      socket.off("receive message");
+      socket.off("receive-message");
     };
   }, [dispatch]);
 
@@ -131,30 +132,30 @@ export const Conversation = (props) => {
             {activeConversation ? (
               activeConversation?.map((m) => {
                 return (
-                  <div key={m._id}>
-                    <div className={m.sender._id === myId ? "  text-start " : " text-end  "}>
+                  <div key={m?._id}>
+                    <div className={m?.sender._id === myId ? "  text-start " : " text-end  "}>
                       {localStorage.getItem("i18nextLng") == "en" ? (
                         <p
                           className={
-                            m.sender._id === myId
+                            m?.sender._id === myId
                               ? "bg-[#28D8AE] w-fit  py-1 px-5  rounded-xl rounded-bl-none "
                               : "bg-[#F3F2F7] w-fit ms-auto py-1 px-5  rounded-xl rounded-br-none"
                           }
                         >
-                          {m.message}
+                          {m?.message}
                         </p>
                       ) : (
                         <p
                           className={
-                            m.sender._id === myId
+                            m?.sender._id === myId
                               ? "bg-[#28D8AE] w-fit  py-1 px-5  rounded-xl rounded-br-none "
                               : "bg-[#F3F2F7] w-fit ms-auto py-1 px-5  rounded-xl rounded-bl-none"
                           }
                         >
-                          {m.message}
+                          {m?.message}
                         </p>
                       )}
-                      <span className="text-xs  ">{moment(m.createdAt).format("hh:mm A")}</span>
+                      <span className="text-xs  ">{moment(m?.createdAt).format("hh:mm A")}</span>
                     </div>
                   </div>
                 );

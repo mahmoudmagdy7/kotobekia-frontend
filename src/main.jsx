@@ -73,7 +73,6 @@ i18n
       loadPath: "/assets/languages/{{lng}}/translation.json",
     },
   });
-
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <NextUIProvider>

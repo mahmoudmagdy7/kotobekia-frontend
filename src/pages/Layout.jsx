@@ -5,7 +5,12 @@ import Footer from "../Components/Footer/Footer";
 import MainHeader from "../Components/Header/MainHeader";
 import NavigationBar from "../Components/NavigationBar/NavigationBar";
 import NavCategory from "../Components/Header/NavCategory/NavCategory";
+import { useSocket } from "../app/SocketContext";
 function Layout() {
+  const socket = useSocket();
+
+  console.log("socket connected : ", socket.connected);
+
   useLayoutEffect(() => {
     if (localStorage.getItem("i18nextLng") == "en") {
       document.body.dir = "ltr";
