@@ -5,18 +5,23 @@ import Footer from "../Components/Footer/Footer";
 import MainHeader from "../Components/Header/MainHeader";
 import NavigationBar from "../Components/NavigationBar/NavigationBar";
 import NavCategory from "../Components/Header/NavCategory/NavCategory";
+
 import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../app/Slices/userDataSlice";
 import { getCategory } from "../app/Slices/categorySlice";
+import { useSocket } from "../app/SocketContext";
 function Layout() {
+  const socket = useSocket();
   const { userData } = useSelector((state) => state.userData);
   const { value } = useSelector((state) => state.category);
   const dispatch = useDispatch();
 
-  console.log(value);
+ 
+
 
   useLayoutEffect(() => {
+     console.log(value);
     if (localStorage.getItem("i18nextLng") == "en") {
       document.body.dir = "ltr";
     } else {

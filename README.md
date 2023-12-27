@@ -84,3 +84,26 @@ sorting : latest and oldest
 filters : all, resolved, rejected , under review
 
 +++++++++++++++++
+
+
+
+----------- Notifications --------------
+
+Mojanad
+
+api => get mojanad notifications
+array of objects
+{
+title : string ,
+body : sting,
+status : string , optional
+image : string , optional
+isRead: boolean,
+}
+
+when the user click on the notification the status will change to read after sending the request to the backend
+
+
+
+
+
