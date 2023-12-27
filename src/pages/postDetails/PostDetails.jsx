@@ -1,26 +1,35 @@
 import * as solarIcons from "solar-icon-set";
 import { useParams } from "react-router";
-import PartsOfCategory from "../PartsOfCategory/PartsOfCategory";
+import PartsOfCategory from "../../Components/PartsOfCategory/PartsOfCategory";
 import { useQuery } from "react-query";
 import axios from "axios";
 // keen slider
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { useState } from "react";
-import Card from "./../Card/Card";
+import Card from "../../Components/Card/Card";
 import config from "../../../config";
-import CardSkeleton from "./../Card/CardSkeleton";
+import CardSkeleton from "../../Components/Card/CardSkeleton";
+import Cookies from "js-cookie";
 
 const PostDetails = () => {
   const { id } = useParams();
   // api Related Data function
   function getRelatedData() {
-    return axios.get(`${config.bseUrl}/api/v1/posts/specific/${id}`);
+    return axios.get(`${config.bseUrl}/api/v1/posts/specific/${id}`, {
+      headers: {
+        token: Cookies.get("userToken"),
+      },
+    });
   }
 
-  const { isLoading, isError, data, refetch, isRefetching } = useQuery("getHomeData", getRelatedData, {
-    refetchOnWindowFocus: false, // to prevent the refetching on window focus
-  });
+  const { isLoading, isError, data, refetch, isRefetching } = useQuery(
+    "getHomeData",
+    getRelatedData,
+    {
+      refetchOnWindowFocus: false, // to prevent the refetching on window focus
+    }
+  );
 
   console.log(data?.data.result);
 
@@ -64,8 +73,17 @@ const PostDetails = () => {
     const disabeld = props.disabled ? " arrow--disabled" : "";
     return (
       <>
-        <span onClick={props.onClick} className={`arrow ${props.left ? "arrow--left" : "arrow--right"} ${disabeld}`}>
-          {props.left ? <solarIcons.ArrowLeft size={41} color="#747474" /> : <solarIcons.ArrowRight size={41} color="#747474" />}
+        <span
+          onClick={props.onClick}
+          className={`arrow ${
+            props.left ? "arrow--left" : "arrow--right"
+          } ${disabeld}`}
+        >
+          {props.left ? (
+            <solarIcons.ArrowLeft size={41} color="#747474" />
+          ) : (
+            <solarIcons.ArrowRight size={41} color="#747474" />
+          )}
         </span>
       </>
     );
@@ -115,22 +133,46 @@ const PostDetails = () => {
                 {/* --------- slider images large ---------  */}
                 <div ref={sliderRef} className="keen-slider ">
                   <div className="keen-slider__slide number-slide1">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide2">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide3">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide4">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide5">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide6">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                 </div>
                 {/* --------- slider images large ---------  */}
@@ -139,22 +181,46 @@ const PostDetails = () => {
                   {/* ------------ THUMBNAILS ------------ */}
                   <div ref={thumbnailRef} className="keen-slider thumbnail">
                     <div className="keen-slider__slide number-slide1">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6 w-[200px]" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl mb-6 w-[200px]"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide2">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide3">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide4">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide5">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide6">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                   </div>
                   {/* ------------ THUMBNAILS ------------ */}
@@ -163,11 +229,22 @@ const PostDetails = () => {
                   <div className=" flex items-center gap-5 ">
                     {loaded && instanceRef.current && (
                       <>
-                        <Arrow left onClick={(e) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
+                        <Arrow
+                          left
+                          onClick={(e) =>
+                            e.stopPropagation() || instanceRef.current?.prev()
+                          }
+                          disabled={currentSlide === 0}
+                        />
 
                         <Arrow
-                          onClick={(e) => e.stopPropagation() || instanceRef.current?.next()}
-                          disabled={currentSlide === instanceRef.current.track.details.slides.length - 1}
+                          onClick={(e) =>
+                            e.stopPropagation() || instanceRef.current?.next()
+                          }
+                          disabled={
+                            currentSlide ===
+                            instanceRef.current.track.details.slides.length - 1
+                          }
                         />
                       </>
                     )}
@@ -182,7 +259,13 @@ const PostDetails = () => {
                 {/* Important Information  */}
                 <div className="infoImportant absolute end-[30px] bg-[#FA5057] py-1 px-2 rounded-lg top-[-15px] flex items-center gap-1">
                   <div className="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="13"
+                      viewBox="0 0 14 13"
+                      fill="none"
+                    >
                       <path
                         fill-rule="evenodd"
                         clip-rule="evenodd"
@@ -200,12 +283,24 @@ const PostDetails = () => {
                 {/* Important Information  */}
 
                 <div className=" pe-3 ps-10">
-                  <h2 className="text-2xl text-[#131313] font-semibold mb-2">{data.data.result.title}</h2>
-                  <p className="text-base text-[#0F172A] ">{data.data.result.description}</p>
+                  <h2 className="text-2xl text-[#131313] font-semibold mb-2">
+                    {data.data.result.title}
+                  </h2>
+                  <p className="text-base text-[#0F172A] ">
+                    {data.data.result.description}
+                  </p>
                   <div className="price my-5 flex gap-1 items-center justify-end">
-                    <span className="text-[#131313] text-2xl font-semibold">{data.data.result.price}</span>
+                    <span className="text-[#131313] text-2xl font-semibold">
+                      {data.data.result.price}
+                    </span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="19"
+                        height="19"
+                        viewBox="0 0 19 19"
+                        fill="none"
+                      >
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
@@ -221,7 +316,13 @@ const PostDetails = () => {
                   <div className="date flex ps-3 items-center gap-1">
                     <span className="text-[#0F172A] text-xs">منذ 5 ايام</span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="13"
+                        height="12"
+                        viewBox="0 0 13 12"
+                        fill="none"
+                      >
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
@@ -233,9 +334,17 @@ const PostDetails = () => {
                   </div>
 
                   <div className="address pe-3 flex  items-center gap-1">
-                    <span className="text-[#131313] text-sm font-medium">{data.data.result.location}</span>
+                    <span className="text-[#131313] text-sm font-medium">
+                      {data.data.result.location}
+                    </span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                      >
                         <g clip-path="url(#clip0_1608_6937)">
                           <path
                             fill-rule="evenodd"
@@ -246,7 +355,12 @@ const PostDetails = () => {
                         </g>
                         <defs>
                           <clipPath id="clip0_1608_6937">
-                            <rect width="15.0551" height="15" fill="white" transform="translate(0.631836 0.873535)" />
+                            <rect
+                              width="15.0551"
+                              height="15"
+                              fill="white"
+                              transform="translate(0.631836 0.873535)"
+                            />
                           </clipPath>
                         </defs>
                       </svg>
@@ -257,33 +371,57 @@ const PostDetails = () => {
               {/* --------- Data for Books --------- */}
               {/* --------- Book Details --------- */}
               <div className="bookDetails mt-10">
-                <h2 className="text-end text-lg text-black font-semibold">تفاصيل الكتاب </h2>
+                <h2 className="text-end text-lg text-black font-semibold">
+                  تفاصيل الكتاب{" "}
+                </h2>
 
                 <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                  <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.grade}</span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">الصف</span>
+                  <span className="text-[#0F172A] text-base block  font-semibold ">
+                    {data.data.result.grade}
+                  </span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    الصف
+                  </span>
                 </div>
 
                 <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
                   <span className="text-[#0F172A] text-base block  font-semibold ">
-                    {config.categories.map((cate) => (cate.id === data.data.result.educationLevel ? cate.name : null))}
+                    {config.categories.map((cate) =>
+                      cate.id === data.data.result.educationLevel
+                        ? cate.name
+                        : null
+                    )}
                   </span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">المرحلة التعليمية</span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    المرحلة التعليمية
+                  </span>
                 </div>
 
                 <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                  <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.educationType}</span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">نوع التعليم</span>
+                  <span className="text-[#0F172A] text-base block  font-semibold ">
+                    {data.data.result.educationType}
+                  </span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    نوع التعليم
+                  </span>
                 </div>
 
                 <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                  <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.bookEdition}</span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">السنة الدراسية</span>
+                  <span className="text-[#0F172A] text-base block  font-semibold ">
+                    {data.data.result.bookEdition}
+                  </span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    السنة الدراسية
+                  </span>
                 </div>
 
                 <div className="item grid grid-cols-2 mt-3">
-                  <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.educationTerm}</span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">التيرم</span>
+                  <span className="text-[#0F172A] text-base block  font-semibold ">
+                    {data.data.result.educationTerm}
+                  </span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    التيرم
+                  </span>
                 </div>
               </div>
               {/* --------- Book Details --------- */}
@@ -295,20 +433,68 @@ const PostDetails = () => {
                 {/* ------------- QR ------------- */}
                 <div className="qrData flex gap-3 items-center mb-3 pb-2 border-b-1 border-[#f8f7fa] ">
                   <div className="qr">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="26" viewBox="0 0 33 26" fill="none">
-                      <rect x="0.858398" width="4.59295" height="26" rx="1" fill="#939393" />
-                      <rect x="11.1914" width="4.59295" height="26" rx="1" fill="#939393" />
-                      <rect x="16.9326" width="4.59295" height="26" rx="1" fill="#939393" />
-                      <rect x="28.415" width="4.59295" height="26" rx="1" fill="#939393" />
-                      <rect x="7.74805" width="2.29647" height="26" rx="0.5" fill="#939393" />
-                      <rect x="23.8232" width="2.29647" height="26" rx="0.5" fill="#939393" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="33"
+                      height="26"
+                      viewBox="0 0 33 26"
+                      fill="none"
+                    >
+                      <rect
+                        x="0.858398"
+                        width="4.59295"
+                        height="26"
+                        rx="1"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="11.1914"
+                        width="4.59295"
+                        height="26"
+                        rx="1"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="16.9326"
+                        width="4.59295"
+                        height="26"
+                        rx="1"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="28.415"
+                        width="4.59295"
+                        height="26"
+                        rx="1"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="7.74805"
+                        width="2.29647"
+                        height="26"
+                        rx="0.5"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="23.8232"
+                        width="2.29647"
+                        height="26"
+                        rx="0.5"
+                        fill="#939393"
+                      />
                     </svg>
                   </div>
                   <div className="numberId  w-full ">
-                    <span className="text-[10px] text-[#939393] block">Identification Number</span>
+                    <span className="text-[10px] text-[#939393] block">
+                      Identification Number
+                    </span>
                     <div className="flex justify-between">
-                      <span className="text-base text-[#747474] block">{data.data.result.identificationNumber}</span>
-                      <span className="text-[#939393] text-[10px]">Ad id #1256</span>
+                      <span className="text-base text-[#747474] block">
+                        {data.data.result.identificationNumber}
+                      </span>
+                      <span className="text-[#939393] text-[10px]">
+                        Ad id #1256
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -316,9 +502,17 @@ const PostDetails = () => {
                 {/* ------------- notification ------------- */}
                 <div className="notification flex items-center justify-evenly">
                   <div className="item flex items-center">
-                    <span className="text-[#0F172A] text-base font-semibold">مشاركة</span>
+                    <span className="text-[#0F172A] text-base font-semibold">
+                      مشاركة
+                    </span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                      >
                         <path
                           d="M14.8317 5.09061L19.9871 9.67315C20.9509 10.5298 21.4327 10.9582 21.6103 11.464C21.7663 11.9081 21.7663 12.3922 21.6103 12.8363C21.4327 13.3421 20.9509 13.7705 19.9871 14.6272L14.8317 19.2097C14.3944 19.5985 14.1757 19.7928 13.99 19.7998C13.8286 19.8058 13.6737 19.7362 13.571 19.6116C13.4528 19.4682 13.4528 19.1756 13.4528 18.5904V15.701C10.9381 15.701 8.28207 16.5086 6.34268 17.9424C5.33302 18.6888 4.82816 19.062 4.63588 19.0473C4.44845 19.0329 4.32951 18.9597 4.23226 18.7989C4.13249 18.6338 4.22061 18.1182 4.39685 17.0869C5.54123 10.3901 10.1499 8.59931 13.4528 8.59931V5.70986C13.4528 5.1247 13.4528 4.83211 13.571 4.68867C13.6737 4.56406 13.8286 4.49448 13.99 4.50052C14.1757 4.50747 14.3944 4.70185 14.8317 5.09061Z"
                           fill="#1C274C"
@@ -328,9 +522,17 @@ const PostDetails = () => {
                   </div>
 
                   <div className="item flex items-center">
-                    <span className="text-[#0F172A] text-base font-semibold">تبليغ</span>
+                    <span className="text-[#0F172A] text-base font-semibold">
+                      تبليغ
+                    </span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                      >
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
@@ -342,9 +544,17 @@ const PostDetails = () => {
                   </div>
 
                   <div className="item flex items-center">
-                    <span className="text-[#0F172A] text-base font-semibold">حفظ</span>
+                    <span className="text-[#0F172A] text-base font-semibold">
+                      حفظ
+                    </span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="26"
+                        height="25"
+                        viewBox="0 0 26 25"
+                        fill="none"
+                      >
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
@@ -362,17 +572,29 @@ const PostDetails = () => {
               <div className="pesronalData bg-white rounded-lg border-1 border-[#E8E7E7] ">
                 <div className="data flex justify-center my-3">
                   <div className="userName me-2 ">
-                    <h5 className="text-base text-black font-semibold mb-0">محمد البنا</h5>
-                    <span className="text-[10px] underline text-black block text-end cursor-pointer">عرض الملف الشخصي </span>
+                    <h5 className="text-base text-black font-semibold mb-0">
+                      محمد البنا
+                    </h5>
+                    <span className="text-[10px] underline text-black block text-end cursor-pointer">
+                      عرض الملف الشخصي{" "}
+                    </span>
                   </div>
                   <div className="avatar me-3 pr-2  border-e-1  border-[#E8E7E7]">
                     <img src="/assets/images/avatar.png" alt="" />
                   </div>
                   <div className="contact">
                     <div className="item cursor-pointer flex mb-3  gap-1 items-center ">
-                      <span className="text-[#747474] text-sm font-medium">مكالمة</span>
+                      <span className="text-[#747474] text-sm font-medium">
+                        مكالمة
+                      </span>
                       <div className="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="17"
+                          height="16"
+                          viewBox="0 0 17 16"
+                          fill="none"
+                        >
                           <g clip-path="url(#clip0_1191_10536)">
                             <path
                               fill-rule="evenodd"
@@ -383,16 +605,29 @@ const PostDetails = () => {
                           </g>
                           <defs>
                             <clipPath id="clip0_1191_10536">
-                              <rect width="15.8388" height="16" fill="white" transform="translate(0.685547)" />
+                              <rect
+                                width="15.8388"
+                                height="16"
+                                fill="white"
+                                transform="translate(0.685547)"
+                              />
                             </clipPath>
                           </defs>
                         </svg>
                       </div>
                     </div>
                     <div className="item cursor-pointer flex gap-1 items-center">
-                      <span className="text-[#747474] text-sm font-medium">رسالة</span>
+                      <span className="text-[#747474] text-sm font-medium">
+                        رسالة
+                      </span>
                       <div className="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="17"
+                          height="16"
+                          viewBox="0 0 17 16"
+                          fill="none"
+                        >
                           <path
                             fill-rule="evenodd"
                             clip-rule="evenodd"
@@ -408,22 +643,35 @@ const PostDetails = () => {
               {/* ------------- pesronalData ------------- */}
               {/* ------------- Map  ------------- */}
               <div className="mapLocation mb-6">
-                <h2 className="text-base text-end text-black px-1 font-semibold mt-3 mb-2">الموقع علي الخريطه </h2>
+                <h2 className="text-base text-end text-black px-1 font-semibold mt-3 mb-2">
+                  الموقع علي الخريطه{" "}
+                </h2>
                 <div className="map cursor-pointer">
-                  <img src="/assets/images/map.png" alt="Location" className="w-full" />
+                  <img
+                    src="/assets/images/map.png"
+                    alt="Location"
+                    className="w-full"
+                  />
                 </div>
               </div>
               {/* ------------- Map  ------------- */}
               {/* ------------- ADS ------------- */}
               <div className="ads cursor-pointer">
-                <img src="/assets/images/ad/ads.png" alt="ads" className="rounded-[10px] w-full" />
+                <img
+                  src="/assets/images/ad/ads.png"
+                  alt="ads"
+                  className="rounded-[10px] w-full"
+                />
               </div>
               {/* ------------- ADS ------------- */}
             </div>
             {/* ****************** Data for User ****************** */}
           </div>
           <div className="relatedData mt-5 ">
-            <PartsOfCategory title={"Related posts"} data={data?.data?.result[0]} />
+            <PartsOfCategory
+              title={"Related posts"}
+              data={data?.data?.result[0]}
+            />
           </div>
         </div>
       </section>

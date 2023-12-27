@@ -7,5 +7,6 @@ const isLoggedInUser = function () {
     return false;
   }
 };
+
 const isLoggedIn = isLoggedInUser();
 export default isLoggedIn;

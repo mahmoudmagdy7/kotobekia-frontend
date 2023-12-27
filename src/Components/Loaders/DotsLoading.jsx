@@ -1,5 +1,5 @@
 function DotsLoading() {
-  return <div class="loader inline-block"></div>;
+  return <div className="loader inline-block"></div>;
 }
 
 export default DotsLoading;
