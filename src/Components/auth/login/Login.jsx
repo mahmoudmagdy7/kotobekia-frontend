@@ -5,9 +5,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import config from "../../../../config";
+import { siteDirection, siteLanguage } from "../../../hooks/useLocale";
+import DotsLoading from "../../Loaders/DotsLoading";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
+
+import { getUserData } from "../../../app/Slices/userDataSlice";
+
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [spinner, setSpinner] = useState(false);
+  const dispatch = useDispatch();
+
   const nav = useNavigate();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -33,19 +44,58 @@ const Login = () => {
 
     return error;
   };
+  // Validation function
 
+  // Submit Function
   const submit = async (value) => {
-    const { data } = await axios.post(
-      `${config.bseUrl}/api/v1/auth/logIn`,
-      value
-    );
+    setSpinner(true);
+    try {
+      // Fetch api
+      await axios
+        .post(`${config.bseUrl}/api/v1/auth/logIn`, value, {
+          headers: {
+            lang: siteLanguage,
+          },
+        })
+        .then(({ data }) => {
+          // set token to cookies
+          Cookies.set("userToken", data.token, {
+            expires: 365,
+          });
 
-    if (data.message === "تم تسجيل الحساب") {
-      nav("/");
+          // get data form token by jwtdecode
+          dispatch(getUserData());
+
+          // to stop spinner button
+          setSpinner(false);
+
+          if (data.message) {
+            // message to show if login success
+            console.log(data);
+            toast.success(data.message);
+
+            setTimeout(() => {
+              // to navigate to home
+              nav("/");
+            }, 1500);
+          }
+        });
+    } catch ({ response }) {
+      console.log(response);
+
+      // to stop spinner button
+      setSpinner(false);
+
+      // Handle Error if Password is false
+      if (response.data.msgError) {
+        // message to show if login Error
+        toast.error(response.data.msgError);
+      }
     }
   };
+  // Submit Function
 
-  // Formik
+  // Login Formik
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -56,10 +106,11 @@ const Login = () => {
       submit(value);
     },
   });
+  // Login Formik
 
   return (
     <>
-      <section className="register py-10 max-w-2xl mx-auto select-none">
+      <section className="login py-10 max-w-2xl mx-auto select-none">
         <div className="container">
           {/* -------- Title --------  */}
           <div className="title">
@@ -180,15 +231,23 @@ const Login = () => {
                 )}
               </div>
               {/* ------- Password ------- */}
-              <button
-                type="submit"
-                style={{
-                  "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
-                }}
-                className="bg-[#28D8AE] rounded-[14px] text-[16px] h-12 flex items-center justify-center gap-1 w-full mb-4"
-              >
-                <span className="text-base">تسجيل الدخول</span>
-              </button>
+              {spinner ? (
+                <>
+                  <div className="flex justify-center items-center">
+                    <DotsLoading />
+                  </div>
+                </>
+              ) : (
+                <button
+                  type="submit"
+                  style={{
+                    "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
+                  }}
+                  className="bg-[#28D8AE] rounded-[14px] text-[16px] h-12 flex cursor-pointer items-center justify-center gap-1 w-full mb-4"
+                >
+                  <span className="text-base">تسجيل الدخول</span>
+                </button>
+              )}
             </form>
 
             {/* forget password  */}
@@ -206,7 +265,7 @@ const Login = () => {
           </div>
           {/* -------- or --------  */}
           {/* -------- Social --------  */}
-          <div className="socials">
+          <div style={{ direction: `${siteDirection}` }} className="socials">
             {/*------- Facebook ------- */}
             <div className="social cursor-pointer bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
               <div className="icon">
@@ -288,12 +347,15 @@ const Login = () => {
           </div>
           {/* -------- Social --------  */}
         </div>
-        <p className="text-[#131313] text-[13px] font-bold text-center mt-6">
+
+        {/* if you have Dont Account  */}
+        <p className="text-[#131313] text-[13px] font-bold text-center cursor-pointer mt-6">
           ليس لديك حساب؟
           <Link to={"/auth/register"} className="text-[#28D8AE] underline ms-1">
             سجل الأن
           </Link>
         </p>
+        {/* if you have Dont Account  */}
       </section>
     </>
   );
