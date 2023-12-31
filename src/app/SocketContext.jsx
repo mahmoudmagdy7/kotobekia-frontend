@@ -3,13 +3,18 @@ import React, { createContext, useContext, useEffect, useLayoutEffect, useMemo, 
 import io from "socket.io-client";
 import isLoggedIn from "../hooks/useAuth";
 import { jwtDecode } from "jwt-decode";
+import config from "../../config";
 
 const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
-  const socket = io("localhost:3000");
+  // const socket = io("http://localhost:3000");
+  const socket = io(config.bseUrl);
+  console.log(socket);
 
   useEffect(() => {
+    socket.connected;
     console.log("sockt in");
+
     if (isLoggedIn) {
       const userToken = Cookies.get("userToken");
       const id = jwtDecode(userToken).id;
