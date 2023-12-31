@@ -8,13 +8,13 @@ function Card({ post }) {
   const { t } = useTranslation();
   return (
     <>
-      <div className=" m-auto h-full pt-1 mb-5  ">
+      <div className=" h-[300px] lg:h-[360px] mb-4 ">
         <div className=" mx-2   shadow-[0_11px_22.5px_-15px_rgba(0,0,0,0.1)] rounded-xl">
           <figure className="w-full max-h-48 overflow-hidden rounded-t-xl relative">
             {/* <img className="w-full object-fill " src={"https://kotobekia-backend.onrender.com/" + post?.images[0]} alt="img" /> */}
             <img className="  " src="/assets/placeholder.png" alt="img" />
           </figure>{" "}
-          <div className="txt bg-white py-2 px-3 rounded-b-[14px]">
+          <div className="txt min-h-[168px] bg-white py-2 px-3 rounded-b-[14px]">
             <div className="card-title flex items-center justify-between gap-2">
               <Link to={"/book/" + post?._id}>
                 <h3 className=" text-[14px] md:text-[16px] text-black font-semibold  line-clamp-1">{post?.title}</h3>
