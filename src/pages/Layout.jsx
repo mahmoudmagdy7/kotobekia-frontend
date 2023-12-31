@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../app/Slices/userDataSlice";
 import { getCategory } from "../app/Slices/categorySlice";
+import Slider from "../Components/slider/Slider";
 function Layout() {
   const { userData } = useSelector((state) => state.userData);
   const { value } = useSelector((state) => state.category);
@@ -55,6 +56,9 @@ function Layout() {
       </div>
       <MainHeader />
       <NavCategory />
+
+      {/* <Slider/> */}
+
       <Outlet />
       <Footer />
       <NavigationBar />

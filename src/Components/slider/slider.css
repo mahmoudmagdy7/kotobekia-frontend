@@ -1,0 +1,7 @@
+.slider .arrow.active {
+  color: #c8c5c5;
+}
+
+.slider .items{
+    scroll-behavior: smooth;
+}
