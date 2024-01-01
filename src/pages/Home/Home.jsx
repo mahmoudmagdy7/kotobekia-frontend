@@ -27,7 +27,7 @@ function Home() {
       refetchOnWindowFocus: false, // to prevent the refetching on window focus
     }
   );
-
+    console.log(data);
   const socket = useSocket();
 
   // useEffect(() => {

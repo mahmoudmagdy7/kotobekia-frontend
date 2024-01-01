@@ -8,7 +8,7 @@ function Card({ post }) {
   const { t } = useTranslation();
   return (
     <>
-      <div className=" h-[300px] lg:h-[360px] mb-4 ">
+      <div className="mb-4">
         <div className=" mx-2   shadow-[0_11px_22.5px_-15px_rgba(0,0,0,0.1)] rounded-xl">
           <figure className="w-full max-h-48 overflow-hidden rounded-t-xl relative">
             {/* <img className="w-full object-fill " src={"https://kotobekia-backend.onrender.com/" + post?.images[0]} alt="img" /> */}

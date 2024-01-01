@@ -2,8 +2,9 @@ import ad1 from "../../../public/assets/images/ad/Ad_1.png";
 import { Link } from "react-router-dom";
 import CardSkeleton from "../Card/CardSkeleton";
 
-import Slider from "./../slider/Slider";
-import Card from "./../Card/Card";
+import { useEffect, useState } from "react";
+import Slider from "../slider/Slider";
+
 const PartsOfCategory = ({ title, icon, data, isLoading }) => {
   console.log("data from cat" + data);
 
@@ -19,6 +20,7 @@ const PartsOfCategory = ({ title, icon, data, isLoading }) => {
               <span className="mt-2 icon">{icon}</span>
             </div>
 
+            {/* To show More category Posts  */}
             <div className="more cursor-pointer">
               <Link
                 to={"/cate/" + data?._id}
@@ -27,6 +29,7 @@ const PartsOfCategory = ({ title, icon, data, isLoading }) => {
                 See More
               </Link>
             </div>
+            {/* To show More category Posts  */}
           </div>
 
           {isLoading ? (
@@ -35,82 +38,38 @@ const PartsOfCategory = ({ title, icon, data, isLoading }) => {
             <>
               {/* ---------- Desktop Cards ---------- */}
               <div className="cards cursor-pointer">
-                {/* <Slider
-                  {...settings}
-                  className="flex items-center   gap-4 mx-5"
-                >
-                  {data?.posts.slice(0, 3).map((post, idx) => {
-                    return (
-                      <>
-                        <div className="h-[300px] lg:h-[360px]">
-                          <Card post={post} />
-                        </div>
-                      </>
-                    );
-                  })}
-                  <div className="h-360px pt-1">
-                    <img
-                      src={ad1}
-                      alt="Ad_1"
-                      className="w-full hidden h-[300px] lg:h-[340px]"
-                    />
-                  </div>
-                  {data?.posts.slice(3, 6).map((post, idx) => {
-                    return (
-                      <>
-                        <div className="h-[300px] lg:h-[360px]">
-                          <Card post={post} />
-                        </div>
-                      </>
-                    );
-                  })}
-                  <div className=" h-360px pt-1">
-                    <img
-                      src={ad1}
-                      alt="Ad_1"
-                      className="w-full  h-[300px] lg:h-[360px]"
-                    />
-                  </div>
-                </Slider> */}
+                {/* Desktop Slider  */}
+                <div className="desktop  lg:block">
+                  <Slider data={data} />
+                </div>
+                {/* Desktop Slider  */}
+                {/*  Tablat Slider  */}
+                {/* <div className="tablat  hidden md:block lg:hidden">
+                  <TablatSlider data={data} />
+                </div> */}
+                {/*  Slider  */}
+                {/* Mobile Slider  */}
+                {/* <div className="mobile block md:hidden">
+                  <MobileSlider data={data} />
+                </div> */}
+                {/* Mobile Slider  */}
 
                 {/* custom slider  */}
-                <div className="z-[9999999999999999999]">
+                {/* <div className=" z-[9999999999999999999]">
                   <Slider>
                     {data?.posts.map((post, idx) => {
                       return (
                         <>
-                          <div className="h-[300px] lg:h-[360px]">
+                          <div className="item h-[300px] lg:h-[360px] min-w-[280px]">
                             <Card post={post} />
                           </div>
                         </>
                       );
                     })}
                   </Slider>
-                </div>
-
+                </div> */}
                 {/* custom slider  */}
               </div>
-              {/* ---------- Desktop Cards ---------- */}
-              {/* ********* Mobile Cards ********* */}
-              {/* <div className="cards cursor-pointer block lg:hidden ">
-                <Slider
-                  {...settings}
-                  className="flex items-center   gap-4 mx-5"
-                >
-                  {data?.posts.map((post, idx) => {
-                    return (
-                      idx < 7 && (
-                        <>
-                          <div className="">
-                            <Card post={post} />
-                          </div>
-                        </>
-                      )
-                    );
-                  })}
-                </Slider>
-              </div> */}
-              {/* ********* Mobile Cards ********* */}
             </>
           )}
         </div>
