@@ -57,6 +57,9 @@ function Layout() {
       </div>
       <MainHeader />
       <NavCategory />
+
+      {/* <Slider/> */}
+
       <Outlet />
       <Footer />
       <NavigationBar />
