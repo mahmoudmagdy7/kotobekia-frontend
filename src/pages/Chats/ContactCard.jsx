@@ -3,11 +3,12 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getConversationMessages, setActiveUser } from "../../app/Slices/chatSlice";
+import { getConversationMessages, setActiveUser, setLoadingConversationMessages } from "../../app/Slices/chatSlice";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import { useSocket } from "../../app/SocketContext";
 export const ContactCard = ({ conv }) => {
+  const { activeUser } = useSelector((state) => state.chat);
   const router = useNavigate();
   const { id } = jwtDecode(Cookies.get("userToken"));
   const myId = id;
@@ -25,15 +26,17 @@ export const ContactCard = ({ conv }) => {
       setIsOnline(false);
     }
   }, [onlineUsers]);
+
+  const redirectHandler = () => {
+    if (currentUser?._id == activeUser?._id) return;
+    dispatch(setActiveUser(currentUser));
+    dispatch(getConversationMessages(conv._id));
+    dispatch(setLoadingConversationMessages(true));
+    router(`/chat/${conv._id}`);
+  };
+
   return (
-    <div
-      onClick={() => {
-        dispatch(getConversationMessages(conv._id));
-        dispatch(setActiveUser(currentUser));
-        router(`/chat/${conv._id}`);
-      }}
-      className=" flex hover:bg-gray-100  justify-between p-5 relative"
-    >
+    <div onClick={redirectHandler} className=" flex hover:bg-gray-100  justify-between p-5 relative">
       <div className="flex gap-3  w-full">
         <div className="relative  w-14 h-12">
           <img
@@ -56,11 +59,17 @@ export const ContactCard = ({ conv }) => {
             <h3 className="font-semibold">{conv.users[0]._id === myId ? conv.users[1].fullName : conv.users[0].fullName}</h3>
             <span className="text-sm ms-auto">{moment(conv?.latestMessage?.createdAt).fromNow()}</span>
           </div>
-          <p className="text-gray-700 max-w-[70%] overflow-hidden whitespace-nowrap overflow-ellipsis">
-            {conv?.latestMessage?.sender._id === myId ? "Me: " : ""}
-            {conv?.latestMessage?.message}
-          </p>
-          <span>{conv.unreadMessages[0].count}</span>
+          <div className="flex">
+            <p className="text-gray-700 max-w-[70%] overflow-hidden whitespace-nowrap overflow-ellipsis">
+              {conv?.latestMessage?.sender._id === myId ? "Me: " : ""}
+              {conv?.latestMessage?.message}
+            </p>
+            {conv.unreadMessages[0].count != 0 && activeUser?._id !== currentUser._id ? (
+              <span className="ms-auto inline-flex w-5 h-5 items-center justify-center rounded-full text-sm text-black bg-[#28D8AE] p-1">
+                {conv.unreadMessages[0].count}
+              </span>
+            ) : null}
+          </div>
         </div>
       </div>
 

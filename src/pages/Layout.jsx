@@ -17,11 +17,8 @@ function Layout() {
   const { value } = useSelector((state) => state.category);
   const dispatch = useDispatch();
 
- 
-
-
   useLayoutEffect(() => {
-     console.log(value);
+    console.log(value);
     if (localStorage.getItem("i18nextLng") == "en") {
       document.body.dir = "ltr";
     } else {
@@ -32,7 +29,7 @@ function Layout() {
       dispatch(dispatch(getUserData()));
     }
 
-    dispatch(getCategory("655b4ec133dd362ae53081f7" , 1));
+    dispatch(getCategory("655b4ec133dd362ae53081f7", 1));
   }, []);
 
   const toastOption = {
