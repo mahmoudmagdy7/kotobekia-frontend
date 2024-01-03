@@ -35,7 +35,6 @@ export const getConversationMessages = createAsyncThunk("chat/getConversationMes
 // Send new message
 
 export const sendNewMessage = createAsyncThunk("chat/sendNewMessage", async (conversation) => {
-  console.log(conversation);
   try {
     const { data } = await axios.post(
       config.bseUrl + `/api/v1/messages/send-message`,
@@ -58,7 +57,7 @@ const chatSlice = createSlice({
   name: "chat", // must be unique in the slice
   initialState: {
     activeUser: null,
-    userConversationsCount: 5,
+    userConversationsCount: 0,
     userConversations: null,
     activeConversation: [],
     lastMessage: "",
@@ -70,12 +69,17 @@ const chatSlice = createSlice({
     setActiveUser(state, action) {
       state.activeUser = action.payload;
     },
+    setUserConversationsCount(state, action) {
+      state.userConversationsCount = action.payload;
+    },
     setOnlineUsers(state, action) {
       state.onlineUsers = action.payload;
     },
     receiveMessage(state, action) {
-      console.log("receive------------");
       state.activeConversation = [...state.activeConversation, action.payload];
+    },
+    setLoadingConversationMessages(state, action) {
+      state.loadingConversationMessages = action.payload;
     },
   },
 
@@ -86,19 +90,14 @@ const chatSlice = createSlice({
     });
     builder.addCase(getUserConversations.fulfilled, (state, action) => {
       state.loadingConversations = false;
-
       state.userConversations = action.payload;
     });
 
     /* get  user messages function cases */
 
-    builder.addCase(getConversationMessages.pending, (state) => {
-      state.loadingConversationMessages = true;
-    });
     builder.addCase(getConversationMessages.fulfilled, (state, action) => {
-      state.loadingConversationMessages = false;
-
       state.activeConversation = action.payload;
+      state.loadingConversationMessages = false;
     });
     /* get  send message function cases */
 
@@ -109,5 +108,5 @@ const chatSlice = createSlice({
   },
 });
 
-export const { receiveMessage, setActiveUser, setOnlineUsers } = chatSlice.actions;
+export const { setLoadingConversationMessages, receiveMessage, setActiveUser, setOnlineUsers, setUserConversationsCount } = chatSlice.actions;
 export default chatSlice.reducer;
