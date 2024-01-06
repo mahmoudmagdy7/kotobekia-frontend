@@ -8,11 +8,14 @@ import "./slider.css";
 const Slider = ({ data }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
+
   const [sliderRef, instanceRef] = useKeenSlider({
     slides: {
       perView: 4,
       spacing: 10,
     },
+
+    // screen response
     breakpoints: {
       "(max-width: 1023px)": {
         slides: {
@@ -21,9 +24,16 @@ const Slider = ({ data }) => {
         },
         loop: false,
       },
-      "(max-width: 767px)": {
+      "(max-width: 768px)": {
         slides: {
           perView: 2,
+          spacing: 10,
+        },
+        loop: false,
+      },
+      "(max-width: 640px)": {
+        slides: {
+          perView: 1,
           spacing: 10,
         },
         loop: false,
@@ -33,6 +43,7 @@ const Slider = ({ data }) => {
     slideChanged(slider) {
       setCurrentSlide(slider.track.details.rel);
     },
+
     created() {
       setLoaded(true);
     },
@@ -62,14 +73,12 @@ const Slider = ({ data }) => {
 
   return (
     <>
-      <div className="navigation-wrapper relative px-9">
+      <div className="navigation-wrapper relative px-8 sliders">
         <div ref={sliderRef} className="keen-slider flex">
           {data?.posts.map((post, idx) => {
             return (
               <>
-                <div
-                  className={`keen-slider__slide number-slide${idx} item h-[300px] lg:h-[360px] `}
-                >
+                <div className={`keen-slider__slide number-slide${idx} item`}>
                   <Card post={post} />
                 </div>
               </>

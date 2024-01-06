@@ -2,7 +2,6 @@ import ad1 from "../../../public/assets/images/ad/Ad_1.png";
 import { Link } from "react-router-dom";
 import CardSkeleton from "../Card/CardSkeleton";
 
-import { useEffect, useState } from "react";
 import Slider from "../slider/Slider";
 
 const PartsOfCategory = ({ title, icon, data, isLoading }) => {
@@ -36,40 +35,7 @@ const PartsOfCategory = ({ title, icon, data, isLoading }) => {
             <CardSkeleton isLoading={isLoading} />
           ) : (
             <>
-              {/* ---------- Desktop Cards ---------- */}
-              <div className="cards cursor-pointer">
-                {/* Desktop Slider  */}
-                <div className="desktop  lg:block">
-                  <Slider data={data} />
-                </div>
-                {/* Desktop Slider  */}
-                {/*  Tablat Slider  */}
-                {/* <div className="tablat  hidden md:block lg:hidden">
-                  <TablatSlider data={data} />
-                </div> */}
-                {/*  Slider  */}
-                {/* Mobile Slider  */}
-                {/* <div className="mobile block md:hidden">
-                  <MobileSlider data={data} />
-                </div> */}
-                {/* Mobile Slider  */}
-
-                {/* custom slider  */}
-                {/* <div className=" z-[9999999999999999999]">
-                  <Slider>
-                    {data?.posts.map((post, idx) => {
-                      return (
-                        <>
-                          <div className="item h-[300px] lg:h-[360px] min-w-[280px]">
-                            <Card post={post} />
-                          </div>
-                        </>
-                      );
-                    })}
-                  </Slider>
-                </div> */}
-                {/* custom slider  */}
-              </div>
+              <Slider data={data} />
             </>
           )}
         </div>
