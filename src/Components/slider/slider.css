@@ -1,4 +1,4 @@
-.arrow {
+.sliders .arrow {
   width: 30px;
   height: 30px;
   position: absolute;
@@ -9,12 +9,12 @@
   cursor: pointer;
 }
 
-.arrow--left {
-  left: 5px;
+.sliders .arrow--left {
+  left: 0;
 }
 
-.arrow--right {
+.sliders .arrow--right {
   left: auto;
-  right: 0;
+  right: 10px;
 }
 
