@@ -6,18 +6,32 @@ import axios from "axios";
 // keen slider
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import { useEffect, useState } from "react";
-import Card from "../../Components/Card/Card";
+import { useRef, useState } from "react";
 import config from "../../../config";
 import CardSkeleton from "../../Components/Card/CardSkeleton";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getConversationMessages, setActiveUser } from "../../app/Slices/chatSlice";
+import {
+  getConversationMessages,
+  setActiveUser,
+} from "../../app/Slices/chatSlice";
+
+// Modal For Report
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 
 const PostDetails = () => {
   const router = useNavigate();
   const { id } = useParams();
+
   // api Related Data function
   function getRelatedData() {
     return axios.get(`${config.bseUrl}/api/v1/posts/specific/${id}`, {
@@ -27,11 +41,60 @@ const PostDetails = () => {
     });
   }
 
-  const { isLoading, isError, data, refetch, isRefetching } = useQuery("getHomeData", getRelatedData, {
-    refetchOnWindowFocus: false, // to prevent the refetching on window focus
-  });
+  // Add Favourite
+  const [addFavourite, setSddFavourite] = useState(false);
+  const handleAddFavourite = async () => {
+    setSddFavourite(true);
 
-  console.log(data?.data.result);
+    axios({
+      method: "post",
+      url: `https://kotobekia-backend.onrender.com/api/v1/posts/add-to-favorite/${data.data.result._id}`,
+      headers: {
+        token: Cookies.get("userToken"),
+      },
+    }).then((res) => console.log(res));
+  };
+  const handleRemoveFavourite = () => {
+    setSddFavourite(false);
+    axios({
+      method: "post",
+      url: `https://kotobekia-backend.onrender.com/api/v1/posts/remove-from-favorite/${data.data.result._id}`,
+      headers: {
+        token: Cookies.get("userToken"),
+      },
+    }).then((res) => console.log(res));
+  };
+
+  // For Report
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const yourFeadBack = useRef("");
+  const makingReport = async() => {
+    axios({
+      method: "post",
+      url: `https://kotobekia-backend.onrender.com/api/v1/reports/report`,
+      headers: {
+        token: Cookies.get("userToken"),
+      },
+      data: {
+        report_type: "post",
+        report_id: data.data.result._id,
+        reported_user_id: data.data.result.createdBy,
+        user_feedback: yourFeadBack.current.value,
+      },
+    }).then((res) => {
+      console.log(res);    
+    });
+  };
+
+  const { isLoading, isError, data, refetch, isRefetching } = useQuery(
+    "getHomeData",
+    getRelatedData,
+    {
+      refetchOnWindowFocus: false, // to prevent the refetching on window focus
+    }
+  );
+
+  console.log(data?.data);
 
   //  ********** Keen Slider **********
   // thumpnail function
@@ -73,8 +136,17 @@ const PostDetails = () => {
     const disabeld = props.disabled ? " arrow--disabled" : "";
     return (
       <>
-        <span onClick={props.onClick} className={`arrow ${props.left ? "arrow--left" : "arrow--right"} ${disabeld}`}>
-          {props.left ? <solarIcons.ArrowLeft size={41} color="#747474" /> : <solarIcons.ArrowRight size={41} color="#747474" />}
+        <span
+          onClick={props.onClick}
+          className={`arrow ${
+            props.left ? "arrow--left" : "arrow--right"
+          } ${disabeld}`}
+        >
+          {props.left ? (
+            <solarIcons.ArrowLeft size={41} color="#747474" />
+          ) : (
+            <solarIcons.ArrowRight size={41} color="#747474" />
+          )}
         </span>
       </>
     );
@@ -108,7 +180,9 @@ const PostDetails = () => {
   if (isLoading) {
     return (
       <>
-        <CardSkeleton />
+        <div className="container">
+          <CardSkeleton isLoading={isLoading} />
+        </div>
       </>
     );
   }
@@ -119,13 +193,16 @@ const PostDetails = () => {
     console.log("open conversation");
 
     try {
-      const { data } = await axios(`${config.bseUrl}/api/v1/conversations/open-conversation`, {
-        method: "POST",
-        data: {
-          receiver_id,
-        },
-        headers: { token: Cookies.get("userToken") },
-      });
+      const { data } = await axios(
+        `${config.bseUrl}/api/v1/conversations/open-conversation`,
+        {
+          method: "POST",
+          data: {
+            receiver_id,
+          },
+          headers: { token: Cookies.get("userToken") },
+        }
+      );
       dispatch(setActiveUser(data?.users[1]));
       dispatch(getConversationMessages(data._id));
 
@@ -147,22 +224,46 @@ const PostDetails = () => {
                 {/* --------- slider images large ---------  */}
                 <div ref={sliderRef} className="keen-slider ">
                   <div className="keen-slider__slide number-slide1">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide2">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide3">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide4">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide5">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                   <div className="keen-slider__slide number-slide6">
-                    <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6" />
+                    <img
+                      src="/assets/imgPost.png"
+                      alt=""
+                      className="rounded-2xl mb-6"
+                    />
                   </div>
                 </div>
                 {/* --------- slider images large ---------  */}
@@ -171,22 +272,46 @@ const PostDetails = () => {
                   {/* ------------ THUMBNAILS ------------ */}
                   <div ref={thumbnailRef} className="keen-slider thumbnail">
                     <div className="keen-slider__slide number-slide1">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl mb-6 w-[200px]" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl mb-6 w-[200px]"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide2">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide3">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide4">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide5">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                     <div className="keen-slider__slide number-slide6">
-                      <img src="/assets/imgPost.png" alt="" className="rounded-2xl w-[200px] mb-6" />
+                      <img
+                        src="/assets/imgPost.png"
+                        alt=""
+                        className="rounded-2xl w-[200px] mb-6"
+                      />
                     </div>
                   </div>
                   {/* ------------ THUMBNAILS ------------ */}
@@ -195,11 +320,22 @@ const PostDetails = () => {
                   <div className=" flex items-center gap-5 ">
                     {loaded && instanceRef.current && (
                       <>
-                        <Arrow left onClick={(e) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
+                        <Arrow
+                          left
+                          onClick={(e) =>
+                            e.stopPropagation() || instanceRef.current?.prev()
+                          }
+                          disabled={currentSlide === 0}
+                        />
 
                         <Arrow
-                          onClick={(e) => e.stopPropagation() || instanceRef.current?.next()}
-                          disabled={currentSlide === instanceRef.current.track.details.slides.length - 1}
+                          onClick={(e) =>
+                            e.stopPropagation() || instanceRef.current?.next()
+                          }
+                          disabled={
+                            currentSlide ===
+                            instanceRef.current.track.details.slides.length - 1
+                          }
                         />
                       </>
                     )}
@@ -214,7 +350,13 @@ const PostDetails = () => {
                 {/* Important Information  */}
                 <div className="infoImportant absolute end-[30px] bg-[#FA5057] py-1 px-2 rounded-lg top-[-15px] flex items-center gap-1">
                   <div className="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="13"
+                      viewBox="0 0 14 13"
+                      fill="none"
+                    >
                       <path
                         fill-rule="evenodd"
                         clip-rule="evenodd"
@@ -232,12 +374,24 @@ const PostDetails = () => {
                 {/* Important Information  */}
 
                 <div className=" pe-3 ps-10">
-                  <h2 className="text-2xl text-[#131313] font-semibold mb-2">{data.data.result.title}</h2>
-                  <p className="text-base text-[#0F172A] ">{data.data.result.description}</p>
+                  <h2 className="text-2xl text-[#131313] font-semibold mb-2">
+                    {data.data.result.title}
+                  </h2>
+                  <p className="text-base text-[#0F172A] ">
+                    {data.data.result.description}
+                  </p>
                   <div className="price my-5 flex gap-1 items-center justify-end">
-                    <span className="text-[#131313] text-2xl font-semibold">{data.data.result.price}</span>
+                    <span className="text-[#131313] text-2xl font-semibold">
+                      {data.data.result.price}
+                    </span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="19"
+                        height="19"
+                        viewBox="0 0 19 19"
+                        fill="none"
+                      >
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
@@ -253,7 +407,13 @@ const PostDetails = () => {
                   <div className="date flex ps-3 items-center gap-1">
                     <span className="text-[#0F172A] text-xs">منذ 5 ايام</span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="13"
+                        height="12"
+                        viewBox="0 0 13 12"
+                        fill="none"
+                      >
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
@@ -265,9 +425,17 @@ const PostDetails = () => {
                   </div>
 
                   <div className="address pe-3 flex  items-center gap-1">
-                    <span className="text-[#131313] text-sm font-medium">{data.data.result.location}</span>
+                    <span className="text-[#131313] text-sm font-medium">
+                      {data.data.result.location}
+                    </span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                      >
                         <g clip-path="url(#clip0_1608_6937)">
                           <path
                             fill-rule="evenodd"
@@ -278,7 +446,12 @@ const PostDetails = () => {
                         </g>
                         <defs>
                           <clipPath id="clip0_1608_6937">
-                            <rect width="15.0551" height="15" fill="white" transform="translate(0.631836 0.873535)" />
+                            <rect
+                              width="15.0551"
+                              height="15"
+                              fill="white"
+                              transform="translate(0.631836 0.873535)"
+                            />
                           </clipPath>
                         </defs>
                       </svg>
@@ -289,33 +462,57 @@ const PostDetails = () => {
               {/* --------- Data for Books --------- */}
               {/* --------- Book Details --------- */}
               <div className="bookDetails mt-10">
-                <h2 className="text-end text-lg text-black font-semibold">تفاصيل الكتاب </h2>
+                <h2 className="text-end text-lg text-black font-semibold">
+                  تفاصيل الكتاب{" "}
+                </h2>
 
                 <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                  <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.grade}</span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">الصف</span>
+                  <span className="text-[#0F172A] text-base block  font-semibold ">
+                    {data.data.result.grade}
+                  </span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    الصف
+                  </span>
                 </div>
 
                 <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
                   <span className="text-[#0F172A] text-base block  font-semibold ">
-                    {config.categories.map((cate) => (cate.id === data.data.result.educationLevel ? cate.name : null))}
+                    {config.categories.map((cate) =>
+                      cate.id === data.data.result.educationLevel
+                        ? cate.name
+                        : null
+                    )}
                   </span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">المرحلة التعليمية</span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    المرحلة التعليمية
+                  </span>
                 </div>
 
                 <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                  <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.educationType}</span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">نوع التعليم</span>
+                  <span className="text-[#0F172A] text-base block  font-semibold ">
+                    {data.data.result.educationType}
+                  </span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    نوع التعليم
+                  </span>
                 </div>
 
                 <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                  <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.bookEdition}</span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">السنة الدراسية</span>
+                  <span className="text-[#0F172A] text-base block  font-semibold ">
+                    {data.data.result.bookEdition}
+                  </span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    السنة الدراسية
+                  </span>
                 </div>
 
                 <div className="item grid grid-cols-2 mt-3">
-                  <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.educationTerm}</span>
-                  <span className="text-[#939393] text-base block text-end font-semibold ">التيرم</span>
+                  <span className="text-[#0F172A] text-base block  font-semibold ">
+                    {data.data.result.educationTerm}
+                  </span>
+                  <span className="text-[#939393] text-base block text-end font-semibold ">
+                    التيرم
+                  </span>
                 </div>
               </div>
               {/* --------- Book Details --------- */}
@@ -327,20 +524,68 @@ const PostDetails = () => {
                 {/* ------------- QR ------------- */}
                 <div className="qrData flex gap-3 items-center mb-3 pb-2 border-b-1 border-[#f8f7fa] ">
                   <div className="qr">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="26" viewBox="0 0 33 26" fill="none">
-                      <rect x="0.858398" width="4.59295" height="26" rx="1" fill="#939393" />
-                      <rect x="11.1914" width="4.59295" height="26" rx="1" fill="#939393" />
-                      <rect x="16.9326" width="4.59295" height="26" rx="1" fill="#939393" />
-                      <rect x="28.415" width="4.59295" height="26" rx="1" fill="#939393" />
-                      <rect x="7.74805" width="2.29647" height="26" rx="0.5" fill="#939393" />
-                      <rect x="23.8232" width="2.29647" height="26" rx="0.5" fill="#939393" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="33"
+                      height="26"
+                      viewBox="0 0 33 26"
+                      fill="none"
+                    >
+                      <rect
+                        x="0.858398"
+                        width="4.59295"
+                        height="26"
+                        rx="1"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="11.1914"
+                        width="4.59295"
+                        height="26"
+                        rx="1"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="16.9326"
+                        width="4.59295"
+                        height="26"
+                        rx="1"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="28.415"
+                        width="4.59295"
+                        height="26"
+                        rx="1"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="7.74805"
+                        width="2.29647"
+                        height="26"
+                        rx="0.5"
+                        fill="#939393"
+                      />
+                      <rect
+                        x="23.8232"
+                        width="2.29647"
+                        height="26"
+                        rx="0.5"
+                        fill="#939393"
+                      />
                     </svg>
                   </div>
                   <div className="numberId  w-full ">
-                    <span className="text-[10px] text-[#939393] block">Identification Number</span>
+                    <span className="text-[10px] text-[#939393] block">
+                      Identification Number
+                    </span>
                     <div className="flex justify-between">
-                      <span className="text-base text-[#747474] block">{data.data.result.identificationNumber}</span>
-                      <span className="text-[#939393] text-[10px]">Ad id #1256</span>
+                      <span className="text-base text-[#747474] block">
+                        {data.data.result.identificationNumber}
+                      </span>
+                      <span className="text-[#939393] text-[10px]">
+                        Ad id #1256
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -348,9 +593,17 @@ const PostDetails = () => {
                 {/* ------------- notification ------------- */}
                 <div className="notification flex items-center justify-evenly">
                   <div className="item flex items-center">
-                    <span className="text-[#0F172A] text-base font-semibold">مشاركة</span>
+                    <span className="text-[#0F172A] text-base font-semibold">
+                      مشاركة
+                    </span>
                     <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                      >
                         <path
                           d="M14.8317 5.09061L19.9871 9.67315C20.9509 10.5298 21.4327 10.9582 21.6103 11.464C21.7663 11.9081 21.7663 12.3922 21.6103 12.8363C21.4327 13.3421 20.9509 13.7705 19.9871 14.6272L14.8317 19.2097C14.3944 19.5985 14.1757 19.7928 13.99 19.7998C13.8286 19.8058 13.6737 19.7362 13.571 19.6116C13.4528 19.4682 13.4528 19.1756 13.4528 18.5904V15.701C10.9381 15.701 8.28207 16.5086 6.34268 17.9424C5.33302 18.6888 4.82816 19.062 4.63588 19.0473C4.44845 19.0329 4.32951 18.9597 4.23226 18.7989C4.13249 18.6338 4.22061 18.1182 4.39685 17.0869C5.54123 10.3901 10.1499 8.59931 13.4528 8.59931V5.70986C13.4528 5.1247 13.4528 4.83211 13.571 4.68867C13.6737 4.56406 13.8286 4.49448 13.99 4.50052C14.1757 4.50747 14.3944 4.70185 14.8317 5.09061Z"
                           fill="#1C274C"
@@ -358,32 +611,99 @@ const PostDetails = () => {
                       </svg>
                     </div>
                   </div>
-
+                  {/* Report  */}
                   <div className="item flex items-center">
-                    <span className="text-[#0F172A] text-base font-semibold">تبليغ</span>
-                    <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M3.51074 10.9815C3.51074 8.13917 3.51074 6.71803 3.84631 6.23992C4.18188 5.76181 5.51814 5.30441 8.19066 4.38959L8.69983 4.2153C10.0929 3.73843 10.7895 3.5 11.5107 3.5C12.232 3.5 12.9285 3.73843 14.3217 4.2153L14.8308 4.38959C17.5033 5.30441 18.8396 5.76181 19.1752 6.23992C19.5107 6.71803 19.5107 8.13917 19.5107 10.9815V12.3812C19.5107 17.3928 15.7428 19.8249 13.3787 20.8576C12.7374 21.1377 12.4168 21.2778 11.5107 21.2778C10.6047 21.2778 10.2841 21.1377 9.6428 20.8576C7.27871 19.8249 3.51074 17.3928 3.51074 12.3812V10.9815ZM13.2885 9.72222C13.2885 10.7041 12.4926 11.5 11.5107 11.5C10.5289 11.5 9.73296 10.7041 9.73296 9.72222C9.73296 8.74038 10.5289 7.94444 11.5107 7.94444C12.4926 7.94444 13.2885 8.74038 13.2885 9.72222ZM11.5107 16.8333C15.0663 16.8333 15.0663 16.0374 15.0663 15.0556C15.0663 14.0737 13.4744 13.2778 11.5107 13.2778C9.54706 13.2778 7.95519 14.0737 7.95519 15.0556C7.95519 16.0374 7.95519 16.8333 11.5107 16.8333Z"
-                          fill="#1C274C"
-                        />
-                      </svg>
-                    </div>
+                    <Button
+                      onPress={onOpen}
+                      className="bg-[#F3F2F7] hover:bg-[#F3F2F7]"
+                    >
+                      <span className="text-[#0F172A] text-base font-semibold">
+                        تبليغ
+                      </span>
+                      <div className="icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 25 25"
+                          fill="none"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M3.51074 10.9815C3.51074 8.13917 3.51074 6.71803 3.84631 6.23992C4.18188 5.76181 5.51814 5.30441 8.19066 4.38959L8.69983 4.2153C10.0929 3.73843 10.7895 3.5 11.5107 3.5C12.232 3.5 12.9285 3.73843 14.3217 4.2153L14.8308 4.38959C17.5033 5.30441 18.8396 5.76181 19.1752 6.23992C19.5107 6.71803 19.5107 8.13917 19.5107 10.9815V12.3812C19.5107 17.3928 15.7428 19.8249 13.3787 20.8576C12.7374 21.1377 12.4168 21.2778 11.5107 21.2778C10.6047 21.2778 10.2841 21.1377 9.6428 20.8576C7.27871 19.8249 3.51074 17.3928 3.51074 12.3812V10.9815ZM13.2885 9.72222C13.2885 10.7041 12.4926 11.5 11.5107 11.5C10.5289 11.5 9.73296 10.7041 9.73296 9.72222C9.73296 8.74038 10.5289 7.94444 11.5107 7.94444C12.4926 7.94444 13.2885 8.74038 13.2885 9.72222ZM11.5107 16.8333C15.0663 16.8333 15.0663 16.0374 15.0663 15.0556C15.0663 14.0737 13.4744 13.2778 11.5107 13.2778C9.54706 13.2778 7.95519 14.0737 7.95519 15.0556C7.95519 16.0374 7.95519 16.8333 11.5107 16.8333Z"
+                            fill="#1C274C"
+                          />
+                        </svg>
+                      </div>
+                    </Button>
+
+                    {/* Report Content  */}
+                    <Modal
+                      isOpen={isOpen}
+                      onOpenChange={onOpenChange}
+                      className="text-[#333]"
+                    >
+                      <ModalContent>
+                        {(onClose) => (
+                          <>
+                            <ModalHeader className="flex flex-col gap-1 text-center">
+                              Report
+                            </ModalHeader>
+                            <ModalBody>
+                              <p>Whrite Your Feadback</p>
+                              <textarea
+                                name=""
+                                id=""
+                                ref={yourFeadBack}
+                                cols="30"
+                                rows="3"
+                                placeholder="Your Feadback"
+                                className="border-1 p-2 border-[#f2f2f2] resize-none focus:border-[#333] focus:outline-none"
+                              ></textarea>
+                            </ModalBody>
+                            <ModalFooter>
+                              <Button
+                                color="danger"
+                                variant="light"
+                                onPress={onClose}
+                              >
+                                Close
+                              </Button>
+                              <Button
+                                onClick={makingReport}
+                                color="primary"
+                                onPress={onClose}
+                              >
+                                Send
+                              </Button>
+                            </ModalFooter>
+                          </>
+                        )}
+                      </ModalContent>
+                    </Modal>
+                    {/* Report Content  */}
                   </div>
+                  {/* Report  */}
 
                   <div className="item flex items-center">
-                    <span className="text-[#0F172A] text-base font-semibold">حفظ</span>
-                    <div className="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25" fill="none">
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M5.27129 6.49457C3.95953 7.09418 2.99855 8.52037 2.99855 10.2211C2.99855 11.9585 3.70956 13.2978 4.72882 14.4455C5.56889 15.3914 6.58581 16.1754 7.57758 16.94C7.81313 17.1216 8.04727 17.3021 8.27728 17.4834C8.69321 17.8113 9.06424 18.0991 9.42187 18.3081C9.77968 18.5172 10.0677 18.6127 10.3125 18.6127C10.5573 18.6127 10.8453 18.5172 11.2031 18.3081C11.5608 18.0991 11.9318 17.8113 12.3477 17.4834C12.5777 17.3021 12.8119 17.1216 13.0474 16.94C14.0392 16.1754 15.0561 15.3914 15.8962 14.4455C16.9154 13.2978 17.6265 11.9585 17.6265 10.2211C17.6265 8.52037 16.6655 7.09418 15.3537 6.49457C14.0793 5.91205 12.367 6.06632 10.7398 7.75695C10.628 7.8731 10.4737 7.93873 10.3125 7.93873C10.1513 7.93873 9.99703 7.8731 9.88523 7.75695C8.258 6.06632 6.54567 5.91205 5.27129 6.49457ZM10.3125 6.52195C8.48436 4.88633 6.43726 4.65753 4.77822 5.41588C3.02599 6.21682 1.8125 8.07663 1.8125 10.2211C1.8125 12.3287 2.69057 13.9365 3.842 15.2331C4.76407 16.2713 5.89268 17.1403 6.88943 17.9078C7.11538 18.0818 7.33456 18.2505 7.54302 18.4149C7.94804 18.7342 8.38284 19.0746 8.82348 19.3321C9.26392 19.5895 9.7666 19.7987 10.3125 19.7987C10.8584 19.7987 11.3611 19.5895 11.8015 19.3321C12.2422 19.0746 12.677 18.7342 13.082 18.4149C13.2904 18.2505 13.5096 18.0818 13.7356 17.9078C14.7323 17.1403 15.8609 16.2713 16.783 15.2331C17.9344 13.9365 18.8125 12.3287 18.8125 10.2211C18.8125 8.07663 17.599 6.21682 15.8468 5.41588C14.1877 4.65753 12.1406 4.88633 10.3125 6.52195Z"
-                          fill="#1C274C"
+                    <span className="text-[#0F172A] text-base font-semibold">
+                      حفظ
+                    </span>
+                    <div className="icon mt-1 cursor-pointer">
+                      {addFavourite ? (
+                        <solarIcons.Heart
+                          onClick={handleRemoveFavourite}
+                          size={22}
+                          color="#f00"
                         />
-                      </svg>
+                      ) : (
+                        <solarIcons.Heart
+                          onClick={handleAddFavourite}
+                          size={22}
+                          color="#1C274C"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -395,8 +715,10 @@ const PostDetails = () => {
                 <div className="data flex justify-evenly items-center my-3">
                   <div className="userName flex">
                     <div>
-                      <h5 className="text-base text-black font-semibold mb-0">محمد البنا</h5>
-                      <span className="text-[10px] underline text-black block text-end cursor-pointer">عرض الملف الشخصي </span>
+                      <h5 className="text-base text-black font-semibold mb-0"></h5>
+                      <span className="text-[10px] underline text-black block text-end cursor-pointer">
+                        عرض الملف الشخصي{" "}
+                      </span>
                     </div>{" "}
                     <div className="avatar me-3-2 ">
                       <img src="/assets/images/avatar.png" alt="" />
@@ -405,9 +727,17 @@ const PostDetails = () => {
                   <div className=" w-px bg-gray-300 h-16 "></div>
                   <div className="contact">
                     <div className="item cursor-pointer flex mb-3  gap-1 items-center ">
-                      <span className="text-[#747474] text-sm font-medium">مكالمة</span>
+                      <span className="text-[#747474] text-sm font-medium">
+                        مكالمة
+                      </span>
                       <div className="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="17"
+                          height="16"
+                          viewBox="0 0 17 16"
+                          fill="none"
+                        >
                           <g clip-path="url(#clip0_1191_10536)">
                             <path
                               fill-rule="evenodd"
@@ -418,18 +748,34 @@ const PostDetails = () => {
                           </g>
                           <defs>
                             <clipPath id="clip0_1191_10536">
-                              <rect width="15.8388" height="16" fill="white" transform="translate(0.685547)" />
+                              <rect
+                                width="15.8388"
+                                height="16"
+                                fill="white"
+                                transform="translate(0.685547)"
+                              />
                             </clipPath>
                           </defs>
                         </svg>
                       </div>
                     </div>
                     <div className="item cursor-pointer flex gap-1 items-center">
-                      <span className="text-[#747474] text-sm font-medium hover:text-[#28D8AE]" onClick={() => openConversation(data.data.result?.createdBy)}>
+                      <span
+                        className="text-[#747474] text-sm font-medium hover:text-[#28D8AE]"
+                        onClick={() =>
+                          openConversation(data.data.result?.createdBy)
+                        }
+                      >
                         رسالة
                       </span>
                       <div className="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="17"
+                          height="16"
+                          viewBox="0 0 17 16"
+                          fill="none"
+                        >
                           <path
                             fill-rule="evenodd"
                             clip-rule="evenodd"
@@ -445,22 +791,35 @@ const PostDetails = () => {
               {/* ------------- pesronalData ------------- */}
               {/* ------------- Map  ------------- */}
               <div className="mapLocation mb-6">
-                <h2 className="text-base text-end text-black px-1 font-semibold mt-3 mb-2">الموقع علي الخريطه </h2>
+                <h2 className="text-base text-end text-black px-1 font-semibold mt-3 mb-2">
+                  الموقع علي الخريطه{" "}
+                </h2>
                 <div className="map cursor-pointer">
-                  <img src="/assets/images/map.png" alt="Location" className="w-full" />
+                  <img
+                    src="/assets/images/map.png"
+                    alt="Location"
+                    className="w-full"
+                  />
                 </div>
               </div>
               {/* ------------- Map  ------------- */}
               {/* ------------- ADS ------------- */}
               <div className="ads cursor-pointer">
-                <img src="/assets/images/ad/ads.png" alt="ads" className="rounded-[10px] w-full" />
+                <img
+                  src="/assets/images/ad/ads.png"
+                  alt="ads"
+                  className="rounded-[10px] w-full"
+                />
               </div>
               {/* ------------- ADS ------------- */}
             </div>
             {/* ****************** Data for User ****************** */}
           </div>
           <div className="relatedData mt-5 ">
-            <PartsOfCategory title={"Related posts"} data={data?.data?.result[0]} />
+            <PartsOfCategory
+              title={"Related posts"}
+              data={data?.data?.result[0]}
+            />
           </div>
         </div>
       </section>

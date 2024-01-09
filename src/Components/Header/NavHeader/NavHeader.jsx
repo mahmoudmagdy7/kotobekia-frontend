@@ -22,6 +22,7 @@ const NavHeader = () => {
     window.onscroll = () => {
       if (window.scrollY > 100) {
         setMakeScroll(true);
+        console.log(makeScroll);
       } else {
         setMakeScroll(false);
       }

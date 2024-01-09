@@ -1,11 +1,12 @@
 import * as solarIcons from "solar-icon-set";
 // Keen Slider
 import { useKeenSlider } from "keen-slider/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import "keen-slider/keen-slider.min.css";
 import "./slider.css";
-const Slider = ({ data }) => {
+import CardSkeleton from "../Card/CardSkeleton";
+const Slider = ({ data, isLoading }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
 
@@ -41,7 +42,7 @@ const Slider = ({ data }) => {
     },
 
     slideChanged(slider) {
-      setCurrentSlide(slider.track.details.rel);
+      setCurrentSlide(slider?.track?.details?.rel);
     },
 
     created() {
@@ -74,43 +75,52 @@ const Slider = ({ data }) => {
   return (
     <>
       <div className="navigation-wrapper relative px-8 sliders">
-        <div ref={sliderRef} className="keen-slider flex">
-          {data?.posts.map((post, idx) => {
-            return (
-              <>
-                <div className={`keen-slider__slide number-slide${idx} item`}>
-                  <Card post={post} />
-                </div>
-              </>
-            );
-          })}
-        </div>
-        {loaded && instanceRef.current && (
+        {data || instanceRef?.current?.slides ? (
           <>
-            {/* Arrow Left  */}
-            <Arrow
-              left
-              onClick={(e) =>
-                e.stopPropagation() || instanceRef.current?.prev()
-              }
-              disabled={currentSlide === 0}
-            />
-            {/* Arrow Left  */}
+            <div ref={sliderRef} className="keen-slider flex">
+              {data?.posts.map((post, idx) => {
+                return (
+                  <>
+                    <div
+                      className={`keen-slider__slide number-slide${idx} item`}
+                    >
+                      <Card post={post} />
+                    </div>
+                  </>
+                );
+              })}
+            </div>
+            {loaded && instanceRef.current && (
+              <>
+                {/* Arrow Left  */}
+                <Arrow
+                  left
+                  onClick={(e) =>
+                    e.stopPropagation() || instanceRef?.current?.prev()
+                  }
+                  disabled={currentSlide === 0}
+                />
+                {/* Arrow Left  */}
 
-            {/* Arrow Right  */}
+                {/* Arrow Right  */}
 
-            <Arrow
-              onClick={(e) =>
-                e.stopPropagation() || instanceRef.current?.next()
-              }
-              disabled={
-                instanceRef.current.track.details.slides.length === 4 ||
-                currentSlide * 2 >
-                  instanceRef.current.track.details.slides.length
-              }
-            />
-            {/* Arrow Right  */}
+                <Arrow
+                  onClick={(e) =>
+                    e.stopPropagation() || instanceRef?.current?.next()
+                  }
+                  disabled={
+                    instanceRef?.current?.track?.details?.slides?.length ===
+                      4 ||
+                    currentSlide * 2 >
+                      instanceRef?.current?.track?.details?.slides?.length
+                  }
+                />
+                {/* Arrow Right  */}
+              </>
+            )}
           </>
+        ) : (
+          ""
         )}
       </div>
     </>

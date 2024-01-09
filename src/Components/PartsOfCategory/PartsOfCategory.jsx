@@ -7,6 +7,14 @@ import Slider from "../slider/Slider";
 const PartsOfCategory = ({ title, icon, data, isLoading }) => {
   console.log("data from cat" + data);
 
+  if (isLoading) {
+    return (
+      <>
+        <CardSkeleton isLoading={isLoading} />
+      </>
+    );
+  }
+
   return (
     <>
       <section className="cards mb-5">
@@ -31,13 +39,9 @@ const PartsOfCategory = ({ title, icon, data, isLoading }) => {
             {/* To show More category Posts  */}
           </div>
 
-          {isLoading ? (
-            <CardSkeleton isLoading={isLoading} />
-          ) : (
-            <>
-              <Slider data={data} />
-            </>
-          )}
+          <>
+            <Slider data={data} isLoading={isLoading} />
+          </>
         </div>
       </section>
     </>
