@@ -28,6 +28,7 @@ import AddBook from "./pages/AddBook/AddBook.jsx";
 // react hot toast
 import toast, { Toaster } from "react-hot-toast";
 import ProfileData from "./pages/ProfileData/ProfileData";
+import UserProfile from "./pages/UserProfile/UserProfile.jsx";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
@@ -64,6 +65,15 @@ const route = createBrowserRouter([
         element: (
           <LoginProtector>
             <ProfileData />
+          </LoginProtector>
+        ),
+      },
+
+      {
+        path: "/UserProfile/:userId",
+        element: (
+          <LoginProtector>
+            <UserProfile />
           </LoginProtector>
         ),
       },
