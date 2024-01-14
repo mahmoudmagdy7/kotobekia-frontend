@@ -30,10 +30,12 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import toast from "react-hot-toast";
+import { makingReport } from "../../app/Slices/makingRepost";
 
 const PostDetails = () => {
   const router = useNavigate();
   const { id } = useParams();
+
 
   // api Related Data function
   function getRelatedData() {
@@ -73,24 +75,24 @@ const PostDetails = () => {
   // For Report
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const yourFeadBack = useRef("");
-  const makingReport = async () => {
-    axios({
-      method: "post",
-      url: `https://kotobekia-backend.onrender.com/api/v1/reports/report`,
-      headers: {
-        token: Cookies.get("userToken"),
-      },
-      data: {
-        report_type: "post",
-        report_id: data.data.result._id,
-        reported_user_id: data.data.result.createdBy,
-        user_feedback: yourFeadBack.current.value,
-      },
-    }).then(({ data }) => {
-      toast.success(data.message);
-      console.log(data);
-    });
-  };
+  // const makingReport = async () => {
+  //   axios({
+  //     method: "post",
+  //     url: `https://kotobekia-backend.onrender.com/api/v1/reports/report`,
+  //     headers: {
+  //       token: Cookies.get("userToken"),
+  //     },
+  //     data: {
+  //       report_type: "post",
+  //       report_id: data.data.result._id,
+  //       reported_user_id: data.data.result.createdBy,
+  //       user_feedback: yourFeadBack.current.value,
+  //     },
+  //   }).then(({ data }) => {
+  //     toast.success(data.message);
+  //     console.log(data);
+  //   });
+  // };
 
   const { isLoading, isError, data, refetch, isRefetching } = useQuery(
     "getHomeData",
@@ -694,6 +696,7 @@ const PostDetails = () => {
                             onClick={handleRemoveFavourite}
                             size={22}
                             color="#f00"
+                            iconStyle = "Bold"
                           />
                         ) : (
                           <solarIcons.Heart

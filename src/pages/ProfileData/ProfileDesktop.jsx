@@ -19,9 +19,9 @@ const ProfileDesktop = () => {
   const [favorite, setFavorite] = useState(false);
   const [myPost, setMyPost] = useState(false);
 
-  useEffect(() => {
-    dispatch(makingReport());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(makingReport());
+  // }, []);
 
   return (
     <>
