@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import UserProfileDesktop from "./userProfileDesktop";
 
 const UserProfile = () => {
-  const {userId} = useParams();
+  const { userId } = useParams();
   //  getAllDataForUser
   const getAllDataForUser = () => {
     return axios({
@@ -17,18 +17,15 @@ const UserProfile = () => {
     });
   };
 
-  const  userPreson = useQuery("presonalData", getAllDataForUser, {
+  const { data, isLoading } = useQuery("presonalData", getAllDataForUser, {
     refetchOnWindowFocus: false, // to prevent the refetching on window focus
   });
-  if (!userPreson.isLoading) {
-    console.log(userPreson?.data?.data?.result);
-  }
 
-  return <>
-  
-  <UserProfileDesktop isLoading={userPreson.isLoading} userData= {userPreson.data} />
-  
-  </>;
+  return (
+    <>
+      <UserProfileDesktop isLoading={isLoading} userData={data} />
+    </>
+  );
 };
 
 export default UserProfile;
