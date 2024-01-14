@@ -2,13 +2,12 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import config from "../../../config";
 import Cookies from "js-cookie";
-import Card from './../../Components/Card/Card';
-import CardSkeleton from './../../Components/Card/CardSkeleton';
+import Card from "./../../Components/Card/Card";
+import CardSkeleton from "./../../Components/Card/CardSkeleton";
 
 const UserFavorite = () => {
-
-  const getAllfavoritePost = () => {
-    return axios({
+  const getAllfavoritePost = async () => {
+    return await axios({
       method: "get",
       url: `https://kotobekia-backend.onrender.com/api/v1/user/favorites`,
       headers: {
@@ -17,17 +16,18 @@ const UserFavorite = () => {
     });
   };
 
-  const {data , isLoading} =  useQuery("getAllfavoritePost", getAllfavoritePost , {
-    refetchOnWindowFocus: false, // to prevent the refetching on window focus
+  const { data, isLoading } = useQuery(
+    "getAllfavoritePost",
+    getAllfavoritePost,
+    {
+      refetchOnWindowFocus: false, // to prevent the refetching on window focus
+    }
+  );
+  console.log(data?.data);
 
-  });
-    console.log(data?.data);
-
-  if(isLoading){
-    return <CardSkeleton isLoading={isLoading}/>
+  if (isLoading) {
+    return <CardSkeleton isLoading={isLoading} />;
   }
-
-
 
   return (
     <>
@@ -39,7 +39,11 @@ const UserFavorite = () => {
         </div>
 
         <div className="parent mt-8 grid grid-cols-4 gap-4">
-          {data?.data?.result?.map((post)=><><Card post={post}/></>)}
+          {data?.data?.result?.map((post) => (
+            <>
+              <Card post={post} />
+            </>
+          ))}
         </div>
       </div>
     </>

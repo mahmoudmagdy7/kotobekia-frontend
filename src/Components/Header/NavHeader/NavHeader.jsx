@@ -12,7 +12,6 @@ const NavHeader = () => {
   const [location, setLocation] = useState(false);
   const locationList = config.getCityList();
 
-  const dispatch = useDispatch();
   // const { isLoggedIn } = useSelector((state) => state.userData);
   // const dispatch = useDispatch();
 
@@ -20,7 +19,7 @@ const NavHeader = () => {
 
   useLayoutEffect(() => {
     window.onscroll = () => {
-      if (window.scrollY > 200) {
+      if (window.scrollY > 100) {
         setMakeScroll(true);
         console.log(makeScroll);
       } else {
