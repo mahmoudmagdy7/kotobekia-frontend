@@ -35,12 +35,12 @@ const Login = () => {
     }
 
     // validate Password
-    // if (!value.password) {
-    //   error.password = "Password is Required";
-    // } else if (!/^[A-Za-z0-9]{8,}$/i.test(value.password)) {
-    //   error.password =
-    //     "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
-    // }
+    if (!value.password) {
+      error.password = "Password is Required";
+    } else if (!/^[A-Za-z0-9]{8,}$/i.test(value.password)) {
+      error.password =
+        "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
+    }
 
     return error;
   };

@@ -20,7 +20,7 @@ const NavHeader = () => {
 
   useLayoutEffect(() => {
     window.onscroll = () => {
-      if (window.scrollY > 100) {
+      if (window.scrollY > 200) {
         setMakeScroll(true);
         console.log(makeScroll);
       } else {
