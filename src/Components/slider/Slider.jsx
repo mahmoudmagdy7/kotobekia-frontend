@@ -50,31 +50,38 @@ const Slider = ({ data, isLoading }) => {
     },
   });
 
-  console.log(currentSlide);
-  console.log(instanceRef?.current?.track?.details?.slides?.length);
   // console.log(instanceRef?.current?.track?.details?.slides);
 
   // Arrows Function
   function Arrow(props) {
     const disabeld = props.disabled ? " arrow--disabled" : "";
-    console.log(props.left);
 
     return (
-      <span
-        onClick={props.onClick}
-        className={`arrow ${
-          props.left ? "arrow--left" : "arrow--right"
-        } ${disabeld}`}
-      >
+      <span onClick={props.onClick} className={`arrow ${props.left ? "arrow--left" : "arrow--right"} ${disabeld}`}>
         {props.left && <solarIcons.ArrowLeft size={41} color="#747474" />}
         {!props.left && <solarIcons.ArrowRight size={41} color="#747474" />}
       </span>
     );
   }
-
   return (
     <>
       <div className="navigation-wrapper relative px-8 sliders">
+        <div ref={sliderRef} className="keen-slider flex">
+          {data?.posts.map((post, idx) => {
+            return (
+              <>
+                <div className={`keen-slider__slide number-slide${idx} item`}>
+                  <Card post={post} />
+                </div>
+              </>
+            );
+          })}
+        </div>
+        {loaded && instanceRef.current && (
+          <>
+            {/* Arrow Left  */}
+            <Arrow left onClick={(e) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
+            {/* Arrow Left  */}
         {data || instanceRef?.current?.slides ? (
           <>
             <div ref={sliderRef} className="keen-slider flex">
@@ -102,25 +109,14 @@ const Slider = ({ data, isLoading }) => {
                 />
                 {/* Arrow Left  */}
 
-                {/* Arrow Right  */}
+            {/* Arrow Right  */}
 
-                <Arrow
-                  onClick={(e) =>
-                    e.stopPropagation() || instanceRef?.current?.next()
-                  }
-                  disabled={
-                    instanceRef?.current?.track?.details?.slides?.length ===
-                      4 ||
-                    currentSlide * 2 >
-                      instanceRef?.current?.track?.details?.slides?.length
-                  }
-                />
-                {/* Arrow Right  */}
-              </>
-            )}
+            <Arrow
+              onClick={(e) => e.stopPropagation() || instanceRef.current?.next()}
+              disabled={instanceRef.current.track.details.slides.length === 4 || currentSlide * 2 > instanceRef.current.track.details.slides.length}
+            />
+            {/* Arrow Right  */}
           </>
-        ) : (
-          ""
         )}
       </div>
     </>

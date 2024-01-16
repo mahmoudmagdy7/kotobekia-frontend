@@ -25,7 +25,6 @@ export const Conversation = (props) => {
   const dispatch = useDispatch();
   const { activeUser, activeConversation, onlineUsers, loadingConversationMessages } = useSelector((state) => state.chat);
   const msgRef = useRef(null);
-
   useEffect(() => {
     const conversationBody = document.getElementById("conversation-body");
 
@@ -41,16 +40,21 @@ export const Conversation = (props) => {
     dispatch(getConversationMessages(convId));
     // dispatch(getUserConversations());
     console.log("first useEfect");
-  }, []);
+    socket?.emit("join-conversation", convId);
 
+    return () => {
+      socket?.emit("leave-conversation", convId);
+      console.log("leave conv");
+    };
+  }, []);
   useEffect(() => {
     dispatch(getUserConversations());
     console.log("second uesEffect");
     if (!activeUser) {
       router("/chat");
     }
+    // console.log(activeConversation);
   }, [activeConversation]);
-
   const sendMessageHandler = async (message) => {
     setIsEmpty(null);
     if (blackList.some((message) => msgRef?.current?.value.includes(message.toLowerCase()))) {
@@ -68,8 +72,8 @@ export const Conversation = (props) => {
         console.log(msg.sender._id);
         dispatch(receiveMessage(msg));
       } else {
-        dispatch(getUserConversations());
         console.log("conversation not opend");
+        // dispatch(getUserConversations());
       }
       // the second solution to prevent re-rendering
       // dispatch(getConversationMessages(convId));

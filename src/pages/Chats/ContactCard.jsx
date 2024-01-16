@@ -64,11 +64,11 @@ export const ContactCard = ({ conv }) => {
               {conv?.latestMessage?.sender._id === myId ? "Me: " : ""}
               {conv?.latestMessage?.message}
             </p>
-            {conv.unreadMessages[0].count != 0 && activeUser?._id !== currentUser._id ? (
-              <span className="ms-auto inline-flex w-5 h-5 items-center justify-center rounded-full text-sm text-black bg-[#28D8AE] p-1">
-                {conv.unreadMessages[0].count}
-              </span>
-            ) : null}
+            {/* {conv.unreadMessages[0].count != 0 && activeUser?._id !== currentUser._id ? ( */}
+            <span className="ms-auto inline-flex w-5 h-5 items-center justify-center rounded-full text-sm text-black bg-[#28D8AE] p-1">
+              {conv.unreadMessages[0].count}
+            </span>
+            {/* ) : null} */}
           </div>
         </div>
       </div>

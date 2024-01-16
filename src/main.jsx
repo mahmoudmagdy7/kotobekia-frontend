@@ -97,7 +97,12 @@ i18n
       loadPath: "/assets/languages/{{lng}}/translation.json",
     },
   });
+
+if (import.meta.hot) {
+  import.meta.hot.accept();
+}
 const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <NextUIProvider>
     <ThemeProvider>
