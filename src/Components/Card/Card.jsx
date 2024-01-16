@@ -14,7 +14,7 @@ function Card({ post }) {
             {/* <img className="w-full object-fill " src={"https://kotobekia-backend.onrender.com/" + post?.images[0]} alt="img" /> */}
             <img className="  " src="/assets/placeholder.png" alt="img" />
           </figure>{" "}
-          <div className="txt min-h-[168px] bg-white py-2 px-3 rounded-b-[14px]">
+          <div className="txt min-h-[168px] bg-white shadow-xl py-2 px-3 rounded-b-[14px]">
             <div className="card-title flex items-center justify-between gap-2">
               <Link to={"/book/" + post?._id}>
                 <h3 className=" text-[14px] md:text-[16px] text-black font-semibold  line-clamp-1">{post?.title}</h3>

@@ -1,6 +1,5 @@
 import * as solarIcons from "solar-icon-set";
 import { useParams } from "react-router";
-import PartsOfCategory from "../../Components/PartsOfCategory/PartsOfCategory";
 import { useQuery } from "react-query";
 import axios from "axios";
 // keen slider
@@ -11,7 +10,7 @@ import config from "../../../config";
 import CardSkeleton from "../../Components/Card/CardSkeleton";
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./postDetails.css";
 
 import {
@@ -30,7 +29,6 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import toast from "react-hot-toast";
-import { makingReport } from "../../app/Slices/makingRepost";
 
 const PostDetails = () => {
   const router = useNavigate();
@@ -73,26 +71,27 @@ const PostDetails = () => {
   };
 
   // For Report
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange , onClose } = useDisclosure();
   const yourFeadBack = useRef("");
-  // const makingReport = async () => {
-  //   axios({
-  //     method: "post",
-  //     url: `https://kotobekia-backend.onrender.com/api/v1/reports/report`,
-  //     headers: {
-  //       token: Cookies.get("userToken"),
-  //     },
-  //     data: {
-  //       report_type: "post",
-  //       report_id: data.data.result._id,
-  //       reported_user_id: data.data.result.createdBy,
-  //       user_feedback: yourFeadBack.current.value,
-  //     },
-  //   }).then(({ data }) => {
-  //     toast.success(data.message);
-  //     console.log(data);
-  //   });
-  // };
+  const makingReport = async () => {
+    axios({
+      method: "post",
+      url: `https://kotobekia-backend.onrender.com/api/v1/reports/report`,
+      headers: {
+        token: Cookies.get("userToken"),
+      },
+      data: {
+        report_type: "post",
+        report_id: data.data.result._id,
+        reported_user_id: data.data.result.createdBy,
+        user_feedback: yourFeadBack.current.value,
+      },
+    }).then(({ data }) => {
+      toast.success(data.message);
+      onClose()
+      console.log(data);
+    });
+  };
 
   const { isLoading, isError, data, refetch, isRefetching } = useQuery(
     "getHomeData",
@@ -673,7 +672,6 @@ const PostDetails = () => {
                                 <Button
                                   onClick={makingReport}
                                   color="primary"
-                                  onPress={onClose}
                                 >
                                   Send
                                 </Button>
