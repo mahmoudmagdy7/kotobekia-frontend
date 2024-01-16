@@ -1,0 +1,13 @@
+.profile-parent .item {
+  display: none;
+}
+
+.profile-parent .item.active {
+  display: block;
+}
+.data-setting .item .icon svg {
+  fill: #939393!important;
+}
+.data-setting .item .icon.active svg {
+    fill: #28d8ae!important;
+}

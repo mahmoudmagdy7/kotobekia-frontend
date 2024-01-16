@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "../Components/Footer/Footer";
 import MainHeader from "../Components/Header/MainHeader";
@@ -11,17 +11,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../app/Slices/userDataSlice";
 import { getCategory } from "../app/Slices/categorySlice";
 import { useSocket } from "../app/SocketContext";
+import ArrowTop from "../Components/arrowTop/ArrowTop";
 function Layout() {
   const socket = useSocket();
   const { userData } = useSelector((state) => state.userData);
   const { value } = useSelector((state) => state.category);
   const dispatch = useDispatch();
 
- 
-
+  const [isTop, setIsTop] = useState(false);
 
   useLayoutEffect(() => {
-     console.log(value);
+    console.log(value);
     if (localStorage.getItem("i18nextLng") == "en") {
       document.body.dir = "ltr";
     } else {
@@ -32,7 +32,15 @@ function Layout() {
       dispatch(dispatch(getUserData()));
     }
 
-    dispatch(getCategory("655b4ec133dd362ae53081f7" , 1));
+    dispatch(getCategory("655b4ec133dd362ae53081f7", 1));
+
+    window.onscroll = () => {
+      if (window.scrollY > 600) {
+        setIsTop(true);
+      } else {
+        setIsTop(false);
+      }
+    };
   }, []);
 
   const toastOption = {
@@ -61,6 +69,7 @@ function Layout() {
       <MainHeader />
       <NavCategory />
       <Outlet />
+      <ArrowTop isTop={isTop}/>
       <Footer />
       <NavigationBar />
     </>

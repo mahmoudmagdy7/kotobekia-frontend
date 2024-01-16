@@ -11,23 +11,21 @@ import Cookies from "js-cookie";
 
 import { useSocket } from "../../app/SocketContext";
 import isMobile from "../../hooks/useAgent";
+import { siteDirection } from "../../hooks/useLocale";
+import DotsLoading from "../../Components/Loaders/DotsLoading";
 export const Conversation = (props) => {
   const blackList = config.blackList_en;
   const sideToggler = useOutletContext();
   const [isOnline, setIsOnline] = useState(false);
-
+  const [isEmpty, setIsEmpty] = useState(null);
   const token = jwtDecode(Cookies.get("userToken"));
   const socket = useSocket();
   const myId = token.id;
   const router = useNavigate();
   const dispatch = useDispatch();
-  const { activeUser, activeConversation, userConversations, onlineUsers } = useSelector((state) => state.chat);
+  const { activeUser, activeConversation, onlineUsers, loadingConversationMessages } = useSelector((state) => state.chat);
   const msgRef = useRef(null);
-  useLayoutEffect(() => {
-    if (!activeUser) {
-      router("/chat");
-    }
-  }, []);
+
   useEffect(() => {
     const conversationBody = document.getElementById("conversation-body");
 
@@ -35,22 +33,26 @@ export const Conversation = (props) => {
       conversationBody.scrollTo({ top: conversationBody.scrollHeight, behavior: "smooth" });
       msgRef.current.value = null;
     }
+    return () => setActiveUser(null);
   }, [activeConversation]);
 
   const { convId } = useParams();
   useEffect(() => {
     dispatch(getConversationMessages(convId));
     // dispatch(getUserConversations());
-
-    console.log("first uesEffect");
+    console.log("first useEfect");
   }, []);
 
   useEffect(() => {
     dispatch(getUserConversations());
     console.log("second uesEffect");
+    if (!activeUser) {
+      router("/chat");
+    }
   }, [activeConversation]);
 
   const sendMessageHandler = async (message) => {
+    setIsEmpty(null);
     if (blackList.some((message) => msgRef?.current?.value.includes(message.toLowerCase()))) {
       alert("Message not sent");
     } else {
@@ -61,8 +63,14 @@ export const Conversation = (props) => {
 
   useEffect(() => {
     socket.on("receive-message", (msg) => {
-      console.log("msg");
-      dispatch(receiveMessage(msg));
+      console.log(activeUser._id);
+      if (msg?.sender?._id === activeUser?._id) {
+        console.log(msg.sender._id);
+        dispatch(receiveMessage(msg));
+      } else {
+        dispatch(getUserConversations());
+        console.log("conversation not opend");
+      }
       // the second solution to prevent re-rendering
       // dispatch(getConversationMessages(convId));
     });
@@ -70,28 +78,24 @@ export const Conversation = (props) => {
     return () => {
       socket.off("receive-message");
     };
-  }, [dispatch]);
+  }, [dispatch, activeUser]);
 
+  useEffect(() => {
+    console.log("hi");
+  }, [activeUser]);
   const typingHandler = () => {
-    console.log("type");
+    // console.log("type");
     // socket?.emit("typing", { conv: convId, msg: msgRef?.current?.value });
   };
 
-  // useEffect(() => {
-  //   socket.on("typing", (msg) => {
-  //     console.log(`type: ${msg}`);
-  //   });
-  // }, []);
-
   useEffect(() => {
-    console.log(activeUser);
     if (onlineUsers.some((user) => user.userId === activeUser?._id)) {
       setIsOnline(true);
     } else {
       setIsOnline(false);
     }
-    console.log();
   }, [onlineUsers, activeUser]);
+
   return (
     <>
       {activeUser ? (
@@ -129,7 +133,11 @@ export const Conversation = (props) => {
           </div>
           {/* ------- conversation body ------- */}
           <div id="conversation-body" className="p-5 overflow-y-scroll grow ">
-            {activeConversation ? (
+            {loadingConversationMessages ? (
+              <div className="flex h-full items-center justify-center">
+                <DotsLoading />
+              </div>
+            ) : activeConversation?.length > 0 ? (
               activeConversation?.map((m) => {
                 return (
                   <div key={m?._id}>
@@ -161,7 +169,10 @@ export const Conversation = (props) => {
                 );
               })
             ) : (
-              <p>no messages</p>
+              <div className="h-full flex-col justify-center items-center flex">
+                <p>This conversations is Empty</p>
+                <p>Try to send message and start</p>
+              </div>
             )}
           </div>
 
@@ -169,22 +180,31 @@ export const Conversation = (props) => {
           <div className="flex items-center   py-5 px-4 gap-4 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.10)]">
             <input
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === "Enter" && isEmpty) {
                   sendMessageHandler(msgRef?.current?.value);
                 }
               }}
               id="text"
-              contenteditable
               ref={msgRef}
               size="sm"
               type="text"
+              onChange={() => setIsEmpty(msgRef?.current?.value)}
               onKeyUp={typingHandler}
               placeholder="type what you want"
               className="w-full outline-none  bg-[#EFEFEF] p-2 rounded-xl ps-4"
             />
 
-            <Button onClick={() => sendMessageHandler(msgRef?.current?.value)} isIconOnly color="transparent">
-              <solarIcons.Plain2 size={28} className="scale-x-[-1] " color="#28D8AE" />
+            <Button
+              onClick={isEmpty == "" || isEmpty == null ? () => sendMessageHandler(msgRef?.current?.value) : null}
+              isDisabled={isEmpty == "" || isEmpty == null}
+              isIconOnly
+              color="transparent"
+            >
+              {siteDirection == "rtl" ? (
+                <solarIcons.Plain2 size={28} className="scale-x-[-1] " color={isEmpty == "" || isEmpty == null ? "#9e9e9e" : "#28D8AE"} />
+              ) : (
+                <solarIcons.Plain2 size={28} color={isEmpty == "" || isEmpty == null ? "#9e9e9e" : "#28D8AE"} />
+              )}
             </Button>
           </div>
         </div>

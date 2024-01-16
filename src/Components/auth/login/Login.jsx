@@ -114,15 +114,9 @@ const Login = () => {
         <div className="container">
           {/* -------- Title --------  */}
           <div className="title">
-            <h2 className="text-xl text-[#131313] font-bold text-center">
-              تسجيل الدخول
-            </h2>
-            <h4 className="text-xl text-[#131313] font-bold mt-[50px] text-center md:text-start">
-              مرحبا بعودتك يا صديقي.
-            </h4>
-            <h5 className="text-base text-[#131313] mt-3  font-medium text-center md:text-start">
-              يلا بينا نبدأ خير جديد ؟
-            </h5>
+            <h2 className="text-xl text-[#131313] font-bold text-center">تسجيل الدخول</h2>
+            <h4 className="text-xl text-[#131313] font-bold mt-[50px] text-center md:text-start">مرحبا بعودتك يا صديقي.</h4>
+            <h5 className="text-base text-[#131313] mt-3  font-medium text-center md:text-start">يلا بينا نبدأ خير جديد ؟</h5>
           </div>
           {/* -------- Title --------  */}
           {/* -------- Form --------  */}
@@ -130,10 +124,7 @@ const Login = () => {
             <form onSubmit={formik.handleSubmit}>
               {/* ------- Email ------- */}
               <div className="form-group mb-4">
-                <label
-                  htmlFor=""
-                  className="text-base text-[#131313] font-medium"
-                >
+                <label htmlFor="" className="text-base text-[#131313] font-medium">
                   البريد الالكتروني
                 </label>
                 {formik.errors.email && formik.touched.email ? (
@@ -166,10 +157,7 @@ const Login = () => {
               {/* ------- Email ------- */}
               {/* ------- Password ------- */}
               <div className="form-group  mb-4">
-                <label
-                  htmlFor=""
-                  className="text-base text-[#131313] font-medium"
-                >
+                <label htmlFor="" className="text-base text-[#131313] font-medium">
                   الرقم السري
                 </label>
 
@@ -186,11 +174,7 @@ const Login = () => {
                     errorMessage={formik.errors.password}
                     placeholder="********"
                     endContent={
-                      <button
-                        className="focus:outline-none"
-                        type="button"
-                        onClick={toggleVisibility}
-                      >
+                      <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                         {isVisible ? (
                           <solarIcons.Eye color="#000" />
                         ) : (
@@ -212,11 +196,7 @@ const Login = () => {
                     value={formik.values.password}
                     placeholder="********"
                     endContent={
-                      <button
-                        className="focus:outline-none"
-                        type="button"
-                        onClick={toggleVisibility}
-                      >
+                      <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                         {isVisible ? (
                           <solarIcons.Eye color="#000" />
                         ) : (
@@ -251,17 +231,13 @@ const Login = () => {
             </form>
 
             {/* forget password  */}
-            <Link className="text-[#131313] text-sm font-semibold text-center">
-              هل نسيت كلمة السر ؟
-            </Link>
+            <Link className="text-[#131313] text-sm font-semibold text-center">هل نسيت كلمة السر ؟</Link>
           </div>
           {/* -------- Form --------  */}
           {/* -------- or --------  */}
           <div className="or mt-8 relative">
             <div className="line h-[2px] bg-[#909091] w-[75%] mx-auto"></div>
-            <span className=" block text-[#909091] px-3 text-xl font-medium bg-[#eae9eb] absolute top-[-20px] start-[50%] translate-x-[50%]">
-              او
-            </span>
+            <span className=" block text-[#909091] px-3 text-xl font-medium bg-[#eae9eb] absolute top-[-20px] start-[50%] translate-x-[50%]">او</span>
           </div>
           {/* -------- or --------  */}
           {/* -------- Social --------  */}
@@ -269,58 +245,26 @@ const Login = () => {
             {/*------- Facebook ------- */}
             <div className="social cursor-pointer bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
               <div className="icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 28 28"
-                  fill="none"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                   <rect width="28" height="28" rx="14" fill="#E6E6E6" />
-                  <circle
-                    cx="14"
-                    cy="14"
-                    r="12.25"
-                    fill="url(#paint0_linear_1605_6547)"
-                  />
+                  <circle cx="14" cy="14" r="12.25" fill="url(#paint0_linear_1605_6547)" />
                   <path
                     d="M18.562 17.7464L19.1061 14.2888H15.7021V12.0461C15.7021 11.1 16.1767 10.1772 17.7014 10.1772H19.25V7.23362C19.25 7.23362 17.8452 7 16.5027 7C13.698 7 11.8665 8.65632 11.8665 11.6536V14.2888H8.75V17.7464H11.8665V26.1052C12.4921 26.201 13.1322 26.25 13.7843 26.25C14.4363 26.25 15.0764 26.201 15.7021 26.1052V17.7464H18.562Z"
                     fill="white"
                   />
                   <defs>
-                    <linearGradient
-                      id="paint0_linear_1605_6547"
-                      x1="14"
-                      y1="1.75"
-                      x2="14"
-                      y2="26.1773"
-                      gradientUnits="userSpaceOnUse"
-                    ></linearGradient>
+                    <linearGradient id="paint0_linear_1605_6547" x1="14" y1="1.75" x2="14" y2="26.1773" gradientUnits="userSpaceOnUse"></linearGradient>
                   </defs>
                 </svg>
               </div>
-              <span className="text-lg text-[#131313]  font-normal">
-                التسجيل باستخدام حساب فيسبوك
-              </span>
+              <span className="text-lg text-[#131313]  font-normal">التسجيل باستخدام حساب فيسبوك</span>
             </div>
             {/* ------- Facebook ------- */}
             {/* ------- Google ------- */}
             <div className="social cursor-pointer bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
               <div className="icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 28 28"
-                  fill="none"
-                >
-                  <rect
-                    y="0.560059"
-                    width="28"
-                    height="26.88"
-                    rx="13.44"
-                    fill="#E6E6E6"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <rect y="0.560059" width="28" height="26.88" rx="13.44" fill="#E6E6E6" />
                   <path
                     d="M26.2512 14.2612C26.2512 13.2943 26.1678 12.5887 25.9873 11.8569H14.2512V16.2211H21.14C21.0012 17.3057 20.2512 18.9391 18.5845 20.0366L18.5612 20.1827L22.2719 22.8872L22.529 22.9113C24.89 20.8598 26.2512 17.8414 26.2512 14.2612Z"
                     fill="#4285F4"
@@ -339,9 +283,7 @@ const Login = () => {
                   />
                 </svg>
               </div>
-              <span className="text-lg text-[#131313]  font-normal">
-                التسجيل باستخدام حساب جوجل{" "}
-              </span>
+              <span className="text-lg text-[#131313]  font-normal">التسجيل باستخدام حساب جوجل </span>
             </div>
             {/* ------- Google ------- */}
           </div>

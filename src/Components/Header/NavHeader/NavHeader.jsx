@@ -5,6 +5,7 @@ import { Button } from "@nextui-org/react";
 import NavScroll from "./NavScroll";
 import NavbarTop from "./NavbarTop";
 import config from "../../../../config";
+import { useDispatch } from "react-redux";
 
 const NavHeader = () => {
   const [makeScroll, setMakeScroll] = useState(false);
@@ -20,6 +21,7 @@ const NavHeader = () => {
     window.onscroll = () => {
       if (window.scrollY > 100) {
         setMakeScroll(true);
+        console.log(makeScroll);
       } else {
         setMakeScroll(false);
       }
@@ -67,19 +69,12 @@ const NavHeader = () => {
               {/* ---------- Mobile/Tablet-Location ---------- */}
               <div className="navbar-location ms-auto  px-4 relative block lg:hidden w-[150px] h-[48px]  rounded-[8px] py-1  cursor-pointer bg-[#F3F4F7]">
                 <div className="flex justify-center items-center gap-[10px]">
-                  <div
-                    className="txt"
-                    style={{ "font-family": "Noto Sans Arabic" }}
-                  >
+                  <div className="txt" style={{ "font-family": "Noto Sans Arabic" }}>
                     <span className="text-[#939393] text-[10px] font-medium block">
-                      {localStorage.getItem("i18nextLng") == "en"
-                        ? "Your Location"
-                        : "موقعك"}
+                      {localStorage.getItem("i18nextLng") == "en" ? "Your Location" : "موقعك"}
                     </span>
                     <span className="text-[#30A79F] text-[10px] font-bold ">
-                      {localStorage.getItem("i18nextLng") == "en"
-                        ? "Select a Location"
-                        : "اختر الموقع"}
+                      {localStorage.getItem("i18nextLng") == "en" ? "Select a Location" : "اختر الموقع"}
                     </span>
                   </div>
                   <div className="arrows">
@@ -98,17 +93,10 @@ const NavHeader = () => {
                 {location ? (
                   <>
                     <div className=" location-list z-[999999] overflow-auto absolute start-0 top-[101%] border-1 border-[#75757569] flex lg:hidden w-[150px] justify-center items-center gap-[10px] rounded-[10px] cursor-pointer text-[#333] bg-[#F3F4F7]">
-                      <ul
-                        name=""
-                        id=""
-                        className=" list-none w-full max-h-[350px] "
-                      >
+                      <ul name="" id="" className=" list-none w-full max-h-[350px] ">
                         {locationList.map((item) => (
                           <>
-                            <li
-                              value={item.city}
-                              className="select-none transition-all hover:bg-[#e2e2e2] py-1 px-3"
-                            >
+                            <li value={item.city} className="select-none transition-all hover:bg-[#e2e2e2] py-1 px-3">
                               {item.value}
                             </li>
                           </>

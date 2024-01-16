@@ -1,0 +1,20 @@
+.sliders .arrow {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  fill: #747474;
+  cursor: pointer;
+}
+
+.sliders .arrow--left {
+  left: 0;
+}
+
+.sliders .arrow--right {
+  left: auto;
+  right: 10px;
+}
+
