@@ -17,8 +17,6 @@ body {
   position: relative;
 }
 
-
- 
 .arrow {
   width: 30px;
   height: 30px;
@@ -39,10 +37,8 @@ body {
 }
 */
 .arrow--disabled svg {
-  color: #C8C5C5;
-} 
-
-
+  color: #c8c5c5;
+}
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -54,9 +50,11 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
-  -webkit-appearance:textfield;
+input[type="number"] {
+  -webkit-appearance: textfield;
   -moz-appearance: textfield;
   appearance: none;
 }
-
+.active-thumb-item {
+  border: solid 3px #28d8ae;
+}

@@ -19,9 +19,12 @@ const userData = createSlice({
     getUserData: (state) => {
       state.userData = jwtDecode(Cookies.get("userToken"));
     },
+    resetUserData: (state) => {
+      state = initialState;
+    },
   },
 });
 
 export default userData.reducer;
 
-export const { getUserData, handleLoggedOut } = userData.actions;
+export const { getUserData, handleLoggedOut, resetUserData } = userData.actions;

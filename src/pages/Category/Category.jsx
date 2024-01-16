@@ -12,19 +12,19 @@ import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardSkeleton from "../../Components/Card/CardSkeleton";
 function Category() {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const location = useLocation();
-
   // Get the 'page' parameter from the URL or use the default value of 1
   const pageFromUrl = new URLSearchParams(location.search).get("page") || 1;
   const [currentPage, setCurrentPage] = useState(parseInt(pageFromUrl, 10));
   const { id } = useParams();
-  function getCategory(page) {
+  function getCategory(page, id) {
     return axios.get(`${config.bseUrl}/api/v1/levels/specific/${id}?page=${page}`);
   }
 
-  const { isLoading, isError, data, refetch, isRefetching } = useQuery(["getSpecificCategory", currentPage], () => getCategory(currentPage), {
+  const { isLoading, isError, data, refetch, isRefetching } = useQuery(["getSpecificCategory", currentPage, id], () => getCategory(currentPage, id), {
     refetchOnWindowFocus: false, // to prevent the refetching on window focus
+    // refetchOnMount: false,
   });
 
   useEffect(() => {
@@ -32,8 +32,9 @@ function Category() {
   }, [currentPage]);
   useEffect(() => {
     setCurrentPage(1);
-    refetch();
-  }, [location.pathname]);
+    refetch;
+    console.log("refetch");
+  }, [id]);
 
   return (
     <div className="text-black py-5">
@@ -77,7 +78,7 @@ function Category() {
             </div>
           </div>
           {/* ============================== Categories main content  ============================== */}
-          {isLoading || isRefetching ? (
+          {isLoading ? (
             <CardSkeleton isLoading={isLoading} />
           ) : (
             <div className="grid lg:grid-cols-3 grid-cols-2 mt-3 ">

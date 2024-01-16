@@ -85,8 +85,6 @@ filters : all, resolved, rejected , under review
 
 +++++++++++++++++
 
-
-
 ----------- Notifications --------------
 
 Mojanad
@@ -103,7 +101,27 @@ isRead: boolean,
 
 when the user click on the notification the status will change to read after sending the request to the backend
 
+---
 
+user model => chat count
 
+current case -----------
 
+lola in conversations with mojanad = >
+lolo send a message to mojanad => unread messages ++
 
+---
+
+lol in conversation with mojanad => unread messages not plus
+
+when lolo open the conversation with mojanad
+conversation "sex" [lolo , mojanad]
+
+conv_id = x
+
+socket.on(x)
+
+mojanad => emit(x)
+lolo => emit(x)
+
+join-conv = [conv_id, conv_id]

@@ -1,5 +1,6 @@
 const config = {
   bseUrl: import.meta.env.VITE_BASE_URL,
+  domain: "kotobekia.vercel.app",
   any: "",
   categories: [
     { id: "655b4ec133dd362ae53081f7", name: "KG" },

@@ -13,15 +13,14 @@ function NavigationBar() {
   const { userConversationsCount } = useSelector((state) => state.chat);
   const location = useLocation();
   useEffect(() => {
-    console.log(location);
     setCurrentLocation(location.pathname);
   }, [location]);
   return (
     <div>
-      <ul className="flex z-[999999] text-black items-center justify-around lg:hidden gap-1 fixed start-0 end-0 bg-white bottom-0 pb-1 pt-2 rounded-t-3xl text-xs sm:text-sm   px-3">
+      <ul className="flex z-50 text-black items-center justify-around lg:hidden gap-1 fixed start-0 end-0 bg-white bottom-0 pb-1 pt-2 rounded-t-3xl text-xs sm:text-sm   px-3">
         <li>
-          <Link onClick={() => setCurrentLocation("/account/id")} to={"/account/id"} className="flex items-center flex-col">
-            {currentLocation === "/account/id" ? <solarIcons.User size={23} color="#28D8AE" /> : <solarIcons.User size={23} color="#000" />}
+          <Link onClick={() => setCurrentLocation("/profile")} to={"/profile"} className="flex items-center flex-col">
+            {currentLocation === "/profile" ? <solarIcons.User size={23} color="#28D8AE" /> : <solarIcons.User size={23} color="#000" />}
             <span className="font-bold">{t("navigation_bar.account")}</span>
           </Link>
         </li>
