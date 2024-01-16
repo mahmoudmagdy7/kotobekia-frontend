@@ -66,31 +66,13 @@ const Slider = ({ data, isLoading }) => {
   return (
     <>
       <div className="navigation-wrapper relative px-8 sliders">
-        <div ref={sliderRef} className="keen-slider flex">
-          {data?.posts.map((post, idx) => {
-            return (
-              <>
-                <div className={`keen-slider__slide number-slide${idx} item`}>
-                  <Card post={post} />
-                </div>
-              </>
-            );
-          })}
-        </div>
-        {loaded && instanceRef.current && (
-          <>
-            {/* Arrow Left  */}
-            <Arrow left onClick={(e) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
-            {/* Arrow Left  */}
         {data || instanceRef?.current?.slides ? (
           <>
             <div ref={sliderRef} className="keen-slider flex">
               {data?.posts.map((post, idx) => {
                 return (
                   <>
-                    <div
-                      className={`keen-slider__slide number-slide${idx} item`}
-                    >
+                    <div className={`keen-slider__slide number-slide${idx} item`}>
                       <Card post={post} />
                     </div>
                   </>
@@ -100,23 +82,31 @@ const Slider = ({ data, isLoading }) => {
             {loaded && instanceRef.current && (
               <>
                 {/* Arrow Left  */}
-                <Arrow
-                  left
-                  onClick={(e) =>
-                    e.stopPropagation() || instanceRef?.current?.prev()
-                  }
-                  disabled={currentSlide === 0}
-                />
+                <Arrow left onClick={(e) => e.stopPropagation() || instanceRef?.current?.prev()} disabled={currentSlide === 0} />
+                {/* Arrow Left  */}
+                {/* Arrow Left  */}
+                <Arrow left onClick={(e) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
                 {/* Arrow Left  */}
 
-            {/* Arrow Right  */}
+                {/* Arrow Right  */}
 
-            <Arrow
-              onClick={(e) => e.stopPropagation() || instanceRef.current?.next()}
-              disabled={instanceRef.current.track.details.slides.length === 4 || currentSlide * 2 > instanceRef.current.track.details.slides.length}
-            />
+                <Arrow
+                  onClick={(e) => e.stopPropagation() || instanceRef?.current?.next()}
+                  disabled={
+                    instanceRef?.current?.track?.details?.slides?.length === 4 || currentSlide * 2 > instanceRef?.current?.track?.details?.slides?.length
+                  }
+                />
+                {/* Arrow Right  */}
+                <Arrow
+                  onClick={(e) => e.stopPropagation() || instanceRef.current?.next()}
+                  disabled={instanceRef.current?.track?.details?.slides.length === 4 || currentSlide * 2 > instanceRef.current.track?.details?.slides.length}
+                />
+              </>
+            )}
             {/* Arrow Right  */}
           </>
+        ) : (
+          ""
         )}
       </div>
     </>

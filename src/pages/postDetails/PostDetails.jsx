@@ -16,56 +16,53 @@ import { useDispatch } from "react-redux";
 import "./postDetails.css";
 
 import { getConversationMessages, setActiveUser } from "../../app/Slices/chatSlice";
-
-// Modal For Report
-
 import toast from "react-hot-toast";
-import { getConversationMessages, setActiveUser } from "../../app/Slices/chatSlice";
 import { loggedInUserInfo } from "../../hooks/useAuth";
 import { siteDirection } from "../../hooks/useLocale";
-import { FacebookIcon, FacebookShareButton, FacebookShareCount, TwitterIcon, WhatsappShareButton } from "react-share";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import ShareModal from "./ShareModal";
 
 const PostDetails = () => {
   const dispatch = useDispatch();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [like, setLike] = useState();
+  // const [like, setLike] = useState();
   const [loaded, setLoaded] = useState(false);
   const router = useNavigate();
   const { id } = useParams();
   const locatoin = useLocation();
   // api Related Data function
-  function getRelatedData(postId) {
+  function getPostData(postId) {
     return axios.get(`${config.bseUrl}/api/v1/posts/specific/${postId}`, {
       headers: {
         token: Cookies.get("userToken"),
       },
     });
   }
-
   // Add Favourite
-  const [addFavourite, setSddFavourite] = useState(false);
+  const [addFavourite, setAddFavourite] = useState(false);
   const handleAddFavourite = async () => {
-    setSddFavourite(true);
-
     axios({
       method: "post",
-      url: `https://kotobekia-backend.onrender.com/api/v1/posts/add-to-favorite/${data.data.result._id}`,
+      url: `https://kotobekia-backend.onrender.com/api/v1/posts/add-to-favorite/${data?.data?.result._id}`,
       headers: {
         token: Cookies.get("userToken"),
       },
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      console.log(res);
+      setAddFavourite(true);
+    });
   };
   const handleRemoveFavourite = () => {
-    setSddFavourite(false);
     axios({
       method: "post",
-      url: `https://kotobekia-backend.onrender.com/api/v1/posts/remove-from-favorite/${data.data.result._id}`,
+      url: `https://kotobekia-backend.onrender.com/api/v1/posts/remove-from-favorite/${data?.data?.result._id}`,
       headers: {
         token: Cookies.get("userToken"),
       },
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      console.log(res);
+      setAddFavourite(false);
+    });
   };
 
   // For Report
@@ -80,20 +77,20 @@ const PostDetails = () => {
       },
       data: {
         report_type: "post",
-        report_id: data.data.result._id,
-        reported_user_id: data.data.result.createdBy,
+        report_id: data?.data?.result._id,
+        reported_user_id: data?.data?.result.createdBy,
         user_feedback: yourFeadBack.current.value,
       },
     }).then(({ data }) => {
-      toast.success(data.message);
+      toast.success(data?.message);
       onClose();
       console.log(data);
     });
   };
 
-  const { isLoading, isError, data, refetch, isRefetching } = useQuery(["getHomeData", id], () => getRelatedData(id), {
+  const { isLoading, isError, data, refetch, isRefetching } = useQuery(["getPostData", id], () => getPostData(id), {
     refetchOnWindowFocus: false, // to prevent the refetching on window focus
-    refetchOnMount: false,
+    // refetchOnMount: false,
   });
 
   //  ********** Keen Slider **********
@@ -175,9 +172,9 @@ const PostDetails = () => {
         headers: { token: Cookies.get("userToken") },
       });
       dispatch(setActiveUser(data?.users[1]));
-      dispatch(getConversationMessages(data._id));
+      dispatch(getConversationMessages(data?._id));
 
-      router(`/chat/${data._id}`);
+      router(`/chat/${data?._id}`);
       console.log(data);
     } catch (error) {
       console.log(error?.response?.data);
@@ -188,19 +185,21 @@ const PostDetails = () => {
     console.log("done");
   }
   useEffect(() => {
-    refetch;
-  }, [id]);
+    refetch(id);
+    // data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? setAddFavourite(true) : setAddFavourite(false);
+  }, [id, addFavourite]);
+
   return (
     <>
       <section className="postDetails py-5">
         <ShareModal copyText={copyText} onOpen={onOpen} isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange} data={data} />
         <div className="container">
           {
-            isLoading || isRefetching ? (
+            isLoading ? (
               <CardSkeleton />
             ) : (
               <div className="lg:grid lg:grid-cols-12 gap-8">
-                <div className="books lg:col-span-8">
+                <div className="books lg:col-span-8  mb-3">
                   {/* $$$$$$$$$$ keen slider $$$$$$$$$$ */}
                   <div className="slider ">
                     {/* --------- slider images large ---------  */}
@@ -288,10 +287,10 @@ const PostDetails = () => {
                     {/* Important Information  */}
 
                     <div className=" pe-3 ps-10">
-                      <h2 className="text-2xl text-[#131313] font-semibold mb-2">{data.data.result.title}</h2>
-                      <p className="text-base text-[#0F172A] ">{data.data.result.description}</p>
+                      <h2 className="text-2xl text-[#131313] font-semibold mb-2">{data?.data?.result.title}</h2>
+                      <p className="text-base text-[#0F172A] ">{data?.data?.result.description}</p>
                       <div className="price my-5 flex gap-1 items-center justify-end">
-                        <span className="text-[#131313] text-2xl font-semibold">{data.data.result.price}</span>
+                        <span className="text-[#131313] text-2xl font-semibold">{data?.data?.result.price}</span>
                         <div className="icon">
                           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
                             <path
@@ -321,7 +320,7 @@ const PostDetails = () => {
                       </div>
 
                       <div className="address pe-3 flex  items-center gap-1">
-                        <span className="text-[#131313] text-sm font-medium">{data.data.result.location}</span>
+                        <span className="text-[#131313] text-sm font-medium">{data?.data?.result.location}</span>
                         <div className="icon">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <g clip-path="url(#clip0_1608_6937)">
@@ -342,7 +341,7 @@ const PostDetails = () => {
                       </div>
                     </div>
                     {/* Report  */}
-                    <div className="report item flex items-center">
+                    {/* <div className="report item flex items-center">
                       <Button onPress={onOpen} className="bg-[#F3F2F7] hover:bg-[#F3F2F7]">
                         <span className="text-[#0F172A] text-base font-semibold">تبليغ</span>
                         <div className="icon">
@@ -355,10 +354,10 @@ const PostDetails = () => {
                             />
                           </svg>
                         </div>
-                      </Button>
+                      </Button> */}
 
-                      {/* Report Content  */}
-                      <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="text-[#333]">
+                    {/* Report Content  */}
+                    {/* <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="text-[#333]">
                         <ModalContent>
                           {(onClose) => (
                             <>
@@ -387,11 +386,11 @@ const PostDetails = () => {
                           )}
                         </ModalContent>
                       </Modal>
-                      {/* Report Content  */}
-                    </div>
+                    </div> */}
+                    {/* Report Content  */}
                     {/* Report  */}
 
-                    <div className="favourite item flex items-center">
+                    {/* <div className="favourite item flex items-center">
                       <span className="text-[#0F172A] text-base font-semibold">حفظ</span>
                       <div className="icon mt-1 cursor-pointer">
                         {addFavourite ? (
@@ -400,110 +399,46 @@ const PostDetails = () => {
                           <solarIcons.Heart onClick={handleAddFavourite} size={22} color="#1C274C" />
                         )}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
-                  {/* ------------- notification ------------- */}
+                  <div className="pesronalData  rounded-lg border-1 border-[#E8E7E7] ">
+                    {/* --------- Data for Books --------- */}
+                    {/* --------- Book Details --------- */}
+                    <div className="bookDetails mt-10 px-5 ">
+                      <h2 className="text-end text-lg text-black font-semibold">تفاصيل الكتاب </h2>
+
+                      <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
+                        <span className="text-[#0F172A] text-base block  font-semibold ">{data?.data?.result.grade}</span>
+                        <span className="text-[#464646] text-base block text-end font-semibold ">الصف</span>
+                      </div>
+
+                      <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
+                        <span className="text-[#0F172A] text-base block  font-semibold ">
+                          {config.categories.map((cate) => (cate.id === data?.data?.result.educationLevel ? cate.name : null))}
+                        </span>
+                        <span className="text-[#464646] text-base block text-end font-semibold ">المرحلة التعليمية</span>
+                      </div>
+
+                      <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
+                        <span className="text-[#0F172A] text-base block  font-semibold ">{data?.data?.result.educationType}</span>
+                        <span className="text-[#464646] text-base block text-end font-semibold ">نوع التعليم</span>
+                      </div>
+
+                      <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
+                        <span className="text-[#0F172A] text-base block  font-semibold ">{data?.data?.result.bookEdition}</span>
+                        <span className="text-[#464646] text-base block text-end font-semibold ">السنة الدراسية</span>
+                      </div>
+
+                      <div className="item grid grid-cols-2 mt-3">
+                        <span className="text-[#0F172A] text-base block  font-semibold ">{data?.data?.result.educationTerm}</span>
+                        <span className="text-[#464646] text-base block text-end font-semibold ">التيرم</span>
+                      </div>
+                    </div>
+                    {/* --------- Book Details --------- */}
+                  </div>
                 </div>
 
                 {/* ------------- pesronalData ------------- */}
-                <div className="pesronalData bg-white rounded-lg border-1 border-[#E8E7E7] ">
-                  <div className="data flex justify-evenly items-center my-3">
-                    <div className="userName flex items-center">
-                      <div className="text-center me-4">
-                        <h5 className="text-base text-black font-semibold mb-0">{data?.data?.result?.createdBy?.fullName}</h5>
-                        <Link to={`/userProfile/${data?.data?.result?.createdBy?._id}`}>
-                          <span className="text-[10px] underline text-black block cursor-pointer">عرض الملف الشخصي</span>
-                        </Link>
-                      </div>{" "}
-                      <div className="avatar me-3-2 relative ">
-                        <img src="/assets/images/avatar.png" alt="user image " />
-                        {data?.data?.result?.createdBy?.isVerified ? (
-                          <div className="isverifay absolute bottom-0 end-0 w-5 h-5 flex justify-center items-center bg-white rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 15 16" fill="none">
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M6.21072 2.80866C6.06507 2.93404 5.99224 2.99674 5.91447 3.0494C5.73618 3.17012 5.53595 3.2539 5.32538 3.29589C5.23352 3.31421 5.13814 3.3219 4.94738 3.33728C4.46809 3.37591 4.22845 3.39523 4.02851 3.46657C3.56608 3.63157 3.20234 3.99901 3.039 4.46615C2.96838 4.66812 2.94926 4.91021 2.91101 5.39438C2.89579 5.58708 2.88818 5.68343 2.87004 5.77622C2.82847 5.98893 2.74553 6.1912 2.62603 6.3713C2.5739 6.44987 2.51184 6.52344 2.38772 6.67057C2.07586 7.04025 1.91992 7.2251 1.82848 7.41835C1.61699 7.86534 1.61699 8.38498 1.82848 8.83197C1.91992 9.02523 2.07585 9.21007 2.38772 9.57975C2.51183 9.72687 2.57391 9.80046 2.62603 9.87902C2.74553 10.0591 2.82847 10.2614 2.87004 10.4741C2.88818 10.5669 2.89579 10.6632 2.91101 10.8559C2.94926 11.3401 2.96838 11.5822 3.039 11.7842C3.20234 12.2513 3.56608 12.6188 4.02851 12.7838C4.22845 12.8551 4.46809 12.8744 4.94738 12.913C5.13814 12.9284 5.23352 12.9361 5.32538 12.9544C5.53595 12.9964 5.73618 13.0802 5.91447 13.2009C5.99224 13.2536 6.06507 13.3163 6.21072 13.4417C6.57668 13.7567 6.75965 13.9142 6.95097 14.0066C7.39345 14.2202 7.90786 14.2202 8.35034 14.0066C8.54166 13.9142 8.72463 13.7567 9.09059 13.4417C9.23624 13.3163 9.30907 13.2536 9.38684 13.2009C9.56513 13.0802 9.76536 12.9964 9.97593 12.9544C10.0678 12.9361 10.1632 12.9284 10.3539 12.913C10.8332 12.8744 11.0729 12.8551 11.2728 12.7838C11.7352 12.6188 12.099 12.2513 12.2623 11.7842C12.3329 11.5822 12.3521 11.3401 12.3903 10.8559C12.4055 10.6632 12.4131 10.5669 12.4313 10.4741C12.4728 10.2614 12.5558 10.0591 12.6753 9.87902C12.7274 9.80045 12.7895 9.72689 12.9136 9.57975C13.2255 9.21007 13.3814 9.02523 13.4728 8.83197C13.6843 8.38498 13.6843 7.86534 13.4728 7.41835C13.3814 7.22509 13.2255 7.04025 12.9136 6.67057C12.7895 6.52344 12.7274 6.44987 12.6753 6.3713C12.5558 6.1912 12.4728 5.98893 12.4313 5.77622C12.4131 5.68343 12.4055 5.58708 12.3903 5.39438C12.3521 4.91021 12.3329 4.66812 12.2623 4.46615C12.099 3.99901 11.7352 3.63157 11.2728 3.46657C11.0729 3.39523 10.8332 3.37591 10.3539 3.33728C10.1632 3.3219 10.0678 3.31421 9.97593 3.29589C9.76536 3.2539 9.56513 3.17012 9.38684 3.0494C9.30906 2.99674 9.23624 2.93405 9.09059 2.80866C8.72463 2.49362 8.54166 2.3361 8.35034 2.24373C7.90786 2.03008 7.39345 2.03008 6.95097 2.24373C6.75965 2.3361 6.57667 2.49362 6.21072 2.80866ZM10.2663 6.83414C10.4564 6.64212 10.4564 6.33079 10.2663 6.13876C10.0763 5.94674 9.76806 5.94674 9.57797 6.13876L6.67714 9.06912L5.72332 8.10559C5.53323 7.91357 5.22504 7.91357 5.03495 8.10559C4.84486 8.29761 4.84486 8.60895 5.03495 8.80097L6.33295 10.1122C6.52304 10.3042 6.83124 10.3042 7.02133 10.1122L10.2663 6.83414Z"
-                                fill="#08B1E7"
-                              />
-                            </svg>
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
-                    <div className=" w-px bg-gray-300 h-16 "></div>
-                    <div className="contact">
-                      <div className="item cursor-pointer flex mb-3  gap-1 items-center ">
-                        <span className="text-[#747474] text-sm font-medium">مكالمة</span>
-                        <div className="icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                            <g clip-path="url(#clip0_1191_10536)">
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M2.38867 1.77736C3.81422 0.337297 6.21986 0.446769 7.21245 2.24345L7.76314 3.24024C8.41133 4.41352 8.13511 5.89387 7.18623 6.86413C7.17359 6.88162 7.10661 6.98014 7.09827 7.15226C7.08762 7.37197 7.16486 7.88006 7.94416 8.66729C8.72319 9.45425 9.2261 9.53248 9.44368 9.52178C9.61421 9.5134 9.71181 9.44571 9.72915 9.43292C10.6896 8.47438 12.1551 8.19535 13.3165 8.85014L14.3033 9.40644C16.0818 10.4091 16.1902 12.8393 14.7647 14.2793C14.0021 15.0496 12.9883 15.734 11.7968 15.7796C10.0311 15.8473 7.09931 15.3867 4.1959 12.4537C1.29249 9.52073 0.836519 6.5591 0.903455 4.77545C0.948624 3.57185 1.62615 2.54764 2.38867 1.77736ZM6.10106 2.87001C5.59279 1.95 4.22695 1.73864 3.28865 2.68649C2.63076 3.35108 2.20305 4.08463 2.1753 4.82415C2.11948 6.31159 2.48302 8.9051 5.09588 11.5446C7.70874 14.184 10.2761 14.5512 11.7486 14.4949C12.4806 14.4668 13.2068 14.0348 13.8647 13.3702C14.803 12.4223 14.5938 11.0426 13.683 10.5291L12.6963 9.97285C12.0825 9.6268 11.2203 9.74484 10.615 10.3562L10.6148 10.3564C10.5554 10.4164 10.1771 10.773 9.50552 10.806C8.81805 10.8398 7.98589 10.5277 7.04418 9.57642C6.10216 8.62482 5.79337 7.78396 5.82703 7.08939C5.85992 6.41095 6.21308 6.029 6.27218 5.9693L6.2722 5.96927C6.87746 5.35786 6.99431 4.48688 6.65175 3.86681L6.10106 2.87001Z"
-                                fill="#28D8AE"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_1191_10536">
-                                <rect width="15.8388" height="16" fill="white" transform="translate(0.685547)" />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </div>
-                      </div>
-                      <div className="item cursor-pointer flex gap-1 items-center">
-                        <span className="text-[#747474] text-sm font-medium hover:text-[#28D8AE]" onClick={() => openConversation(data.data.result?.createdBy)}>
-                          رسالة
-                        </span>
-                        <div className="icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M7.24709 2.16666H9.96136C11.1742 2.16665 12.1348 2.16664 12.8867 2.26875C13.6604 2.37383 14.2866 2.59524 14.7805 3.09415C15.2744 3.59306 15.4936 4.22569 15.5976 5.00731C15.6987 5.76679 15.6987 6.73721 15.6987 7.96238V8.0376C15.6987 9.26277 15.6987 10.2332 15.5976 10.9927C15.4936 11.7743 15.2744 12.4069 14.7805 12.9058C14.2866 13.4047 13.6604 13.6261 12.8867 13.7312C12.1348 13.8333 11.1742 13.8333 9.96135 13.8333H7.2471C6.03427 13.8333 5.07362 13.8333 4.3218 13.7312C3.54806 13.6261 2.9218 13.4047 2.42792 12.9058C1.93403 12.4069 1.71485 11.7743 1.61083 10.9927C1.50975 10.2332 1.50976 9.26277 1.50977 8.0376V7.96238C1.50976 6.73721 1.50975 5.76678 1.61083 5.00731C1.71485 4.22569 1.93403 3.59306 2.42792 3.09415C2.9218 2.59524 3.54806 2.37383 4.3218 2.26875C5.07362 2.16664 6.03426 2.16665 7.24709 2.16666ZM4.4537 3.25983C3.78973 3.35001 3.4072 3.51912 3.1279 3.80126C2.8486 4.0834 2.68119 4.46983 2.59192 5.14056C2.50074 5.82567 2.49969 6.72878 2.49969 7.99999C2.49969 9.2712 2.50074 10.1743 2.59192 10.8594C2.68119 11.5302 2.8486 11.9166 3.1279 12.1987C3.4072 12.4809 3.78973 12.65 4.4537 12.7402C5.13191 12.8323 6.02592 12.8333 7.28432 12.8333H9.92412C11.1825 12.8333 12.0765 12.8323 12.7547 12.7402C13.4187 12.65 13.8013 12.4809 14.0805 12.1987C14.3598 11.9166 14.5273 11.5302 14.6165 10.8594C14.7077 10.1743 14.7088 9.2712 14.7088 7.99999C14.7088 6.72878 14.7077 5.82567 14.6165 5.14056C14.5273 4.46983 14.3598 4.0834 14.0805 3.80126C13.8013 3.51912 13.4187 3.35001 12.7547 3.25983C12.0765 3.16772 11.1825 3.16666 9.92412 3.16666H7.28433C6.02592 3.16666 5.13191 3.16772 4.4537 3.25983ZM4.26429 5.01323C4.43929 4.80109 4.75139 4.77243 4.96139 4.94921L6.38616 6.1486C7.00186 6.66691 7.42934 7.0256 7.79023 7.26008C8.13958 7.48705 8.37649 7.56324 8.60422 7.56324C8.83195 7.56324 9.06887 7.48705 9.41822 7.26008C9.77911 7.0256 10.2066 6.66691 10.8223 6.1486L12.2471 4.94921C12.4571 4.77243 12.7692 4.80109 12.9442 5.01323C13.1192 5.22537 13.0908 5.54065 12.8808 5.71743L11.4312 6.93771C10.8463 7.43014 10.3722 7.82927 9.9537 8.10114C9.51781 8.38434 9.0933 8.56324 8.60422 8.56324C8.11515 8.56324 7.69064 8.38434 7.25474 8.10114C6.8363 7.82927 6.36219 7.43015 5.77724 6.93771L4.32766 5.71743C4.11766 5.54065 4.08929 5.22537 4.26429 5.01323Z"
-                              fill="#FFC26F"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* --------- Data for Books --------- */}
-                  {/* --------- Book Details --------- */}
-                  <div className="bookDetails mt-10">
-                    <h2 className="text-end text-lg text-black font-semibold">تفاصيل الكتاب </h2>
-
-                    <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                      <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.grade}</span>
-                      <span className="text-[#939393] text-base block text-end font-semibold ">الصف</span>
-                    </div>
-
-                    <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                      <span className="text-[#0F172A] text-base block  font-semibold ">
-                        {config.categories.map((cate) => (cate.id === data.data.result.educationLevel ? cate.name : null))}
-                      </span>
-                      <span className="text-[#939393] text-base block text-end font-semibold ">المرحلة التعليمية</span>
-                    </div>
-
-                    <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                      <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.educationType}</span>
-                      <span className="text-[#939393] text-base block text-end font-semibold ">نوع التعليم</span>
-                    </div>
-
-                    <div className="item grid grid-cols-2 my-3 pb-3 border-b-1 border-white">
-                      <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.bookEdition}</span>
-                      <span className="text-[#939393] text-base block text-end font-semibold ">السنة الدراسية</span>
-                    </div>
-
-                    <div className="item grid grid-cols-2 mt-3">
-                      <span className="text-[#0F172A] text-base block  font-semibold ">{data.data.result.educationTerm}</span>
-                      <span className="text-[#939393] text-base block text-end font-semibold ">التيرم</span>
-                    </div>
-                  </div>
-                  {/* --------- Book Details --------- */}
-                </div>
 
                 {/* ****************** Data for User ****************** */}
                 <div className="details mt-5  lg:col-span-4">
@@ -523,7 +458,7 @@ const PostDetails = () => {
                       <div className="numberId  w-full ">
                         <span className="text-[10px] text-[#939393] block">Identification Number</span>
                         <div className="flex justify-between">
-                          <span className="text-base text-[#747474] block">{data.data.result.identificationNumber}</span>
+                          <span className="text-base text-[#747474] block">{data?.data?.result.identificationNumber}</span>
                           <span className="text-[#939393] text-[10px]">Ad id #1256</span>
                         </div>
                       </div>
@@ -541,9 +476,20 @@ const PostDetails = () => {
                         <span className="text-[#0F172A] text-base font-semibold">تبليغ</span>
                         <solarIcons.ShieldWarning size={24} color="#0F172A" />
                       </div>
-                      <Button size="sm" color="transparent" className="flex  items-center" onClick={() => setLike(!like)}>
+                      <Button
+                        size="sm"
+                        color="transparent"
+                        className="flex  items-center"
+                        onClick={() => {
+                          !addFavourite ? handleAddFavourite() : handleRemoveFavourite();
+                        }}
+                      >
                         <span className="text-[#0F172A] text-base font-semibold">حفظ</span>
-                        <solarIcons.Heart size={24} color="#FA5057" iconStyle={!like ? "Outline" : "Bold"} />
+                        <solarIcons.Heart
+                          size={24}
+                          color="#FA5057"
+                          iconStyle={!data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? "Outline" : "Bold"}
+                        />
                       </Button>
                     </div>
                     {/* ------------- notification ------------- */}
@@ -554,8 +500,10 @@ const PostDetails = () => {
                     <div className="data flex justify-evenly items-center my-3">
                       <div className="userName flex">
                         <div>
-                          <h5 className="text-base text-black font-semibold mb-0"> {data.data.result?.createdBy?.fullName}</h5>
-                          <span className="text-[10px] underline text-black block text-end cursor-pointer">عرض الملف الشخصي </span>
+                          <h5 className="text-base text-black font-semibold mb-0"> {data?.data?.result?.createdBy?.fullName}</h5>
+                          <Link to={`/userProfile/${data?.data?.result?.createdBy?._id}`}>
+                            <span className="text-[10px] underline text-black block cursor-pointer">عرض الملف الشخصي</span>
+                          </Link>
                         </div>{" "}
                         <div className="avatar me-3-2 ">
                           <img src="/assets/images/avatar.png" alt="" />
@@ -584,12 +532,12 @@ const PostDetails = () => {
                           </div>
                         </div>
                         <div className="item cursor-pointer flex gap-1 items-center">
-                          {/* {loggedInUserInfo.id === data.data.result?.createdBy ? (
+                          {/* {loggedInUserInfo.id === data?.data?.result?.createdBy ? (
                         
                       )} */}
                           <span
                             className="text-[#747474] text-sm font-medium hover:text-[#28D8AE]"
-                            onClick={() => openConversation(data.data.result?.createdBy?._id)}
+                            onClick={() => openConversation(data?.data?.result?.createdBy?._id)}
                           >
                             رسالة
                           </span>
