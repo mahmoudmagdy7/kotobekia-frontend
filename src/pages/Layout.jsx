@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserData, handleLoggedOut } from "../app/Slices/userDataSlice";
 import { getCategory } from "../app/Slices/categorySlice";
 import { useSocket } from "../app/SocketContext";
-import ArrowTop from "../Components/arrowTop/ArrowTop";
 import axios from "axios";
 import isLoggedIn from "../hooks/useAuth";
 import config from "../../config";
@@ -21,7 +20,7 @@ function Layout() {
   const dispatch = useDispatch();
   const params = useParams();
 
-  const [isTop, setIsTop] = useState(false);
+  // const [isTop, setIsTop] = useState(false);
   const checkingValidation = async () => {
     if (isLoggedIn) {
       try {
@@ -50,13 +49,13 @@ function Layout() {
       dispatch(getUserData());
     }
     // dispatch(getCategory("655b4ec133dd362ae53081f7", 1));
-    window.onscroll = () => {
-      if (window.scrollY > 600) {
-        setIsTop(true);
-      } else {
-        setIsTop(false);
-      }
-    };
+    // window.onscroll = () => {
+    //   if (window.scrollY > 600) {
+    //     setIsTop(true);
+    //   } else {
+    //     setIsTop(false);
+    //   }
+    // };
   }, []);
 
   const toastOption = {
@@ -85,7 +84,6 @@ function Layout() {
       <MainHeader />
       <NavCategory />
       <Outlet />
-      <ArrowTop isTop={isTop} />
       <Footer />
       <NavigationBar />
     </>
