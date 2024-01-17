@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { Link, Navigate, Outlet, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { ContactCard } from "./ContactCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserConversations, setActiveUser, setOnlineUsers } from "../../app/Slices/chatSlice";
@@ -12,18 +12,31 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import DotsLoading from "../../Components/Loaders/DotsLoading";
 import { setUserConversationsCount } from "../../app/Slices/chatSlice";
+
+/*
+* TODO: update is open to work in desktop 
+? priority 2 /5
+*
+*/
+
 export const MainChat = () => {
   const token = jwtDecode(Cookies.get("userToken"));
   const socket = useSocket();
   const router = useNavigate();
   const myId = token.id;
+  const { pathname } = useLocation();
 
   const { activeUser, loadingConversationMessages, userConversationsCount, userConversations, onlineUsers, activeConversation } = useSelector(
     (state) => state.chat
   );
+
   const dispatch = useDispatch();
   // const [onlineUsersList, setOnlineUsersList] = useState([]);
-
+  useEffect(() => {
+    // pathname === "/chat" || pathname === "/chat/" ? sideToggler() : null;
+    // pathname === "/chat" || pathname === "/chat/" ? dispatch(setActiveUser(null)) : null;
+    // setIsOpen(false);
+  }, [pathname]);
   useEffect(() => {
     // Listen for the "get-online-users" event
     socket.on("get-online-users", (onlineUsers) => {
@@ -68,10 +81,14 @@ export const MainChat = () => {
     socket?.emit("join", myId);
     isMobile() ? document.body.classList.add("overflow-hidden") : document.body.classList.remove("overflow-hidden");
 
+    window.onpopstate = () => {
+      console.log("back");
+    };
     // Clean up and navigate to "chat" on unmount or beforeunload
     return () => {
       console.log("clean");
       dispatch(setActiveUser(null));
+      isMobile() ? document.body.classList.remove("overflow-hidden") : null;
     };
   }, []);
 
@@ -85,9 +102,10 @@ export const MainChat = () => {
     const conversationsCount = userConversations?.conversations?.reduce((accumulator, conv) => accumulator + conv.unreadMessages[0]?.count, 0) || 0;
     dispatch(setUserConversationsCount(conversationsCount));
   }, []);
+
   return (
     <section className="container ">
-      <div className="text-black bg-white mb-5 lg:h-[40rem] grid grid-cols-12 z-[99999999999999999999999] fixed lg:relative  inset-0 h-screen">
+      <div className="text-black bg-white mb-5 lg:h-[40rem] grid grid-cols-12 z-[999] fixed lg:relative  inset-0 h-screen">
         <aside id="chat-sidebar" className={` w-full ${isOpen ? "border-e-2 col-span-12 lg:col-span-4 lg:h-auto h-screen" : "hidden col-span-4"}`}>
           <div className="flex items-center  p-3 gap-2 border-b-2 relative">
             <h3>Inbox</h3>
@@ -102,9 +120,7 @@ export const MainChat = () => {
               ""
             )}
           </div>
-
           {/* ---------- contacts ------------ */}
-
           <div className=" h-[37rem]">
             {userConversations?.conversations?.map((conv) => (
               <div key={conv._id} onClick={sideToggler}>
