@@ -6,7 +6,7 @@ import axios from "axios";
 // keen slider
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Card from "../../Components/Card/Card";
 import config from "../../../config";
 import CardSkeleton from "../../Components/Card/CardSkeleton";
@@ -186,9 +186,11 @@ const PostDetails = () => {
   }
   useEffect(() => {
     refetch(id);
-    // data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? setAddFavourite(true) : setAddFavourite(false);
-  }, [id, addFavourite]);
+  }, [id]);
 
+  useLayoutEffect(() => {
+    data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? setAddFavourite(true) : setAddFavourite(false);
+  }, [data]);
   return (
     <>
       <section className="postDetails py-5">
@@ -481,15 +483,11 @@ const PostDetails = () => {
                         color="transparent"
                         className="flex  items-center"
                         onClick={() => {
-                          !addFavourite ? handleAddFavourite() : handleRemoveFavourite();
+                          addFavourite ? handleRemoveFavourite() : handleAddFavourite();
                         }}
                       >
                         <span className="text-[#0F172A] text-base font-semibold">حفظ</span>
-                        <solarIcons.Heart
-                          size={24}
-                          color="#FA5057"
-                          iconStyle={!data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? "Outline" : "Bold"}
-                        />
+                        <solarIcons.Heart size={24} color="#FA5057" iconStyle={!addFavourite ? "Outline" : "Bold"} />
                       </Button>
                     </div>
                     {/* ------------- notification ------------- */}
