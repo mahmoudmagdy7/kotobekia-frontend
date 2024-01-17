@@ -115,7 +115,7 @@ const NavHeader = () => {
                         onClick={() => setLocation(true)}
                         className="text-[#30A79F] text-[10px] font-bold underline "
                       >
-                        {localStorage.getItem("i18nextLng") == "en"
+                        {localStorage.getItem("i18nextLng") === "en"
                           ? "Change the Location"
                           : "تغيير الموقع"}
                       </span>
