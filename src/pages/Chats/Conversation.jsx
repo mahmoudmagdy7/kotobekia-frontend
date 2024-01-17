@@ -1,4 +1,4 @@
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Spinner } from "@nextui-org/react";
 import moment from "moment";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
@@ -17,6 +17,7 @@ export const Conversation = (props) => {
   const blackList = config.blackList_en;
   const sideToggler = useOutletContext();
   const [isOnline, setIsOnline] = useState(false);
+  const [sendingMessageLoading, setSendingMessageLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(null);
   const token = jwtDecode(Cookies.get("userToken"));
   const socket = useSocket();
@@ -56,12 +57,14 @@ export const Conversation = (props) => {
     // console.log(activeConversation);
   }, [activeConversation]);
   const sendMessageHandler = async (message) => {
-    setIsEmpty(null);
+    setSendingMessageLoading(true);
     if (blackList.some((message) => msgRef?.current?.value.includes(message.toLowerCase()))) {
       alert("Message not sent");
     } else {
       const msg = await dispatch(sendNewMessage({ msg: msgRef?.current?.value, convId })); // Socket.emit("send message", newMsg.payload);
       socket?.emit("send-message", msg?.payload);
+      setIsEmpty(null);
+      setSendingMessageLoading(false);
     }
   };
 
@@ -198,18 +201,22 @@ export const Conversation = (props) => {
               className="w-full outline-none  bg-[#EFEFEF] p-2 rounded-xl ps-4"
             />
 
-            <Button
-              onClick={isEmpty == "" || isEmpty == null ? () => sendMessageHandler(msgRef?.current?.value) : null}
-              isDisabled={isEmpty == "" || isEmpty == null}
-              isIconOnly
-              color="transparent"
-            >
-              {siteDirection == "rtl" ? (
-                <solarIcons.Plain2 size={28} className="scale-x-[-1] " color={isEmpty == "" || isEmpty == null ? "#9e9e9e" : "#28D8AE"} />
-              ) : (
-                <solarIcons.Plain2 size={28} color={isEmpty == "" || isEmpty == null ? "#9e9e9e" : "#28D8AE"} />
-              )}
-            </Button>
+            {sendingMessageLoading ? (
+              <Spinner size="sm" color="success" className="w-11" />
+            ) : (
+              <Button
+                onClick={isEmpty == "" || isEmpty == null ? null : () => sendMessageHandler(msgRef?.current?.value)}
+                isDisabled={isEmpty == "" || isEmpty == null}
+                isIconOnly
+                color="transparent"
+              >
+                {siteDirection == "rtl" ? (
+                  <solarIcons.Plain2 size={28} className="scale-x-[-1] " color={isEmpty == "" || isEmpty == null ? "#9e9e9e" : "#28D8AE"} />
+                ) : (
+                  <solarIcons.Plain2 size={28} color={isEmpty == "" || isEmpty == null ? "#9e9e9e" : "#28D8AE"} />
+                )}
+              </Button>
+            )}
           </div>
         </div>
       ) : (

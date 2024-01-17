@@ -72,7 +72,7 @@ const Slider = ({ data, isLoading }) => {
               {data?.posts.map((post, idx) => {
                 return (
                   <>
-                    <div className={`keen-slider__slide number-slide${idx} item`}>
+                    <div key={post._id} className={`keen-slider__slide number-slide${idx} item`}>
                       <Card post={post} />
                     </div>
                   </>
