@@ -6,7 +6,7 @@ import axios from "axios";
 // keen slider
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Card from "../../Components/Card/Card";
 import config from "../../../config";
 import CardSkeleton from "../../Components/Card/CardSkeleton";
@@ -19,17 +19,22 @@ import { getConversationMessages, setActiveUser } from "../../app/Slices/chatSli
 import toast from "react-hot-toast";
 import { loggedInUserInfo } from "../../hooks/useAuth";
 import { siteDirection } from "../../hooks/useLocale";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Spinner } from "@nextui-org/react";
 import ShareModal from "./ShareModal";
+import { gotTop } from "../../hooks/useTop";
+import isMobile from "../../hooks/useAgent";
+import moment from "moment";
 
 const PostDetails = () => {
   const dispatch = useDispatch();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [loadingFavourite, setLoadingFavourite] = useState(false);
   // const [like, setLike] = useState();
   const [loaded, setLoaded] = useState(false);
   const router = useNavigate();
   const { id } = useParams();
   const locatoin = useLocation();
+  const [modalType, setModalType] = useState(null);
   // api Related Data function
   function getPostData(postId) {
     return axios.get(`${config.bseUrl}/api/v1/posts/specific/${postId}`, {
@@ -41,28 +46,36 @@ const PostDetails = () => {
   // Add Favourite
   const [addFavourite, setAddFavourite] = useState(false);
   const handleAddFavourite = async () => {
-    axios({
-      method: "post",
-      url: `https://kotobekia-backend.onrender.com/api/v1/posts/add-to-favorite/${data?.data?.result._id}`,
-      headers: {
-        token: Cookies.get("userToken"),
-      },
-    }).then((res) => {
-      console.log(res);
+    try {
+      const res = await axios({
+        method: "post",
+        url: `${config.bseUrl}/api/v1/posts/add-to-favorite/${data?.data?.result._id}`,
+        headers: {
+          token: Cookies.get("userToken"),
+        },
+      });
+      console.log(res?.data.message);
       setAddFavourite(true);
-    });
+      setLoadingFavourite(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const handleRemoveFavourite = () => {
-    axios({
-      method: "post",
-      url: `https://kotobekia-backend.onrender.com/api/v1/posts/remove-from-favorite/${data?.data?.result._id}`,
-      headers: {
-        token: Cookies.get("userToken"),
-      },
-    }).then((res) => {
-      console.log(res);
+  const handleRemoveFavourite = async () => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `${config.bseUrl}/api/v1/posts/remove-from-favorite/${data?.data?.result._id}`,
+        headers: {
+          token: Cookies.get("userToken"),
+        },
+      });
+      console.log(res?.data.message);
       setAddFavourite(false);
-    });
+      setLoadingFavourite(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // For Report
@@ -134,7 +147,11 @@ const PostDetails = () => {
     return (
       <>
         <span onClick={props.onClick} className={`arrow ${props.left ? "arrow--left" : "arrow--right"} ${disabeld}`}>
-          {props.left ? <solarIcons.ArrowLeft size={41} color="#747474" /> : <solarIcons.ArrowRight size={41} color="#747474" />}
+          {props.left ? (
+            <solarIcons.ArrowLeft className="mt-1" size={isMobile() ? 32 : 41} color="#747474" />
+          ) : (
+            <solarIcons.ArrowRight className="mt-1" size={isMobile() ? 32 : 41} color="#747474" />
+          )}
         </span>
       </>
     );
@@ -152,6 +169,14 @@ const PostDetails = () => {
 
   const [thumbnailRef] = useKeenSlider(
     {
+      breakpoints: {
+        "(max-width: 500px)": {
+          slides: {
+            perView: 3,
+            spacing: 5,
+          },
+        },
+      },
       initial: 0,
       slides: {
         perView: 4,
@@ -186,13 +211,20 @@ const PostDetails = () => {
   }
   useEffect(() => {
     refetch(id);
-    // data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? setAddFavourite(true) : setAddFavourite(false);
-  }, [id, addFavourite]);
+    // gotTop();
+  }, [id]);
 
+  useLayoutEffect(() => {
+    data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? setAddFavourite(true) : setAddFavourite(false);
+  }, [data]);
+
+  useEffect(() => {
+    console.log(modalType);
+  }, [modalType]);
   return (
     <>
       <section className="postDetails py-5">
-        <ShareModal copyText={copyText} onOpen={onOpen} isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange} data={data} />
+        {modalType === "share" && <ShareModal copyText={copyText} onOpen={onOpen} isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange} data={data} />}{" "}
         <div className="container">
           {
             isLoading ? (
@@ -222,10 +254,10 @@ const PostDetails = () => {
                     </div>
                     {/* --------- slider images large ---------  */}
                     {/* ----------- imags thumps ----------- */}
-                    <div className={`thumps flex gap-6 relative mb-6 flex-row-reverse ${siteDirection === "ltr" ? null : "flex-row-reverse"}`}>
+                    <div className={`thumps flex gap-2 md:gap-6 relative mb-6 flex-row-reverse ${siteDirection === "ltr" ? null : "flex-row-reverse"}`}>
                       {/* ------------ THUMBNAILS ------------ */}
-                      <div ref={thumbnailRef} className="keen-slider thumbnail ">
-                        <div className="keen-slider__slide overflow-hidden number-slide1 border-2 rounded-2xl ">
+                      <div ref={thumbnailRef} className="keen-slider thumbnail  ">
+                        <div className="keen-slider__slide overflow-hidden number-slide1 rounded-2xl  ">
                           <img src="/assets/imgPost.png" alt="" className=" mb-6  w-[200px] h-full" />
                         </div>
                         <div className="keen-slider__slide overflow-hidden rounded-2xl  number-slide2">
@@ -244,9 +276,9 @@ const PostDetails = () => {
                       {/* ------------ THUMBNAILS ------------ */}
 
                       {/* ------------ Arrow ------------ */}
-                      <div className=" flex   bg-[#EDEDED]  border-gray-400 border rounded-2xl px-4 ">
+                      <div className=" flex   bg-[#EDEDED]  border-gray-400 border rounded-2xl sm:px-4 px-1 ">
                         {loaded && instanceRef.current && (
-                          <div className={` flex ${siteDirection === "ltr" ? null : "flex-row-reverse"}`}>
+                          <div className={`  flex ${siteDirection === "ltr" ? null : "flex-row-reverse"}`}>
                             <button className={` border-gray-400 ${siteDirection === "ltr" ? "border-e-1" : "border-s-1"}`}>
                               <Arrow left onClick={(e) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
                             </button>
@@ -306,7 +338,7 @@ const PostDetails = () => {
 
                     <div className="location flex justify-between items-center border-t-1 py-3  border-[#FFF]">
                       <div className="date flex ps-3 items-center gap-1">
-                        <span className="text-[#0F172A] text-xs">منذ 5 ايام</span>
+                        <span className="text-[#0F172A] text-xs">{moment(data?.data?.result.createdAt).fromNow()}</span>
                         <div className="icon">
                           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
                             <path
@@ -341,65 +373,42 @@ const PostDetails = () => {
                       </div>
                     </div>
                     {/* Report  */}
-                    {/* <div className="report item flex items-center">
-                      <Button onPress={onOpen} className="bg-[#F3F2F7] hover:bg-[#F3F2F7]">
-                        <span className="text-[#0F172A] text-base font-semibold">تبليغ</span>
-                        <div className="icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M3.51074 10.9815C3.51074 8.13917 3.51074 6.71803 3.84631 6.23992C4.18188 5.76181 5.51814 5.30441 8.19066 4.38959L8.69983 4.2153C10.0929 3.73843 10.7895 3.5 11.5107 3.5C12.232 3.5 12.9285 3.73843 14.3217 4.2153L14.8308 4.38959C17.5033 5.30441 18.8396 5.76181 19.1752 6.23992C19.5107 6.71803 19.5107 8.13917 19.5107 10.9815V12.3812C19.5107 17.3928 15.7428 19.8249 13.3787 20.8576C12.7374 21.1377 12.4168 21.2778 11.5107 21.2778C10.6047 21.2778 10.2841 21.1377 9.6428 20.8576C7.27871 19.8249 3.51074 17.3928 3.51074 12.3812V10.9815ZM13.2885 9.72222C13.2885 10.7041 12.4926 11.5 11.5107 11.5C10.5289 11.5 9.73296 10.7041 9.73296 9.72222C9.73296 8.74038 10.5289 7.94444 11.5107 7.94444C12.4926 7.94444 13.2885 8.74038 13.2885 9.72222ZM11.5107 16.8333C15.0663 16.8333 15.0663 16.0374 15.0663 15.0556C15.0663 14.0737 13.4744 13.2778 11.5107 13.2778C9.54706 13.2778 7.95519 14.0737 7.95519 15.0556C7.95519 16.0374 7.95519 16.8333 11.5107 16.8333Z"
-                              fill="#1C274C"
-                            />
-                          </svg>
-                        </div>
-                      </Button> */}
-
-                    {/* Report Content  */}
-                    {/* <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="text-[#333]">
-                        <ModalContent>
-                          {(onClose) => (
-                            <>
-                              <ModalHeader className="flex flex-col gap-1 text-center">Report</ModalHeader>
-                              <ModalBody>
-                                <p>Whrite Your Feadback</p>
-                                <textarea
-                                  name=""
-                                  id=""
-                                  ref={yourFeadBack}
-                                  cols="30"
-                                  rows="3"
-                                  placeholder="Your Feadback"
-                                  className="border-1 p-2 border-[#f2f2f2] resize-none focus:border-[#333] focus:outline-none"
-                                ></textarea>
-                              </ModalBody>
-                              <ModalFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
-                                  Close
-                                </Button>
-                                <Button onClick={makingReport} color="primary">
-                                  Send
-                                </Button>
-                              </ModalFooter>
-                            </>
-                          )}
-                        </ModalContent>
-                      </Modal>
-                    </div> */}
+                    <div className="report item flex items-center">
+                      {/* Report Content  */}
+                      {modalType === "report" && (
+                        <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="text-[#333]">
+                          <ModalContent>
+                            {(onClose) => (
+                              <>
+                                <ModalHeader className="flex flex-col gap-1 text-center">Report</ModalHeader>
+                                <ModalBody>
+                                  <p>Whrite Your Feadback</p>
+                                  <textarea
+                                    name=""
+                                    id=""
+                                    ref={yourFeadBack}
+                                    cols="30"
+                                    rows="3"
+                                    placeholder="Your Feadback"
+                                    className="border-1 p-2 border-[#f2f2f2] resize-none focus:border-[#333] focus:outline-none"
+                                  ></textarea>
+                                </ModalBody>
+                                <ModalFooter>
+                                  <Button color="danger" variant="light" onPress={onClose}>
+                                    Close
+                                  </Button>
+                                  <Button onClick={makingReport} color="primary">
+                                    Send
+                                  </Button>
+                                </ModalFooter>
+                              </>
+                            )}
+                          </ModalContent>
+                        </Modal>
+                      )}{" "}
+                    </div>
                     {/* Report Content  */}
                     {/* Report  */}
-
-                    {/* <div className="favourite item flex items-center">
-                      <span className="text-[#0F172A] text-base font-semibold">حفظ</span>
-                      <div className="icon mt-1 cursor-pointer">
-                        {addFavourite ? (
-                          <solarIcons.Heart onClick={handleRemoveFavourite} size={22} color="#f00" iconStyle="Bold" />
-                        ) : (
-                          <solarIcons.Heart onClick={handleAddFavourite} size={22} color="#1C274C" />
-                        )}
-                      </div>
-                    </div> */}
                   </div>
                   <div className="pesronalData  rounded-lg border-1 border-[#E8E7E7] ">
                     {/* --------- Data for Books --------- */}
@@ -467,105 +476,127 @@ const PostDetails = () => {
                     {/* ------------- notification ------------- */}
                     <div className="notification flex items-center justify-evenly">
                       <div className="item flex items-center gap-1">
-                        <Button size="sm" color="transparent" onClick={onOpen} className="text-[#0F172A] text-base font-semibold">
+                        <Button
+                          size="sm"
+                          onClick={onOpen}
+                          color="transparent"
+                          onPress={() => {
+                            setModalType("share");
+                          }}
+                          className="text-[#0F172A] text-base font-semibold"
+                        >
                           مشاركة
-                          <solarIcons.Share size={24} color="#0F172A" />
+                          <solarIcons.Share size={22} color="#0F172A" />
+                        </Button>
+                      </div>{" "}
+                      <div className="item flex items-center gap-1">
+                        <Button
+                          size="sm"
+                          onClick={onOpen}
+                          color="transparent"
+                          onPress={() => setModalType("report")}
+                          className="text-[#0F172A] text-base font-semibold"
+                        >
+                          report
+                          <solarIcons.ShieldWarning size={22} color="#08B1E7" />
                         </Button>
                       </div>
                       <div className="item flex items-center gap-1">
-                        <span className="text-[#0F172A] text-base font-semibold">تبليغ</span>
-                        <solarIcons.ShieldWarning size={24} color="#0F172A" />
+                        <Button
+                          size="sm"
+                          color="transparent"
+                          className="flex  items-center"
+                          onClick={() => {
+                            addFavourite ? handleRemoveFavourite() : handleAddFavourite();
+                            setLoadingFavourite(true);
+                          }}
+                        >
+                          <span className="text-[#0F172A] text-base font-semibold">حفظ</span>
+                          {loadingFavourite ? (
+                            <Spinner size="sm" color="danger" />
+                          ) : (
+                            <solarIcons.Heart size={24} color="#FA5057" iconStyle={!addFavourite ? "Outline" : "Bold"} />
+                          )}
+                        </Button>
                       </div>
-                      <Button
-                        size="sm"
-                        color="transparent"
-                        className="flex  items-center"
-                        onClick={() => {
-                          !addFavourite ? handleAddFavourite() : handleRemoveFavourite();
-                        }}
-                      >
-                        <span className="text-[#0F172A] text-base font-semibold">حفظ</span>
-                        <solarIcons.Heart
-                          size={24}
-                          color="#FA5057"
-                          iconStyle={!data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? "Outline" : "Bold"}
-                        />
-                      </Button>
                     </div>
                     {/* ------------- notification ------------- */}
                   </div>
 
                   {/* ------------- pesronalData ------------- */}
                   <div className="pesronalData bg-white rounded-lg border-1 border-[#E8E7E7] ">
-                    <div className="data flex justify-evenly items-center my-3">
-                      <div className="userName flex">
+                    <div className=" flex sm:justify-center justify-evenly gap-2  items-center my-3 px-2">
+                      <div className="userName flex  items-center justify-end gap-2">
                         <div>
-                          <h5 className="text-base text-black font-semibold mb-0"> {data?.data?.result?.createdBy?.fullName}</h5>
+                          <h5 className="text-base text-black font-semibold mb-1"> {data?.data?.result?.createdBy?.fullName}</h5>
                           <Link to={`/userProfile/${data?.data?.result?.createdBy?._id}`}>
-                            <span className="text-[10px] underline text-black block cursor-pointer">عرض الملف الشخصي</span>
+                            <span className="text-xs underline text-black block cursor-pointer">عرض الملف الشخصي</span>
                           </Link>
                         </div>{" "}
-                        <div className="avatar me-3-2 ">
-                          <img src="/assets/images/avatar.png" alt="" />
+                        <div className="avatar w-14">
+                          <img src={data?.data?.result?.createdBy?.gender === "male" ? "/assets/images/male.png" : "/assets/images/female.png"} alt="" />
                         </div>
                       </div>
                       <div className=" w-px bg-gray-300 h-16 "></div>
-                      <div className="contact">
-                        <div className="item cursor-pointer flex mb-3  gap-1 items-center ">
-                          <span className="text-[#747474] text-sm font-medium">مكالمة</span>
-                          <div className="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                              <g clip-path="url(#clip0_1191_10536)">
+                      <div className="contact  ">
+                        {data?.data?.result?.createdBy?.phoneNumber && (
+                          <div className="item cursor-pointer flex  gap-1 items-center ">
+                            <Button size="sm" variant="light">
+                              <span className="text-[#747474] text-sm font-medium">مكالمة</span>
+                              <div className="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                                  <g clip-path="url(#clip0_1191_10536)">
+                                    <path
+                                      fill-rule="evenodd"
+                                      clip-rule="evenodd"
+                                      d="M2.38867 1.77736C3.81422 0.337297 6.21986 0.446769 7.21245 2.24345L7.76314 3.24024C8.41133 4.41352 8.13511 5.89387 7.18623 6.86413C7.17359 6.88162 7.10661 6.98014 7.09827 7.15226C7.08762 7.37197 7.16486 7.88006 7.94416 8.66729C8.72319 9.45425 9.2261 9.53248 9.44368 9.52178C9.61421 9.5134 9.71181 9.44571 9.72915 9.43292C10.6896 8.47438 12.1551 8.19535 13.3165 8.85014L14.3033 9.40644C16.0818 10.4091 16.1902 12.8393 14.7647 14.2793C14.0021 15.0496 12.9883 15.734 11.7968 15.7796C10.0311 15.8473 7.09931 15.3867 4.1959 12.4537C1.29249 9.52073 0.836519 6.5591 0.903455 4.77545C0.948624 3.57185 1.62615 2.54764 2.38867 1.77736ZM6.10106 2.87001C5.59279 1.95 4.22695 1.73864 3.28865 2.68649C2.63076 3.35108 2.20305 4.08463 2.1753 4.82415C2.11948 6.31159 2.48302 8.9051 5.09588 11.5446C7.70874 14.184 10.2761 14.5512 11.7486 14.4949C12.4806 14.4668 13.2068 14.0348 13.8647 13.3702C14.803 12.4223 14.5938 11.0426 13.683 10.5291L12.6963 9.97285C12.0825 9.6268 11.2203 9.74484 10.615 10.3562L10.6148 10.3564C10.5554 10.4164 10.1771 10.773 9.50552 10.806C8.81805 10.8398 7.98589 10.5277 7.04418 9.57642C6.10216 8.62482 5.79337 7.78396 5.82703 7.08939C5.85992 6.41095 6.21308 6.029 6.27218 5.9693L6.2722 5.96927C6.87746 5.35786 6.99431 4.48688 6.65175 3.86681L6.10106 2.87001Z"
+                                      fill="#28D8AE"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_1191_10536">
+                                      <rect width="15.8388" height="16" fill="white" transform="translate(0.685547)" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </div>
+                            </Button>
+                          </div>
+                        )}
+                        <div className="item cursor-pointer flex gap-1 items-center">
+                          <Button size="sm" variant="light">
+                            <span
+                              className="text-[#747474] text-sm font-medium hover:text-[#28D8AE]"
+                              onClick={() => openConversation(data?.data?.result?.createdBy?._id)}
+                            >
+                              رسالة
+                            </span>
+                            <div className="icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
                                 <path
                                   fill-rule="evenodd"
                                   clip-rule="evenodd"
-                                  d="M2.38867 1.77736C3.81422 0.337297 6.21986 0.446769 7.21245 2.24345L7.76314 3.24024C8.41133 4.41352 8.13511 5.89387 7.18623 6.86413C7.17359 6.88162 7.10661 6.98014 7.09827 7.15226C7.08762 7.37197 7.16486 7.88006 7.94416 8.66729C8.72319 9.45425 9.2261 9.53248 9.44368 9.52178C9.61421 9.5134 9.71181 9.44571 9.72915 9.43292C10.6896 8.47438 12.1551 8.19535 13.3165 8.85014L14.3033 9.40644C16.0818 10.4091 16.1902 12.8393 14.7647 14.2793C14.0021 15.0496 12.9883 15.734 11.7968 15.7796C10.0311 15.8473 7.09931 15.3867 4.1959 12.4537C1.29249 9.52073 0.836519 6.5591 0.903455 4.77545C0.948624 3.57185 1.62615 2.54764 2.38867 1.77736ZM6.10106 2.87001C5.59279 1.95 4.22695 1.73864 3.28865 2.68649C2.63076 3.35108 2.20305 4.08463 2.1753 4.82415C2.11948 6.31159 2.48302 8.9051 5.09588 11.5446C7.70874 14.184 10.2761 14.5512 11.7486 14.4949C12.4806 14.4668 13.2068 14.0348 13.8647 13.3702C14.803 12.4223 14.5938 11.0426 13.683 10.5291L12.6963 9.97285C12.0825 9.6268 11.2203 9.74484 10.615 10.3562L10.6148 10.3564C10.5554 10.4164 10.1771 10.773 9.50552 10.806C8.81805 10.8398 7.98589 10.5277 7.04418 9.57642C6.10216 8.62482 5.79337 7.78396 5.82703 7.08939C5.85992 6.41095 6.21308 6.029 6.27218 5.9693L6.2722 5.96927C6.87746 5.35786 6.99431 4.48688 6.65175 3.86681L6.10106 2.87001Z"
-                                  fill="#28D8AE"
+                                  d="M7.24709 2.16666H9.96136C11.1742 2.16665 12.1348 2.16664 12.8867 2.26875C13.6604 2.37383 14.2866 2.59524 14.7805 3.09415C15.2744 3.59306 15.4936 4.22569 15.5976 5.00731C15.6987 5.76679 15.6987 6.73721 15.6987 7.96238V8.0376C15.6987 9.26277 15.6987 10.2332 15.5976 10.9927C15.4936 11.7743 15.2744 12.4069 14.7805 12.9058C14.2866 13.4047 13.6604 13.6261 12.8867 13.7312C12.1348 13.8333 11.1742 13.8333 9.96135 13.8333H7.2471C6.03427 13.8333 5.07362 13.8333 4.3218 13.7312C3.54806 13.6261 2.9218 13.4047 2.42792 12.9058C1.93403 12.4069 1.71485 11.7743 1.61083 10.9927C1.50975 10.2332 1.50976 9.26277 1.50977 8.0376V7.96238C1.50976 6.73721 1.50975 5.76678 1.61083 5.00731C1.71485 4.22569 1.93403 3.59306 2.42792 3.09415C2.9218 2.59524 3.54806 2.37383 4.3218 2.26875C5.07362 2.16664 6.03426 2.16665 7.24709 2.16666ZM4.4537 3.25983C3.78973 3.35001 3.4072 3.51912 3.1279 3.80126C2.8486 4.0834 2.68119 4.46983 2.59192 5.14056C2.50074 5.82567 2.49969 6.72878 2.49969 7.99999C2.49969 9.2712 2.50074 10.1743 2.59192 10.8594C2.68119 11.5302 2.8486 11.9166 3.1279 12.1987C3.4072 12.4809 3.78973 12.65 4.4537 12.7402C5.13191 12.8323 6.02592 12.8333 7.28432 12.8333H9.92412C11.1825 12.8333 12.0765 12.8323 12.7547 12.7402C13.4187 12.65 13.8013 12.4809 14.0805 12.1987C14.3598 11.9166 14.5273 11.5302 14.6165 10.8594C14.7077 10.1743 14.7088 9.2712 14.7088 7.99999C14.7088 6.72878 14.7077 5.82567 14.6165 5.14056C14.5273 4.46983 14.3598 4.0834 14.0805 3.80126C13.8013 3.51912 13.4187 3.35001 12.7547 3.25983C12.0765 3.16772 11.1825 3.16666 9.92412 3.16666H7.28433C6.02592 3.16666 5.13191 3.16772 4.4537 3.25983ZM4.26429 5.01323C4.43929 4.80109 4.75139 4.77243 4.96139 4.94921L6.38616 6.1486C7.00186 6.66691 7.42934 7.0256 7.79023 7.26008C8.13958 7.48705 8.37649 7.56324 8.60422 7.56324C8.83195 7.56324 9.06887 7.48705 9.41822 7.26008C9.77911 7.0256 10.2066 6.66691 10.8223 6.1486L12.2471 4.94921C12.4571 4.77243 12.7692 4.80109 12.9442 5.01323C13.1192 5.22537 13.0908 5.54065 12.8808 5.71743L11.4312 6.93771C10.8463 7.43014 10.3722 7.82927 9.9537 8.10114C9.51781 8.38434 9.0933 8.56324 8.60422 8.56324C8.11515 8.56324 7.69064 8.38434 7.25474 8.10114C6.8363 7.82927 6.36219 7.43015 5.77724 6.93771L4.32766 5.71743C4.11766 5.54065 4.08929 5.22537 4.26429 5.01323Z"
+                                  fill="#FFC26F"
                                 />
-                              </g>
-                              <defs>
-                                <clipPath id="clip0_1191_10536">
-                                  <rect width="15.8388" height="16" fill="white" transform="translate(0.685547)" />
-                                </clipPath>
-                              </defs>
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="item cursor-pointer flex gap-1 items-center">
-                          {/* {loggedInUserInfo.id === data?.data?.result?.createdBy ? (
-                        
-                      )} */}
-                          <span
-                            className="text-[#747474] text-sm font-medium hover:text-[#28D8AE]"
-                            onClick={() => openConversation(data?.data?.result?.createdBy?._id)}
-                          >
-                            رسالة
-                          </span>
-                          <div className="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M7.24709 2.16666H9.96136C11.1742 2.16665 12.1348 2.16664 12.8867 2.26875C13.6604 2.37383 14.2866 2.59524 14.7805 3.09415C15.2744 3.59306 15.4936 4.22569 15.5976 5.00731C15.6987 5.76679 15.6987 6.73721 15.6987 7.96238V8.0376C15.6987 9.26277 15.6987 10.2332 15.5976 10.9927C15.4936 11.7743 15.2744 12.4069 14.7805 12.9058C14.2866 13.4047 13.6604 13.6261 12.8867 13.7312C12.1348 13.8333 11.1742 13.8333 9.96135 13.8333H7.2471C6.03427 13.8333 5.07362 13.8333 4.3218 13.7312C3.54806 13.6261 2.9218 13.4047 2.42792 12.9058C1.93403 12.4069 1.71485 11.7743 1.61083 10.9927C1.50975 10.2332 1.50976 9.26277 1.50977 8.0376V7.96238C1.50976 6.73721 1.50975 5.76678 1.61083 5.00731C1.71485 4.22569 1.93403 3.59306 2.42792 3.09415C2.9218 2.59524 3.54806 2.37383 4.3218 2.26875C5.07362 2.16664 6.03426 2.16665 7.24709 2.16666ZM4.4537 3.25983C3.78973 3.35001 3.4072 3.51912 3.1279 3.80126C2.8486 4.0834 2.68119 4.46983 2.59192 5.14056C2.50074 5.82567 2.49969 6.72878 2.49969 7.99999C2.49969 9.2712 2.50074 10.1743 2.59192 10.8594C2.68119 11.5302 2.8486 11.9166 3.1279 12.1987C3.4072 12.4809 3.78973 12.65 4.4537 12.7402C5.13191 12.8323 6.02592 12.8333 7.28432 12.8333H9.92412C11.1825 12.8333 12.0765 12.8323 12.7547 12.7402C13.4187 12.65 13.8013 12.4809 14.0805 12.1987C14.3598 11.9166 14.5273 11.5302 14.6165 10.8594C14.7077 10.1743 14.7088 9.2712 14.7088 7.99999C14.7088 6.72878 14.7077 5.82567 14.6165 5.14056C14.5273 4.46983 14.3598 4.0834 14.0805 3.80126C13.8013 3.51912 13.4187 3.35001 12.7547 3.25983C12.0765 3.16772 11.1825 3.16666 9.92412 3.16666H7.28433C6.02592 3.16666 5.13191 3.16772 4.4537 3.25983ZM4.26429 5.01323C4.43929 4.80109 4.75139 4.77243 4.96139 4.94921L6.38616 6.1486C7.00186 6.66691 7.42934 7.0256 7.79023 7.26008C8.13958 7.48705 8.37649 7.56324 8.60422 7.56324C8.83195 7.56324 9.06887 7.48705 9.41822 7.26008C9.77911 7.0256 10.2066 6.66691 10.8223 6.1486L12.2471 4.94921C12.4571 4.77243 12.7692 4.80109 12.9442 5.01323C13.1192 5.22537 13.0908 5.54065 12.8808 5.71743L11.4312 6.93771C10.8463 7.43014 10.3722 7.82927 9.9537 8.10114C9.51781 8.38434 9.0933 8.56324 8.60422 8.56324C8.11515 8.56324 7.69064 8.38434 7.25474 8.10114C6.8363 7.82927 6.36219 7.43015 5.77724 6.93771L4.32766 5.71743C4.11766 5.54065 4.08929 5.22537 4.26429 5.01323Z"
-                                fill="#FFC26F"
-                              />
-                            </svg>
-                          </div>
+                              </svg>
+                            </div>
+                          </Button>
                         </div>
                       </div>
                     </div>
                   </div>
                   {/* ------------- pesronalData ------------- */}
                   {/* ------------- Map  ------------- */}
-                  <div className="mapLocation mb-6">
+                  {/* <div className="mapLocation mb-6">
                     <h2 className="text-base text-end text-black px-1 font-semibold mt-3 mb-2">الموقع علي الخريطه </h2>
                     <div className="map cursor-pointer">
                       <img src="/assets/images/map.png" alt="Location" className="w-full" />
                     </div>
-                  </div>
+                  </div> */}
                   {/* ------------- Map  ------------- */}
                   {/* ------------- ADS ------------- */}
-                  <div className="ads cursor-pointer">
+                  <div className="ads cursor-pointer mt-3">
                     <img src="/assets/images/ad/ads.png" alt="ads" className="rounded-[10px] w-full" />
                   </div>
                   {/* ------------- ADS ------------- */}

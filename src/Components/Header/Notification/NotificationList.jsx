@@ -5,7 +5,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import config from "../../../../config";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 function NotificationList() {
   const [notificationCount, setNotificationCont] = useState(0);
@@ -23,6 +23,7 @@ function NotificationList() {
 
   const { data } = useQuery("getUserNotifications", getUserNotifications, {
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
   // getting user notifications function
   async function getUserNotifications() {
@@ -50,7 +51,7 @@ function NotificationList() {
     console.log(data);
     setNotificationCont(0);
   }
-  useEffect(() => {
+  useLayoutEffect(() => {
     let counter = 0;
     data?.forEach(({ isRead }) => {
       !isRead ? counter++ : null;
@@ -67,7 +68,12 @@ function NotificationList() {
             <span className="text-xs font-semibold">{notificationCount}</span>
           </div>
         )}
-        <Popover showArrow placement={siteDirection == "rtl" ? "bottom-start" : "bottom-end"} className="relative bg-red-400 rounded-full ">
+        <Popover
+          onClose={() => setSeeMore(false)}
+          showArrow
+          placement={siteDirection == "rtl" ? "bottom-start" : "bottom-end"}
+          className="relative bg-red-400 rounded-full "
+        >
           <PopoverTrigger>
             {/* ----------------- notification button -------------------- */}
 
@@ -79,10 +85,10 @@ function NotificationList() {
 
           {data ? (
             <PopoverContent className="notification-list p-0 overflow-hidden ">
-              <div className={`${data.length > 10 && "border-success-200"} ${seeMore ? "max-h-[600px]" : "max-h-96"} overflow-y-scroll p-4 pb-0 border-b-2 `}>
+              <div className={`${data.length > 6 && "border-success-200"} ${seeMore ? "max-h-[400px]" : "max-h-96"} overflow-y-scroll p-4 pb-0 border-b-2 `}>
                 {data
-                  ?.map(({ title, body, image, isRead, status }) => (
-                    <div className=" text-black flex gap-4 pb-3 items-center max-w-96 notification-item">
+                  ?.map(({ title, body, image, isRead, status, _id }) => (
+                    <div key={_id} className=" text-black flex gap-4 pb-3 items-center max-w-96 notification-item">
                       <div className="w-12 self-start">
                         <span className="border-2 bg-success-50 border-white outline-success  outline outline-2 h-10 w-10 rounded-full  p-1 flex items-center justify-center">
                           <solarIcons.HashtagSquare iconStyle="Bold" size={24} color="#28D8AE" />
@@ -102,11 +108,11 @@ function NotificationList() {
                       </div>
                     </div>
                   ))
-                  .splice(0, seeMore ? data.length : 10)}
+                  .splice(0, seeMore ? data.length : 6)}
               </div>
-              {data.length > 10 && (
+              {data.length > 6 && (
                 <h6 className=" hover:text-[#28D8AE] font-semibold  py-1 text-gray-900 cursor-pointer" onClick={() => setSeeMore(!seeMore)}>
-                  {seeMore ? "See More" : "See Less"}
+                  {!seeMore ? "See More" : "See Less"}
                 </h6>
               )}
             </PopoverContent>
