@@ -217,6 +217,10 @@ const PostDetails = () => {
   useLayoutEffect(() => {
     data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? setAddFavourite(true) : setAddFavourite(false);
   }, [data]);
+
+  useEffect(() => {
+    console.log(modalType);
+  }, [modalType]);
   return (
     <>
       <section className="postDetails py-5">
@@ -474,9 +478,11 @@ const PostDetails = () => {
                       <div className="item flex items-center gap-1">
                         <Button
                           size="sm"
-                          onPress={onOpen}
+                          onClick={onOpen}
                           color="transparent"
-                          onClick={() => setModalType("share")}
+                          onPress={() => {
+                            setModalType("share");
+                          }}
                           className="text-[#0F172A] text-base font-semibold"
                         >
                           مشاركة
@@ -486,9 +492,9 @@ const PostDetails = () => {
                       <div className="item flex items-center gap-1">
                         <Button
                           size="sm"
-                          onPress={onOpen}
+                          onClick={onOpen}
                           color="transparent"
-                          onClick={() => setModalType("report")}
+                          onPress={() => setModalType("report")}
                           className="text-[#0F172A] text-base font-semibold"
                         >
                           report
