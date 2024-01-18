@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import * as solarIcons from "solar-icon-set";
-import isLoggedIn from "../../hooks/useAuth";
+import isLoggedIn, { isLoggedInUser } from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { gotTop } from "../../hooks/useTop";
+import Cookies from "js-cookie";
 
 function NavigationBar() {
   const { t } = useTranslation();
@@ -14,6 +15,8 @@ function NavigationBar() {
   const location = useLocation();
   useEffect(() => {
     setCurrentLocation(location.pathname);
+    console.log(currentLocation);
+    console.log(isLoggedInUser());
   }, [location]);
   return (
     <div>
@@ -36,44 +39,28 @@ function NavigationBar() {
           </Button>
         </li>
         <li>
-          {isLoggedIn ? (
-            <Link onClick={() => setCurrentLocation("/chat")} to="/chat" className="flex items-center flex-col">
-              {currentLocation === "/chat" ? (
-                <div className="relative">
-                  <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center text-white">
-                    <span className="text-[10px] font-semibold"> {userConversationsCount}</span>
-                  </div>
-                  <solarIcons.Letter size={23} color="#28D8AE" />
+          <Link
+            onClick={!isLoggedInUser() ? null : () => setCurrentLocation("/chat")}
+            to={!isLoggedInUser() ? "/auth/login" : "/chat"}
+            className="flex items-center flex-col"
+          >
+            {currentLocation === "/chat" ? (
+              <div className="relative">
+                <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center text-white">
+                  <span className="text-[10px] font-semibold"> {userConversationsCount}</span>
                 </div>
-              ) : (
-                <div className="relative">
-                  <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
-                    <span className="text-[10px] font-semibold"> {userConversationsCount}</span>
-                  </div>
-                  <solarIcons.Letter size={23} color="#000" />
+                <solarIcons.Letter size={23} color="#28D8AE" />
+              </div>
+            ) : (
+              <div className="relative">
+                <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
+                  <span className="text-[10px] font-semibold"> {userConversationsCount}</span>
                 </div>
-              )}
-              <span className="font-bold">{t("navigation_bar.messages")}</span>
-            </Link>
-          ) : (
-            <Link to="/auth/login" className="flex items-center flex-col">
-              {currentLocation === "/chat" ? (
-                <div className="relative">
-                  <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center text-white">
-                    <span className="text-[10px] font-semibold"> {userConversationsCount}</span>
-                  </div>
-                  <solarIcons.Letter size={23} color="#28D8AE" />
-                </div>
-              ) : (
-                <div className="relative">
-                  <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
-                    <span className="text-[10px] font-semibold"> {userConversationsCount}</span>
-                  </div>
-                  <solarIcons.Letter size={23} color="#000" />
-                </div>
-              )}{" "}
-            </Link>
-          )}
+                <solarIcons.Letter size={23} color="#000" />
+              </div>
+            )}
+            <span className="font-bold">{t("navigation_bar.messages")}</span>
+          </Link>
         </li>
         <li>
           <Link onClick={() => setCurrentLocation("/")} to="/" className="flex items-center flex-col">

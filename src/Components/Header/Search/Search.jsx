@@ -39,11 +39,11 @@ export const Search = () => {
   return (
     <div>
       {" "}
-      <div className=" relative p-1 z-50  " id="search-input-parent">
+      <div className=" relative p-1 z-50 text-start " id="search-input-parent">
         <div
           className={`${
             searchRef.current && isOpen ? "block" : "hidden"
-          }   absolute top-0 end-0 bg-[#F3F4F7]  w-full rounded-xl pt-14 overflow-hidden home-search-result shadow-2xl`}
+          }   absolute top-0 end-0 bg-[#e9e9e9]  w-full rounded-xl pt-14 overflow-hidden home-search-result shadow-2xl`}
         >
           {searchData
             .map((item) => {
@@ -55,7 +55,7 @@ export const Search = () => {
                     setIsOpen(false);
                   }}
                   to={`/book/${item?._id}`}
-                  className={` hover:before:flex hover:after:flex ${beforeClasses} ${afterClasses}  flex item py-2 border-b-[1.5px] border-gray-400 px-4 text-lg font-semibold text-gray-800 relative hover:text-[#28D8AE]`}
+                  className={` hover:before:flex hover:after:flex ${beforeClasses} ${afterClasses} flex justify-end item py-2 border-b-[1.5px] border-gray-400 px-4 text-lg font-semibold text-gray-800 relative hover:text-[#28D8AE]`}
                 >
                   {item?.title}
                 </Link>
@@ -69,7 +69,7 @@ export const Search = () => {
           ref={searchRef}
           onKeyUp={(e) => getSearchResult(e.target.value)}
           onFocus={() => setIsOpen(true)}
-          className="input z-10 relative block ps-4 h-[48px]  rounded-xl text-[#939393] w-full  outline-none"
+          className="input z-10 relative block ps-4 h-[48px]  rounded-xl bg-[#F3F4F7]  text-[#939393] w-full  outline-none"
         />
         <Button isIconOnly color={searchRef.current && isOpen ? "success" : "transparent"} className="icon z-20 absolute top-1/2 -translate-y-1/2 end-2 ">
           <solarIcons.Magnifer size={20} color={searchRef.current && isOpen ? "white" : "#939393"} />

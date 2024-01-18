@@ -19,9 +19,47 @@ const NavbarTop = ({ locationName, handleLocationName }) => {
   const { userData } = useSelector((state) => state.userData);
   const { userConversationsCount } = useSelector((state) => state.chat);
 
+  /**
+   * =================================================================================================
+   *
+   * if you want to change the behaviour of the navbar
+   * you can just change the position of it with sticky or fixed
+   * so if the user scroll down and the scrolling position is more than 200px then hide the navbar
+   *
+   * =================================================================================================
+   *
+   * */
+
+  // const [scrollPosition, setScrollPosition] = useState(null);
+  useEffect(() => {
+    // let lastScrollPosition = 0;
+    // // Add an event listener for the scroll event
+    // window.addEventListener("scroll", function () {
+    //   // Get the current scroll position
+    //   const currentScrollPosition = window.scrollY;
+    //   // Check if the user is scrolling down
+    //   if (currentScrollPosition > lastScrollPosition && window.scrollY > 200) {
+    //     console.log("Scrolling down");
+    //     // Add your code for when the user is scrolling down
+    //     setScrollPosition("down");
+    //   }
+    //   // Check if the user is scrolling up
+    //   if (currentScrollPosition < lastScrollPosition) {
+    //     console.log("Scrolling up");
+    //     setScrollPosition("up");
+    //     // Add your code for when the user is scrolling up
+    //   }
+    //   // Update the last known scroll position
+    //   lastScrollPosition = currentScrollPosition;
+    // });
+  }, []);
   return (
     <>
-      <div className="navBar flex items-center gap-5">
+      <div
+        // this is the classes can be used if you want to change the behaviour
+        // className={`navBar flex items-center gap-5 fixed transition-all  duration-1000 ${scrollPosition == "down" ? "-translate-y-full" : "translate-y-full"}`}
+        className={`navBar flex items-center gap-5 `}
+      >
         <div className="navbar-btn hidden lg:block">
           <Link to={"/book/new"}>
             <button

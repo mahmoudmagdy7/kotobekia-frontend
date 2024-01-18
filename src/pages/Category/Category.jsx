@@ -8,7 +8,7 @@ import MobileFilters from "./MobileFilters";
 import config from "../../../config";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardSkeleton from "../../Components/Card/CardSkeleton";
 function Category() {
@@ -20,6 +20,8 @@ function Category() {
   const [filters, setFilters] = useState(null);
   const [sortingValues, setSortingValues] = useState(null);
   const { id } = useParams();
+  const [params, setParams] = useSearchParams();
+  const [viewMode, setViewMode] = useState(localStorage.getItem("view_mode") ?? "grid");
   function getCategory(data) {
     return axios.get(
       `${config.bseUrl}/api/v1/levels/specific/${data.id}?page=${data.page}${data?.filters ? data.filters : ""}${data?.sorting ? data.sorting : ""}`
@@ -35,22 +37,20 @@ function Category() {
   );
 
   useEffect(() => {
-    window.history.pushState(null, "", `?page=${currentPage}`);
+    window.history.pushState(null, `?page=${currentPage}`);
   }, [currentPage]);
+
   useEffect(() => {
     setCurrentPage(1);
-    // sortingValues ?refetch({ filters: filters }) :
-    sortingValues ? refetch({ filters: filters + sortingValues }) : refetch(filters);
-    // refetch({ filters: filters });
-    console.log("refetch");
+    refetch(filters);
   }, [id, filters, sortingValues]);
-  // useEffect(() => {
-  //   // sortingValues ?refetch({ filters: filters }) :
-  //   refetch({ sorting: "sort" });
-  //   // refetch({ filters: filters });
-  // }, [sortingValues]);
+
   function updateFilters(filters) {
     setFilters(filters);
+  }
+  function changeViewMode(mode) {
+    setViewMode(mode);
+    localStorage.setItem("view_mode", mode);
   }
 
   function sortingWith(value) {
@@ -67,10 +67,10 @@ function Category() {
               <DesktopFilters updateFilters={updateFilters} />
             </div>
             {/* ============================== apply filters ============================== */}
-            <Button size="sm" className="w-full bg-[#28D8AE] rounded-lg mt-6 text-white text-base ms-auto">
+            {/* <Button size="sm" className="w-full bg-[#28D8AE] rounded-lg mt-6 text-white text-base ms-auto">
               <solaIcons.Filter size={22} />
               Apply filters
-            </Button>
+            </Button> */}
           </div>
         </aside>
         <main className=" lg:col-span-9 col-span-12">
@@ -84,13 +84,18 @@ function Category() {
           <div className="bg-[#f3f4f7]  h-10 mt-3 rounded-lg flex items-center justify-between px-3 ">
             {/* -------- view toggles -------- */}
             <div>
-              <solaIcons.Widget size={20} color="#28D8AE" className="mt-1" />
-              <solaIcons.HamburgerMenu size={20} className="mt-1" />
+              <Button onClick={() => changeViewMode("grid")} size="sm" variant="light" isIconOnly>
+                {" "}
+                <solaIcons.Widget size={20} color={viewMode == "grid" ? "#28D8AE" : null} iconStyle={viewMode == "grid" ? "Bold" : null} />
+              </Button>
+              <Button onClick={() => changeViewMode("list")} size="sm" variant="light" isIconOnly>
+                <solaIcons.Pause className="rotate-90" size={19} color={viewMode == "list" ? "#28D8AE" : null} iconStyle={viewMode == "list" ? "Bold" : null} />
+              </Button>
             </div>
             {/* -------- sorting -------- */}
             <div>
               <span className="text-sm">Sort by :</span>
-              <Select variant="flat" color="transparent" labelPlacement="inside" placeholder="Newest" size="xs" className=" w-48 hover:bg-red-500">
+              <Select variant="flat" color="transparent" labelPlacement="inside" placeholder="Newest" size="xs" className="w-48">
                 <SelectItem onClick={() => sortingWith("latest")} key="Newest" value="Newest" className="text-black">
                   Newest
                 </SelectItem>
@@ -98,10 +103,10 @@ function Category() {
                   Oldest
                 </SelectItem>
                 <SelectItem onClick={() => sortingWith("priceHighToLow")} key="priceHighToLow" value="priceHighToLow" className="text-black">
-                  Price Low to High
+                  Price: Low to High
                 </SelectItem>
                 <SelectItem onClick={() => sortingWith("priceLowToHigh")} key="priceLowToHigh" value="priceLowToHigh" className="text-black">
-                  Price High to Low
+                  Price: High to Low
                 </SelectItem>
                 <SelectItem onClick={() => sortingWith("viewsHighToLow")} key="MostPopular" value="MostPopular" className="text-black">
                   Most Popular
@@ -116,9 +121,10 @@ function Category() {
           {isLoading ? (
             <CardSkeleton isLoading={isLoading} />
           ) : (
-            <div className="grid lg:grid-cols-3 grid-cols-2 mt-3 ">
+            // <div className="grid lg:grid-cols-3 grid-cols-2 mt-3 ">
+            <div className={viewMode == "grid" ? "grid lg:grid-cols-3 grid-cols-2 mt-3 gap-3" : "grid grid-cols-1 mt-3 "}>
               {data?.data?.result?.map((post) => {
-                return <Card key={post.id} post={post} />;
+                return <Card view={viewMode} key={post.id} post={post} />;
               })}
             </div>
           )}
