@@ -30,14 +30,14 @@ const NavScroll = ({ locationName, handleLocationName }) => {
   const { userConversationsCount } = useSelector((state) => state.chat);
   // get user data form redux
   const { userData } = useSelector((state) => state.userData);
-
+  console.log(window.scrollY);
   return (
     <>
       <div
         style={{
           background: "linear-gradient(90deg, #e0e1f5 0%, #f2f1e3 100.31%)",
         }}
-        className=" fixed z-[49]  w-full top-0 shadow-[0_10px_20px_-15px_rgba(0,0,0,0.2)]  start-0 transition-all"
+        className=" fixed z-[49]  w-full top-0 shadow-[0_10px_20px_-15px_rgba(0,0,0,0.2)]  start-0 transition-all "
       >
         <div className="container navBar flex items-center gap-5 py-3">
           <div className="logo hidden sm:block">

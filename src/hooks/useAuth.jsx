@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
-const isLoggedInUser = function () {
+export const isLoggedInUser = function () {
   if (Cookies.get("userToken")) {
     return true;
   } else {

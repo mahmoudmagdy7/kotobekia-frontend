@@ -14,7 +14,6 @@ import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./postDetails.css";
-
 import { getConversationMessages, setActiveUser } from "../../app/Slices/chatSlice";
 import toast from "react-hot-toast";
 import { loggedInUserInfo } from "../../hooks/useAuth";
@@ -211,7 +210,7 @@ const PostDetails = () => {
   }
   useEffect(() => {
     refetch(id);
-    // gotTop();
+    gotTop();
   }, [id]);
 
   useLayoutEffect(() => {
@@ -336,21 +335,7 @@ const PostDetails = () => {
                       </div>
                     </div>
 
-                    <div className="location flex justify-between items-center border-t-1 py-3  border-[#FFF]">
-                      <div className="date flex ps-3 items-center gap-1">
-                        <span className="text-[#0F172A] text-xs">{moment(data?.data?.result.createdAt).fromNow()}</span>
-                        <div className="icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M6.25898 0.837209C3.41034 0.837209 1.10107 3.14867 1.10107 6C1.10107 8.85133 3.41034 11.1628 6.25898 11.1628C9.10762 11.1628 11.4169 8.85133 11.4169 6C11.4169 3.14867 9.10762 0.837209 6.25898 0.837209ZM0.264648 6C0.264648 2.68629 2.9484 0 6.25898 0C9.56956 0 12.2533 2.68629 12.2533 6C12.2533 9.31371 9.56956 12 6.25898 12C2.9484 12 0.264648 9.31371 0.264648 6ZM6.25898 3.34884C6.48995 3.34884 6.67719 3.53625 6.67719 3.76744V5.82661L7.94873 7.09935C8.11205 7.26283 8.11205 7.52787 7.94873 7.69135C7.78541 7.85482 7.52061 7.85482 7.35729 7.69135L5.96326 6.296C5.88483 6.21749 5.84077 6.11102 5.84077 6V3.76744C5.84077 3.53625 6.02801 3.34884 6.25898 3.34884Z"
-                              fill="#747474"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-
+                    <div className="location flex justify-between items-center border-t-1 py-3 p-3 border-[#FFF]">
                       <div className="address pe-3 flex  items-center gap-1">
                         <span className="text-[#131313] text-sm font-medium">{data?.data?.result.location}</span>
                         <div className="icon">
@@ -368,6 +353,19 @@ const PostDetails = () => {
                                 <rect width="15.0551" height="15" fill="white" transform="translate(0.631836 0.873535)" />
                               </clipPath>
                             </defs>
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="date flex ps-3 items-center gap-1">
+                        <span className="text-[#0F172A] text-xs">{moment(data?.data?.result.createdAt).fromNow()}</span>
+                        <div className="icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M6.25898 0.837209C3.41034 0.837209 1.10107 3.14867 1.10107 6C1.10107 8.85133 3.41034 11.1628 6.25898 11.1628C9.10762 11.1628 11.4169 8.85133 11.4169 6C11.4169 3.14867 9.10762 0.837209 6.25898 0.837209ZM0.264648 6C0.264648 2.68629 2.9484 0 6.25898 0C9.56956 0 12.2533 2.68629 12.2533 6C12.2533 9.31371 9.56956 12 6.25898 12C2.9484 12 0.264648 9.31371 0.264648 6ZM6.25898 3.34884C6.48995 3.34884 6.67719 3.53625 6.67719 3.76744V5.82661L7.94873 7.09935C8.11205 7.26283 8.11205 7.52787 7.94873 7.69135C7.78541 7.85482 7.52061 7.85482 7.35729 7.69135L5.96326 6.296C5.88483 6.21749 5.84077 6.11102 5.84077 6V3.76744C5.84077 3.53625 6.02801 3.34884 6.25898 3.34884Z"
+                              fill="#747474"
+                            />
                           </svg>
                         </div>
                       </div>
