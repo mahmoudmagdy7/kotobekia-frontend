@@ -17,25 +17,46 @@ function Category() {
   // Get the 'page' parameter from the URL or use the default value of 1
   const pageFromUrl = new URLSearchParams(location.search).get("page") || 1;
   const [currentPage, setCurrentPage] = useState(parseInt(pageFromUrl, 10));
+  const [filters, setFilters] = useState(null);
+  const [sortingValues, setSortingValues] = useState(null);
   const { id } = useParams();
-  function getCategory(page, id) {
-    return axios.get(`${config.bseUrl}/api/v1/levels/specific/${id}?page=${page}`);
+  function getCategory(data) {
+    return axios.get(
+      `${config.bseUrl}/api/v1/levels/specific/${data.id}?page=${data.page}${data?.filters ? data.filters : ""}${data?.sorting ? data.sorting : ""}`
+    );
   }
-
-  const { isLoading, isError, data, refetch, isRefetching } = useQuery(["getSpecificCategory", currentPage, id], () => getCategory(currentPage, id), {
-    refetchOnWindowFocus: false, // to prevent the refetching on window focus
-    // refetchOnMount: false,
-  });
+  const { isLoading, isError, data, refetch, isRefetching } = useQuery(
+    ["getSpecificCategory", currentPage, id],
+    () => getCategory({ id, page: currentPage, filters, sorting: sortingValues }),
+    {
+      refetchOnWindowFocus: false, // to prevent the refetching on window focus
+      // refetchOnMount: false,
+    }
+  );
 
   useEffect(() => {
     window.history.pushState(null, "", `?page=${currentPage}`);
   }, [currentPage]);
   useEffect(() => {
     setCurrentPage(1);
-    refetch;
+    // sortingValues ?refetch({ filters: filters }) :
+    sortingValues ? refetch({ filters: filters + sortingValues }) : refetch(filters);
+    // refetch({ filters: filters });
     console.log("refetch");
-  }, [id]);
+  }, [id, filters, sortingValues]);
+  // useEffect(() => {
+  //   // sortingValues ?refetch({ filters: filters }) :
+  //   refetch({ sorting: "sort" });
+  //   // refetch({ filters: filters });
+  // }, [sortingValues]);
+  function updateFilters(filters) {
+    setFilters(filters);
+  }
 
+  function sortingWith(value) {
+    setSortingValues((prev) => (`&sort=${value}` == prev ? "&sort=latest" : `&sort=${value}`));
+    // setSortingValues(`&sort=${value}`);
+  }
   return (
     <div className="text-black py-5">
       <section className="container m-auto grid gap-3 grid-cols-12 relative gap-y-5 ">
@@ -43,8 +64,13 @@ function Category() {
           <div className=" ">
             <h3 className="text-xl font-bold text-[#28D8AE] my-2">POST FILTERS</h3>
             <div className="ms-5">
-              <DesktopFilters />
+              <DesktopFilters updateFilters={updateFilters} />
             </div>
+            {/* ============================== apply filters ============================== */}
+            <Button size="sm" className="w-full bg-[#28D8AE] rounded-lg mt-6 text-white text-base ms-auto">
+              <solaIcons.Filter size={22} />
+              Apply filters
+            </Button>
           </div>
         </aside>
         <main className=" lg:col-span-9 col-span-12">
@@ -53,7 +79,7 @@ function Category() {
             <img src="/assets/slider.png" className="object-top" alt="" />
           </div>
           {/* ============================== Categories header  ============================== */}
-          <MobileFilters />
+          <MobileFilters updateFilters={updateFilters} />
           {/* ============================== Categories header  ============================== */}
           <div className="bg-[#f3f4f7]  h-10 mt-3 rounded-lg flex items-center justify-between px-3 ">
             {/* -------- view toggles -------- */}
@@ -64,15 +90,24 @@ function Category() {
             {/* -------- sorting -------- */}
             <div>
               <span className="text-sm">Sort by :</span>
-              <Select labelPlacement="inside" placeholder="Newest" size="xs" className=" w-24">
-                <SelectItem key="Newest" value="Newest" className="text-black">
+              <Select variant="flat" color="transparent" labelPlacement="inside" placeholder="Newest" size="xs" className=" w-48 hover:bg-red-500">
+                <SelectItem onClick={() => sortingWith("latest")} key="Newest" value="Newest" className="text-black">
                   Newest
                 </SelectItem>
-                <SelectItem key="Price" value="Price" className="text-black">
-                  Price
+                <SelectItem onClick={() => sortingWith("oldest")} key="oldest" value="oldest" className="text-black">
+                  Oldest
                 </SelectItem>
-                <SelectItem key="Views" value="Views" className="text-black">
-                  Views
+                <SelectItem onClick={() => sortingWith("priceHighToLow")} key="priceHighToLow" value="priceHighToLow" className="text-black">
+                  Price Low to High
+                </SelectItem>
+                <SelectItem onClick={() => sortingWith("priceLowToHigh")} key="priceLowToHigh" value="priceLowToHigh" className="text-black">
+                  Price High to Low
+                </SelectItem>
+                <SelectItem onClick={() => sortingWith("viewsHighToLow")} key="MostPopular" value="MostPopular" className="text-black">
+                  Most Popular
+                </SelectItem>{" "}
+                <SelectItem onClick={() => sortingWith("viewsLowToHigh")} key="LeastPopular" value="LeastPopular" className="text-black">
+                  Least Popular
                 </SelectItem>
               </Select>
             </div>
