@@ -110,7 +110,7 @@ const NavbarTop = ({ locationName, handleLocationName }) => {
           {/* ----------- Location List ----------- */}
           {location ? (
             <>
-              <div className=" location-list z-[999999] overflow-auto absolute top-[101%] border-1 border-[#75757569] hidden lg:flex w-[150px] justify-center items-center gap-[10px] rounded-[10px] cursor-pointer text-[#333] bg-[#F3F4F7]">
+              <div className=" location-list z-[48] overflow-auto absolute top-[101%] border-1 border-[#75757569] hidden lg:flex w-[150px] justify-center items-center gap-[10px] rounded-[10px] cursor-pointer text-[#333] bg-[#F3F4F7]">
                 <ul name="" id="" className=" list-none w-full max-h-[350px] ">
                   {locationList.map((item) => (
                     <>

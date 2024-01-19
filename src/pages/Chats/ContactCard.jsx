@@ -37,8 +37,8 @@ export const ContactCard = ({ conv }) => {
 
   return (
     <div onClick={redirectHandler} className=" flex hover:bg-gray-100  justify-between p-5 relative">
-      <div className="flex gap-3  w-full">
-        <div className="relative  w-14 h-12">
+      <div className="flex gap-3  w-full overflow-hidden">
+        <div className="relative  w-14 h-12 shrink-0">
           <img
             className="w-12 h-12 rounded-full"
             alt={`${conv.users[0]._id === myId ? conv.users[1].fullName : conv.users[0].fullName} avatar`}
@@ -54,21 +54,21 @@ export const ContactCard = ({ conv }) => {
           />
           {isOnline ? <span className="bottom-0 end-0 inline-block w-4 h-4 rounded-full absolute bg-success-400 border-2 border-white"></span> : ""}{" "}
         </div>
-        <div className="w-full">
+        <div className="w-full shrink">
           <div className="flex  ">
             <h3 className="font-semibold">{conv.users[0]._id === myId ? conv.users[1].fullName : conv.users[0].fullName}</h3>
             <span className="text-sm ms-auto">{moment(conv?.latestMessage?.createdAt).fromNow()}</span>
           </div>
-          <div className="flex">
-            <p className="text-gray-700 max-w-[70%] overflow-hidden whitespace-nowrap overflow-ellipsis">
-              {conv?.latestMessage?.sender._id === myId ? "Me: " : ""}
-              {conv?.latestMessage?.message}
+          <div className="flex  ">
+            <p className="text-gray-700 max-w-[70%] md:max-w-[90%] lg:max-w-[70%]">
+              <p className="  overflow-hidden whitespace-nowrap overflow-ellipsis ">
+                {conv?.latestMessage?.sender._id === myId ? "Me: " : ""}
+                {conv?.latestMessage?.message}
+              </p>
             </p>
-            {/* {conv.unreadMessages[0].count != 0 && activeUser?._id !== currentUser._id ? ( */}
             <span className="ms-auto inline-flex w-5 h-5 items-center justify-center rounded-full text-sm text-black bg-[#28D8AE] p-1">
               {conv.unreadMessages[0].count}
             </span>
-            {/* ) : null} */}
           </div>
         </div>
       </div>

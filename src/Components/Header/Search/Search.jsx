@@ -39,7 +39,7 @@ export const Search = () => {
   return (
     <div>
       {" "}
-      <div className=" relative p-1 z-50 text-start " id="search-input-parent">
+      <div className=" relative p-1 z-48 text-start " id="search-input-parent">
         <div
           className={`${
             searchRef.current && isOpen ? "block" : "hidden"

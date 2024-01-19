@@ -105,7 +105,7 @@ export const MainChat = () => {
 
   return (
     <section className="container ">
-      <div className="text-black bg-white mb-5 lg:h-[40rem] grid grid-cols-12 z-[999] fixed lg:relative  inset-0 h-screen">
+      <div className="text-black bg-white mb-5 lg:h-[40rem] grid grid-cols-12 z-[49] fixed lg:relative  inset-0 h-screen">
         <aside id="chat-sidebar" className={` w-full ${isOpen ? "border-e-2 col-span-12 lg:col-span-4 lg:h-auto h-screen" : "hidden col-span-4"}`}>
           <div className="flex items-center  p-3 gap-2 border-b-2 relative">
             <h3>Inbox</h3>
