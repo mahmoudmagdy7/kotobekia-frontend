@@ -1,14 +1,11 @@
 import * as solarIcons from "solar-icon-set";
 import logo from "/assets/logo.png";
-<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import userAvatar from "../../../../public/assets/images/user.png";
 import { gotTop } from "../../../hooks/useTop";
-
 import config from "../../../../config";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 import {
   Menu,
   MenuHandler,
@@ -16,16 +13,6 @@ import {
   MenuItem,
   Button,
 } from "@material-tailwind/react";
-=======
-import { useEffect, useLayoutEffect, useState } from "react";
-import { Button } from "@nextui-org/react";
-import NavScroll from "./NavScroll";
-import NavbarTop from "./NavbarTop";
-import config from "../../../../config";
-import { useDispatch } from "react-redux";
-import ArrowTop from "../../arrowTop/ArrowTop";
->>>>>>> 31457b33b5777f61cd7df3e19160e6eeb4fcb89d
-
 const NavHeader = () => {
   const [makeScroll, setMakeScroll] = useState(false);
   const [location, setLocation] = useState(false);
@@ -52,10 +39,7 @@ const NavHeader = () => {
 
   // const [lang, setLang] = useState(null);
 
-<<<<<<< HEAD
-=======
   // replace useLayoutEffect to useEffect
->>>>>>> 31457b33b5777f61cd7df3e19160e6eeb4fcb89d
   useEffect(() => {
     window.onscroll = () => {
       // to make navBar Fixed
@@ -203,7 +187,6 @@ const NavHeader = () => {
               <div className="logo py-4">
                 <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" />
               </div>
-<<<<<<< HEAD
             ) : (
               ""
             )}
@@ -313,7 +296,6 @@ const NavHeader = () => {
             {userData ? (
               <div className="navbar-setting lg:hidden  flex items-center gap-1 cursor-pointer">
                 <solarIcons.Tuning size={26} color="#1C274C" />
-
                 <div className="alarm relative">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -334,102 +316,125 @@ const NavHeader = () => {
                       fill="#FA5057"
                     />
                   </svg>
+                </div>
 
-                  <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
-                    <span className="text-[10px] font-semibold">{0}</span>
-                  </div>
-=======
-              {/* ---------- mobile-Lang ----------*/}
-              <div className="navbar-lang  flex bg-[#F3F4F7] w-10 cursor-pointer lg:hidden items-center justify-center gap-[5px] rounded-[10px]">
-                <Button
-                  size="sm"
-                  className=" text-[#464646] text-[14px] font-bold w-full text-center"
-                  onClick={() => {
-                    if (localStorage.getItem("i18nextLng") == "en") {
-                      localStorage.setItem("i18nextLng", "ar");
-                      window.location.reload();
-                      document.body.dir = "rtl";
-                    } else {
-                      localStorage.setItem("i18nextLng", "en");
-                      window.location.reload();
-                      document.body.dir = "ltr";
-                    }
-                  }}
-                  color="#F3F4F7"
-                >
-                  {localStorage.getItem("i18nextLng") == "en" ? "AR" : "EN"}
-                </Button>
-              </div>
-              {/* ---------- mobile-Lang ---------- */}
-              {/* ---------- Mobile/Tablet-Location ---------- */}
-              <div className="navbar-location relative lg:hidden block h-[48px] w-[150px] rounded-[10px] py-1  cursor-pointer bg-[#F3F4F7]">
-                <div className="flex justify-center items-center gap-[10px]">
-                  <div className="txt" style={{ "font-family": "Noto Sans Arabic" }}>
-                    {locationName ? (
-                      <span className="text-[#939393] text-[12px] font-bold block">{locationName}</span>
-                    ) : (
-                      <span className="text-[#939393] text-[10px] font-medium block">
-                        {localStorage.getItem("i18nextLng") == "en" ? "Your Location" : "موقعك"}
-                      </span>
-                    )}
-
-                    {locationName ? (
-                      <>
-                        <span onClick={() => setLocation(true)} className="text-[#30A79F] text-[10px] font-bold underline ">
-                          {localStorage.getItem("i18nextLng") == "en" ? "Change the Location" : "تغيير الموقع"}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="text-[#30A79F] text-[10px] font-bold ">
-                          {localStorage.getItem("i18nextLng") == "en" ? "Select a Location" : "أختر الموقع"}
-                        </span>
-                      </>
-                    )}
-
-                    <div className="arrows">
-                      {!locationName ? (
-                        location ? (
-                          <div className="icon" onClick={() => setLocation(false)}>
-                            <solarIcons.CloseSquare size={16} color="#1C274C" />
-                          </div>
-                        ) : (
-                          <div className="icon" onClick={() => setLocation(true)}>
-                            <solarIcons.AltArrowDown size={16} color="#1C274C" />
-                          </div>
-                        )
-                      ) : null}
-                    </div>
-                  </div>
-                  {/* ----------- Location List ----------- */}
-                  {location ? (
-                    <>
-                      <div className=" location-list z-[999999] overflow-auto absolute top-[101%] border-1 border-[#75757569] lg:hidden flex w-[150px] justify-center items-center gap-[10px] rounded-[10px] cursor-pointer text-[#333] bg-[#F3F4F7]">
-                        <ul name="" id="" className=" list-none w-full max-h-[350px] ">
-                          {locationList.map((item) => (
-                            <>
-                              <li
-                                key={item.city}
-                                onClick={() => {
-                                  handleLocationName(item);
-                                  setLocation(false);
-                                }}
-                                value={item.city}
-                                className="select-none transition-all hover:bg-[#e2e2e2] py-1 px-3"
-                              >
-                                {item.value}
-                              </li>
-                            </>
-                          ))}
-                        </ul>
-                      </div>
-                    </>
-                  ) : null}
-                  {/* ----------- Location List ----------- */}
->>>>>>> 31457b33b5777f61cd7df3e19160e6eeb4fcb89d
+                <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
+                  <span className="text-[10px] font-semibold">{0}</span>
                 </div>
               </div>
-            ) : null}
+            ) : (
+              ""
+            )}
+            {/* ---------- mobile-Lang ----------*/}
+            <div className="navbar-lang  flex bg-[#F3F4F7] w-10 cursor-pointer lg:hidden items-center justify-center gap-[5px] rounded-[10px]">
+              <Button
+                size="sm"
+                className=" text-[#464646] text-[14px] font-bold w-full text-center"
+                onClick={() => {
+                  if (localStorage.getItem("i18nextLng") == "en") {
+                    localStorage.setItem("i18nextLng", "ar");
+                    window.location.reload();
+                    document.body.dir = "rtl";
+                  } else {
+                    localStorage.setItem("i18nextLng", "en");
+                    window.location.reload();
+                    document.body.dir = "ltr";
+                  }
+                }}
+                color="#F3F4F7"
+              >
+                {localStorage.getItem("i18nextLng") == "en" ? "AR" : "EN"}
+              </Button>
+            </div>
+            {/* ---------- mobile-Lang ---------- */}
+            {/* ---------- Mobile/Tablet-Location ---------- */}
+            <div className="navbar-location relative lg:hidden block h-[48px] w-[150px] rounded-[10px] py-1  cursor-pointer bg-[#F3F4F7]">
+              <div className="flex justify-center items-center gap-[10px]">
+                <div
+                  className="txt"
+                  style={{ "font-family": "Noto Sans Arabic" }}
+                >
+                  {locationName ? (
+                    <span className="text-[#939393] text-[12px] font-bold block">
+                      {locationName}
+                    </span>
+                  ) : (
+                    <span className="text-[#939393] text-[10px] font-medium block">
+                      {localStorage.getItem("i18nextLng") == "en"
+                        ? "Your Location"
+                        : "موقعك"}
+                    </span>
+                  )}
+
+                  {locationName ? (
+                    <>
+                      <span
+                        onClick={() => setLocation(true)}
+                        className="text-[#30A79F] text-[10px] font-bold underline "
+                      >
+                        {localStorage.getItem("i18nextLng") == "en"
+                          ? "Change the Location"
+                          : "تغيير الموقع"}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-[#30A79F] text-[10px] font-bold ">
+                        {localStorage.getItem("i18nextLng") == "en"
+                          ? "Select a Location"
+                          : "أختر الموقع"}
+                      </span>
+                    </>
+                  )}
+
+                  <div className="arrows">
+                    {!locationName ? (
+                      location ? (
+                        <div
+                          className="icon"
+                          onClick={() => setLocation(false)}
+                        >
+                          <solarIcons.CloseSquare size={16} color="#1C274C" />
+                        </div>
+                      ) : (
+                        <div className="icon" onClick={() => setLocation(true)}>
+                          <solarIcons.AltArrowDown size={16} color="#1C274C" />
+                        </div>
+                      )
+                    ) : null}
+                  </div>
+                </div>
+                {/* ----------- Location List ----------- */}
+                {location ? (
+                  <>
+                    <div className=" location-list z-[999999] overflow-auto absolute top-[101%] border-1 border-[#75757569] lg:hidden flex w-[150px] justify-center items-center gap-[10px] rounded-[10px] cursor-pointer text-[#333] bg-[#F3F4F7]">
+                      <ul
+                        name=""
+                        id=""
+                        className=" list-none w-full max-h-[350px] "
+                      >
+                        {locationList.map((item) => (
+                          <>
+                            <li
+                              key={item.city}
+                              onClick={() => {
+                                handleLocationName(item);
+                                setLocation(false);
+                              }}
+                              value={item.city}
+                              className="select-none transition-all hover:bg-[#e2e2e2] py-1 px-3"
+                            >
+                              {item.value}
+                            </li>
+                          </>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                ) : null}
+                {/* ----------- Location List ----------- */}
+              </div>
+            </div>
 
             {/* Mobile Setting  */}
 
@@ -537,17 +542,8 @@ const NavHeader = () => {
               </Link>
             )}
             {/* Desktop notifications */}
+            {/* end Navbar   */}
           </div>
-<<<<<<< HEAD
-          {/* end Navbar   */}
-=======
-          {makeScroll ? (
-            <NavScroll locationName={locationName} handleLocationName={handleLocationName} />
-          ) : (
-            <NavbarTop locationName={locationName} handleLocationName={handleLocationName} />
-          )}
-          <ArrowTop isTop={isTop} />
->>>>>>> 31457b33b5777f61cd7df3e19160e6eeb4fcb89d
         </div>
       </nav>
     </>
