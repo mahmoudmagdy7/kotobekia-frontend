@@ -1,5 +1,6 @@
-import ProfileDesktop from "./ProfileDesktop";
-import ProfileMobile from "./ProfileMobile";
+import ProfileDesktop from "./ProfileDesktop/ProfileDesktop";
+import ProfileMobile from "./ProfileMobile/ProfileMobile";
+
 
 const ProfileData = () => {
   // To remove all active from items

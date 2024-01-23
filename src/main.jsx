@@ -29,6 +29,12 @@ import AddBook from "./pages/AddBook/AddBook.jsx";
 import toast, { Toaster } from "react-hot-toast";
 import ProfileData from "./pages/ProfileData/ProfileData";
 import UserProfile from "./pages/UserProfile/UserProfile.jsx";
+import MyPerson from "./pages/ProfileData/ProfileDesktop/MyPerson.jsx";
+import MyPost from "./pages/ProfileData/MyPost.jsx";
+import PersonalDataMobile from "./pages/ProfileData/ProfileMobile/PersonalDataMobile.jsx";
+import MyFavorite from "./pages/ProfileData/MyFavorite.jsx";
+import UbdateDesktop from "./pages/ProfileData/ProfileDesktop/UbdateDesktop.jsx";
+import UbdateUserMobile from "./pages/ProfileData/ProfileMobile/UbdateUserMobile.jsx";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
@@ -67,6 +73,19 @@ const route = createBrowserRouter([
             <ProfileData />
           </LoginProtector>
         ),
+        children: [
+          {
+            path:"",
+            element: (
+              <>
+                <MyPerson /> <PersonalDataMobile />
+              </>
+            ),
+          },
+          { path: "mypost", element: <MyPost /> },
+          { path: "fav", element: <MyFavorite /> },
+          { path: "ubdate", element: <><UbdateDesktop /> <UbdateUserMobile/></> },
+        ],
       },
 
       {

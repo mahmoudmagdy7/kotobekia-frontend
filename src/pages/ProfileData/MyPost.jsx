@@ -4,7 +4,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import config from "../../../config";
 import Card from "../../Components/Card/Card";
-
+import * as solarIcons from "solar-icon-set";
+import { Link } from "react-router-dom";
 
 const MyPost = () => {
   const getAllPosts = () => {
@@ -28,12 +29,15 @@ const MyPost = () => {
 
   return (
     <>
-      <div className="user-favorite px-12 my-10 bg-white rounded-b-[14px]">
-        <div className="title  pt-9 pb-5  border-b-1 border-[#EDEDED] ">
-          <h5 className="text-[#28D8AE] font-medium text-xl">إعلاناتي</h5>
+      <div className="user-Post px-1 lg:px-12 my-10 bg-white rounded-b-[14px]">
+        <div className="title  pt-9 pb-5 ps-10 flex md:block   border-b-1 border-[#EDEDED] ">
+          <h5 className="text-black md:text-[#28D8AE] font-medium text-xl mx-auto  ">إعلاناتي</h5>
+          <Link to={"/profile"} className="icon lg:hidden">
+            <solarIcons.AltArrowLeft size={32} color="#1C274C" />
+          </Link>
         </div>
 
-        <div className="parent mt-8 grid grid-cols-4 gap-4">
+        <div className="parent mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {data?.data?.result?.map((post) => (
             <>
               <Card post={post} />
