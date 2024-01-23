@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import {  RouterProvider, createBrowserRouter } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider } from "@material-tailwind/react";
 import Layout from "./pages/Layout.jsx";
@@ -13,7 +13,6 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
 import { QueryClient, QueryClientProvider } from "react-query";
-import AdminTesting from "./pages/AdminTesting.jsx";
 import { MainChat } from "./pages/Chats/MainChat.jsx";
 import { Conversation } from "./pages/Chats/Conversation.jsx";
 import { Provider } from "react-redux";
