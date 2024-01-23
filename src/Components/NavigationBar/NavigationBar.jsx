@@ -28,8 +28,8 @@ function NavigationBar() {
           </Link>
         </li>
         <li>
-          <Link onClick={() => setCurrentLocation("/user-posts")} to="/user-posts" className="flex items-center flex-col">
-            {currentLocation === "/user-posts" ? <solarIcons.Widget4 size={23} color="#28D8AE" /> : <solarIcons.Widget4 size={23} color="#000" />}
+          <Link onClick={() => setCurrentLocation("/profile/mypost")} to="/profile/mypost" className="flex items-center flex-col">
+            {currentLocation === "/profile/mypost" ? <solarIcons.Widget4 size={23} color="#28D8AE" /> : <solarIcons.Widget4 size={23} color="#000" />}
             <span className="font-bold">{t("navigation_bar.my_posts")}</span>
           </Link>
         </li>

@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import {  RouterProvider, createBrowserRouter } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider } from "@material-tailwind/react";
 import Layout from "./pages/Layout.jsx";
@@ -13,7 +13,6 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
 import { QueryClient, QueryClientProvider } from "react-query";
-import AdminTesting from "./pages/AdminTesting.jsx";
 import { MainChat } from "./pages/Chats/MainChat.jsx";
 import { Conversation } from "./pages/Chats/Conversation.jsx";
 import { Provider } from "react-redux";
@@ -29,6 +28,12 @@ import AddBook from "./pages/AddBook/AddBook.jsx";
 import toast, { Toaster } from "react-hot-toast";
 import ProfileData from "./pages/ProfileData/ProfileData";
 import UserProfile from "./pages/UserProfile/UserProfile.jsx";
+import MyPerson from "./pages/ProfileData/ProfileDesktop/MyPerson.jsx";
+import MyPost from "./pages/ProfileData/MyPost.jsx";
+import PersonalDataMobile from "./pages/ProfileData/ProfileMobile/PersonalDataMobile.jsx";
+import MyFavorite from "./pages/ProfileData/MyFavorite.jsx";
+import UbdateDesktop from "./pages/ProfileData/ProfileDesktop/UbdateDesktop.jsx";
+import UbdateUserMobile from "./pages/ProfileData/ProfileMobile/UbdateUserMobile.jsx";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
@@ -67,6 +72,19 @@ const route = createBrowserRouter([
             <ProfileData />
           </LoginProtector>
         ),
+        children: [
+          {
+            path:"",
+            element: (
+              <>
+                <MyPerson /> <PersonalDataMobile />
+              </>
+            ),
+          },
+          { path: "mypost", element: <MyPost /> },
+          { path: "fav", element: <MyFavorite /> },
+          { path: "ubdate", element: <><UbdateDesktop /> <UbdateUserMobile/></> },
+        ],
       },
 
       {
