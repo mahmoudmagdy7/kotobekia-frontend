@@ -9,23 +9,25 @@ const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
   // const socket = io("http://localhost:3000");
   const socket = io(config.bseUrl);
-  console.log(socket);
 
   useEffect(() => {
     socket.connected;
     console.log("sockt in");
 
-    if (isLoggedIn) {
-      const userToken = Cookies.get("userToken");
+    const userToken = Cookies.get("userToken");
+    if (isLoggedIn && userToken) {
       const id = jwtDecode(userToken).id;
 
       socket.emit("join", id);
     }
+    // this code is trash
     return () => {
       if (isLoggedIn) {
         const userToken = Cookies.get("userToken");
         const id = jwtDecode(userToken).id;
-        socket.emit("disconnect", id);
+        // socket?.emit("join-conversation", "659e9e51a3b98aed7c42a68b");
+        // socket?.emit("leave-conversation", "convId");
+        // socket.emit("disconnect", id);
       }
     };
   }, []);

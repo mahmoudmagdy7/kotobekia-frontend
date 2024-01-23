@@ -8,6 +8,7 @@ import CardSkeleton from "../../Components/Card/CardSkeleton";
 const UserPosts = ({ id }) => {
   const getUsrePosts = async () => {
     try {
+      
       return axios.get(`${config.bseUrl}/api/v1/user/user-posts/${id}`, {
         headers: {
           token: Cookies.get("userToken"),
@@ -18,7 +19,7 @@ const UserPosts = ({ id }) => {
     }
   };
   const { data , isLoading } = useQuery("getUserPosts", getUsrePosts);
-  console.log(data?.data?.result);
+  console.log(data);
 
 
 
@@ -37,7 +38,7 @@ const UserPosts = ({ id }) => {
         </div>
         {/* header  */}
         <div className="posts mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {data.data.result.map((post) => (
+          {data?.data?.result.map((post) => (
             <>
               <Card post={post} />
             </>

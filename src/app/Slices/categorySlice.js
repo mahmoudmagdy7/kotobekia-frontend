@@ -3,9 +3,7 @@ import axios from "axios";
 import config from "../../../config";
 
 export const getCategory = createAsyncThunk("getCategory", async (id, page) => {
-  return axios.get(
-    `${config.bseUrl}/api/v1/levels/specific/${id}?page=${page}`
-  );
+  return axios.get(`${config.bseUrl}/api/v1/levels/specific/${id}?page=${page}`);
 });
 
 const category = createSlice({

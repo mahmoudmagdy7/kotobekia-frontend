@@ -20,13 +20,11 @@ function Home() {
   }
   document.body.classList.remove("overflow-hidden");
 
-
   const { isLoading, isError, data, refetch, isRefetching } = useQuery("getHomeData", getHomeData, {
     refetchOnWindowFocus: false, // to prevent the refetching on window focus
   });
 
   const socket = useSocket();
-
 
   return (
     <>
