@@ -63,9 +63,7 @@ const NavHeader = () => {
           background: "linear-gradient(90deg, #e0e1f5 0%, #f2f1e3 100.31%)",
         }}
         className={`${
-          makeScroll
-            ? "fixed w-full top-0 z-[9999999] py-2 shadow-[0_10px_20px_-15px_rgba(0,0,0,0.2)] "
-            : "block pb-3 border-1 border-[#F3F4F7]"
+          makeScroll ? "fixed w-full top-0 z-[9999999] py-2 shadow-[0_10px_20px_-15px_rgba(0,0,0,0.2)] " : "block pb-3 border-1 border-[#F3F4F7]"
         } transition-all`}
       >
         <div className="container">
@@ -101,39 +99,25 @@ const NavHeader = () => {
               {/* ---------- Mobile/Tablet-Location ---------- */}
               <div className="navbar-location relative lg:hidden block h-[48px] w-[150px] rounded-[10px] py-1  cursor-pointer bg-[#F3F4F7]">
                 <div className="flex justify-center items-center gap-[10px]">
-                  <div
-                    className="txt"
-                    style={{ "font-family": "Noto Sans Arabic" }}
-                  >
+                  <div className="txt" style={{ "font-family": "Noto Sans Arabic" }}>
                     {locationName ? (
-                      <span className="text-[#939393] text-[12px] font-bold block">
-                        {locationName}
-                      </span>
+                      <span className="text-[#939393] text-[12px] font-bold block">{locationName}</span>
                     ) : (
                       <span className="text-[#939393] text-[10px] font-medium block">
-                        {localStorage.getItem("i18nextLng") == "en"
-                          ? "Your Location"
-                          : "موقعك"}
+                        {localStorage.getItem("i18nextLng") == "en" ? "Your Location" : "موقعك"}
                       </span>
                     )}
 
                     {locationName ? (
                       <>
-                        <span
-                          onClick={() => setLocation(true)}
-                          className="text-[#30A79F] text-[10px] font-bold underline "
-                        >
-                          {localStorage.getItem("i18nextLng") == "en"
-                            ? "Change the Location"
-                            : "تغيير الموقع"}
+                        <span onClick={() => setLocation(true)} className="text-[#30A79F] text-[10px] font-bold underline ">
+                          {localStorage.getItem("i18nextLng") == "en" ? "Change the Location" : "تغيير الموقع"}
                         </span>
                       </>
                     ) : (
                       <>
                         <span className="text-[#30A79F] text-[10px] font-bold ">
-                          {localStorage.getItem("i18nextLng") == "en"
-                            ? "Select a Location"
-                            : "أختر الموقع"}
+                          {localStorage.getItem("i18nextLng") == "en" ? "Select a Location" : "أختر الموقع"}
                         </span>
                       </>
                     )}
@@ -141,21 +125,12 @@ const NavHeader = () => {
                     <div className="arrows">
                       {!locationName ? (
                         location ? (
-                          <div
-                            className="icon"
-                            onClick={() => setLocation(false)}
-                          >
+                          <div className="icon" onClick={() => setLocation(false)}>
                             <solarIcons.CloseSquare size={16} color="#1C274C" />
                           </div>
                         ) : (
-                          <div
-                            className="icon"
-                            onClick={() => setLocation(true)}
-                          >
-                            <solarIcons.AltArrowDown
-                              size={16}
-                              color="#1C274C"
-                            />
+                          <div className="icon" onClick={() => setLocation(true)}>
+                            <solarIcons.AltArrowDown size={16} color="#1C274C" />
                           </div>
                         )
                       ) : null}
@@ -164,12 +139,8 @@ const NavHeader = () => {
                   {/* ----------- Location List ----------- */}
                   {location ? (
                     <>
-                      <div className=" location-list z-[999999] overflow-auto absolute top-[101%] border-1 border-[#75757569] lg:hidden flex w-[150px] justify-center items-center gap-[10px] rounded-[10px] cursor-pointer text-[#333] bg-[#F3F4F7]">
-                        <ul
-                          name=""
-                          id=""
-                          className=" list-none w-full max-h-[350px] "
-                        >
+                      <div className=" location-list z-[48] overflow-auto absolute top-[101%] border-1 border-[#75757569] lg:hidden flex w-[150px] justify-center items-center gap-[10px] rounded-[10px] cursor-pointer text-[#333] bg-[#F3F4F7]">
+                        <ul name="" id="" className=" list-none w-full max-h-[350px] ">
                           {locationList.map((item) => (
                             <>
                               <li
@@ -195,11 +166,7 @@ const NavHeader = () => {
               {/* ---------- Mobile/Tablet-Location ---------- */}
             </div>
           </div>
-          <Navbar
-            makeScroll={makeScroll}
-            locationName={locationName}
-            handleLocationName={handleLocationName}
-          />
+          <Navbar makeScroll={makeScroll} locationName={locationName} handleLocationName={handleLocationName} />
           {/* {makeScroll ? (
             <NavScroll locationName={locationName} handleLocationName={handleLocationName} />
           ) : (

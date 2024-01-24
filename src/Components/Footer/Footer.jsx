@@ -4,13 +4,14 @@ import googlePlay from "/assets/GooglePlay.svg";
 import appStore from "/assets/AppStore.svg";
 import ReviewSection from "./ReviewSection";
 import { Link } from "react-router-dom";
+import ContactUs from "./ContactUs";
 
 const Footer = () => {
   return (
     <>
       <footer className="pt-10 pb-4 lg:pb-0 bg-[#f3f4f7] border-b-2 border-[#dddcde] mb-10 lg:mb-0 ">
         <div className="container">
-          <div className="parent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="parent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
             <div className="item py-5 px-6">
               <img src={footerLogo} alt="Kotobekia Logo" />
 
@@ -203,7 +204,7 @@ const Footer = () => {
               </div>
             </div>
             <ReviewSection />
-            <ReviewSection />
+            <ContactUs />
             <ReviewSection />
           </div>
         </div>

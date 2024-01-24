@@ -42,27 +42,9 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                   {/*----------- user image -----------*/}
                   <div className="user-image w-[127px] h-[127px] relative flex justify-center items-center bg-[#D9D9D9] rounded-full">
                     <div className="img ">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="60"
-                        height="60"
-                        viewBox="0 0 60 60"
-                        fill="none"
-                      >
-                        <rect
-                          x="0.5"
-                          y="0.5"
-                          width="59"
-                          height="59"
-                          stroke="#EFEFEF"
-                        />
-                        <circle
-                          cx="30"
-                          cy="15"
-                          r="10"
-                          stroke="#1C274C"
-                          stroke-width="1.5"
-                        />
+                      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+                        <rect x="0.5" y="0.5" width="59" height="59" stroke="#EFEFEF" />
+                        <circle cx="30" cy="15" r="10" stroke="#1C274C" stroke-width="1.5" />
                         <path
                           d="M50 43.75C50 49.9632 50 55 30 55C10 55 10 49.9632 10 43.75C10 37.5368 18.9543 32.5 30 32.5C41.0457 32.5 50 37.5368 50 43.75Z"
                           stroke="#1C274C"
@@ -70,20 +52,8 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                         />
                       </svg>
                       <div className="cheack absolute bottom-0 start-4 bg-white rounded-full w-fit">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <rect
-                            x="0.5"
-                            y="0.5"
-                            width="23"
-                            height="23"
-                            stroke="#EFEFEF"
-                          />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <rect x="0.5" y="0.5" width="23" height="23" stroke="#EFEFEF" />
                           <path
                             fill-rule="evenodd"
                             clip-rule="evenodd"
@@ -97,12 +67,8 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                   {/* ----------- user image -----------*/}
                   {/* ----------- User Name ----------- */}
                   <div className="user-name text-center">
-                    <h2 className="text-[32px] text-[#28D8AE] font-semibold ">
-                      {userData.fullName}
-                    </h2>
-                    <span className="text-xs text-black font-medium">
-                      {userData.email}
-                    </span>
+                    <h2 className="text-[32px] text-[#28D8AE] font-semibold ">{userData.fullName}</h2>
+                    <span className="text-xs text-black font-medium">{userData.email}</span>
                   </div>
                   {/* ----------- User Name ----------- */}
                 </div>
@@ -114,13 +80,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                   className="logout cursor-pointer flex items-center gap-2"
                 >
                   <div className="icon">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="22"
-                      viewBox="0 0 22 22"
-                      fill="none"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                       <path
                         d="M8.30007 1.14551C9.55368 1.14549 10.5641 1.14547 11.3589 1.25232C12.184 1.36325 12.8787 1.60057 13.4304 2.15233C13.9116 2.63352 14.1548 3.22483 14.2824 3.91966C14.4064 4.59485 14.4301 5.42111 14.4357 6.41252C14.4378 6.79221 14.1317 7.10172 13.752 7.10383C13.3723 7.10595 13.0628 6.79986 13.0607 6.42017C13.0551 5.4178 13.0291 4.7073 12.93 4.16808C12.8346 3.6485 12.6813 3.34777 12.4582 3.1246C12.2045 2.8709 11.8483 2.70549 11.1757 2.61506C10.4832 2.52197 9.56556 2.52051 8.24976 2.52051H7.3331C6.0173 2.52051 5.09961 2.52197 4.40721 2.61506C3.73458 2.70549 3.37839 2.8709 3.12469 3.1246C2.87099 3.3783 2.70558 3.73449 2.61515 4.40712C2.52206 5.09952 2.5206 6.01721 2.5206 7.33301V14.6663C2.5206 15.9821 2.52206 16.8998 2.61515 17.5922C2.70558 18.2649 2.87099 18.6211 3.12469 18.8748C3.37839 19.1285 3.73458 19.2939 4.40721 19.3843C5.09961 19.4774 6.0173 19.4788 7.3331 19.4788H8.24976C9.56556 19.4788 10.4832 19.4774 11.1757 19.3843C11.8483 19.2939 12.2045 19.1285 12.4582 18.8748C12.6813 18.6516 12.8346 18.3509 12.93 17.8313C13.0291 17.292 13.0551 16.5816 13.0607 15.5792C13.0628 15.1995 13.3723 14.8934 13.752 14.8955C14.1317 14.8976 14.4378 15.2071 14.4357 15.5868C14.4301 16.5782 14.4064 17.4045 14.2824 18.0797C14.1548 18.7745 13.9116 19.3658 13.4304 19.847C12.8787 20.3988 12.184 20.6361 11.3589 20.747C10.5641 20.8539 9.55369 20.8539 8.30006 20.8538H7.2828C6.02917 20.8539 5.01871 20.8539 4.22399 20.747C3.39889 20.6361 2.70417 20.3988 2.15242 19.847C1.60066 19.2953 1.36334 18.6005 1.25241 17.7754C1.14556 16.9807 1.14558 15.9703 1.1456 14.7166V7.28271C1.14558 6.02909 1.14556 5.01863 1.25241 4.2239C1.36334 3.3988 1.60066 2.70409 2.15242 2.15233C2.70417 1.60057 3.39889 1.36325 4.22399 1.25232C5.01871 1.14547 6.02916 1.14549 7.28278 1.14551H8.30007Z"
                         fill="#FA5057"
@@ -131,9 +91,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                       />
                     </svg>{" "}
                   </div>
-                  <span className="font-medium text-sm text-[#FA5057]">
-                    تسجيل الخروج
-                  </span>
+                  <span className="font-medium text-sm text-[#FA5057]">تسجيل الخروج</span>
                 </div>
                 {/* ----------- Logout ----------- */}
               </div>
@@ -142,19 +100,10 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                 <div className="parent flex items-center gap-6">
                   {/*********** Personal data ***********/}
                   <Link to={"/profile"}>
-                    <div
-                      onClick={() => sethandleActive("/profile")}
-                      className="person item cursor-pointer flex items-center gap-1"
-                    >
+                    <div onClick={() => sethandleActive("/profile")} className="person item cursor-pointer flex items-center gap-1">
                       <div className="icon active">
                         {handleActive === "/profile" ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="#28d8ae"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#28d8ae">
                             <path
                               fill-rule="evenodd"
                               clip-rule="evenodd"
@@ -167,13 +116,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                             />
                           </svg>
                         ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="#939393"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#939393">
                             <path
                               fill-rule="evenodd"
                               clip-rule="evenodd"
@@ -187,29 +130,17 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                           </svg>
                         )}
                       </div>
-                      <span className="text-[#131313] font-medium text-sm">
-                        {" "}
-                        الملف الشخصي
-                      </span>
+                      <span className="text-[#131313] font-medium text-sm"> الملف الشخصي</span>
                     </div>
                   </Link>
                   {/*********** Personal data ***********/}
 
                   {/************ Ubdate Person ************/}
                   <Link to={"ubdate"}>
-                    <div
-                      onClick={() => sethandleActive("/profile/ubdate")}
-                      className="ubdate-preson item cursor-pointer flex items-center gap-1"
-                    >
+                    <div onClick={() => sethandleActive("/profile/ubdate")} className="ubdate-preson item cursor-pointer flex items-center gap-1">
                       <div className="icon">
                         {handleActive === "/profile/ubdate" ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="24"
-                            viewBox="0 0 25 24"
-                            fill="#28d8ae"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="#28d8ae">
                             <path
                               fill-rule="evenodd"
                               clip-rule="evenodd"
@@ -217,13 +148,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                             />
                           </svg>
                         ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="24"
-                            viewBox="0 0 25 24"
-                            fill="#939393"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="#939393">
                             <path
                               fill-rule="evenodd"
                               clip-rule="evenodd"
@@ -232,66 +157,36 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                           </svg>
                         )}
                       </div>
-                      <span className="text-[#131313] font-medium text-sm">
-                        {" "}
-                        تعديل الملف الشخصي
-                      </span>
+                      <span className="text-[#131313] font-medium text-sm"> تعديل الملف الشخصي</span>
                     </div>
                   </Link>
                   {/************ Ubdate Person  ************/}
 
                   {/************ Favorite ADS ************/}
                   <Link to={"fav"}>
-                    <div
-                      onClick={() => sethandleActive("/profile/fav")}
-                      className="favorite item cursor-pointer flex items-center gap-1"
-                    >
+                    <div onClick={() => sethandleActive("/profile/fav")} className="favorite item cursor-pointer flex items-center gap-1">
                       <div className="icon">
                         {handleActive === "/profile/fav" ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="23"
-                            height="24"
-                            viewBox="0 0 23 24"
-                            fill="#28d8ae"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="#28d8ae">
                             <path d="M8.58835 18.6233L9.05266 18.0343L8.58835 18.6233ZM11.5 5.77184L10.9597 6.29194C11.101 6.43883 11.2961 6.52184 11.5 6.52184C11.7039 6.52184 11.899 6.43883 12.0404 6.29194L11.5 5.77184ZM14.4117 18.6233L14.876 19.2123L14.4117 18.6233ZM9.05266 18.0343C7.5983 16.8878 6.0135 15.7722 4.75591 14.3561C3.52403 12.969 2.66669 11.3529 2.66669 9.25678H1.16669C1.16669 11.821 2.23531 13.7768 3.63434 15.3521C5.00766 16.8985 6.75868 18.136 8.12403 19.2123L9.05266 18.0343ZM2.66669 9.25678C2.66669 7.20723 3.82476 5.4901 5.40302 4.76867C6.934 4.06885 8.99543 4.25118 10.9597 6.29194L12.0404 5.25174C9.69227 2.81212 6.96203 2.40677 4.77943 3.40444C2.64411 4.3805 1.16669 6.64603 1.16669 9.25678H2.66669ZM8.12403 19.2123C8.61464 19.5991 9.1433 20.0131 9.67954 20.3265C10.2155 20.6397 10.8305 20.8962 11.5 20.8962V19.3962C11.2113 19.3962 10.8678 19.2835 10.4363 19.0314C10.0051 18.7794 9.55706 18.432 9.05266 18.0343L8.12403 19.2123ZM14.876 19.2123C16.2414 18.136 17.9924 16.8985 19.3657 15.3521C20.7647 13.7768 21.8334 11.821 21.8334 9.25678H20.3334C20.3334 11.3529 19.476 12.969 18.2441 14.3561C16.9865 15.7722 15.4017 16.8878 13.9474 18.0343L14.876 19.2123ZM21.8334 9.25678C21.8334 6.64603 20.3559 4.3805 18.2206 3.40444C16.038 2.40677 13.3078 2.81212 10.9597 5.25174L12.0404 6.29194C14.0046 4.25118 16.066 4.06885 17.597 4.76867C19.1753 5.4901 20.3334 7.20723 20.3334 9.25678H21.8334ZM13.9474 18.0343C13.443 18.432 12.995 18.7794 12.5637 19.0314C12.1322 19.2835 11.7888 19.3962 11.5 19.3962V20.8962C12.1696 20.8962 12.7845 20.6397 13.3205 20.3265C13.8567 20.0131 14.3854 19.5991 14.876 19.2123L13.9474 18.0343Z" />
                           </svg>
                         ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="23"
-                            height="24"
-                            viewBox="0 0 23 24"
-                            fill="#939393"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="#939393">
                             <path d="M8.58835 18.6233L9.05266 18.0343L8.58835 18.6233ZM11.5 5.77184L10.9597 6.29194C11.101 6.43883 11.2961 6.52184 11.5 6.52184C11.7039 6.52184 11.899 6.43883 12.0404 6.29194L11.5 5.77184ZM14.4117 18.6233L14.876 19.2123L14.4117 18.6233ZM9.05266 18.0343C7.5983 16.8878 6.0135 15.7722 4.75591 14.3561C3.52403 12.969 2.66669 11.3529 2.66669 9.25678H1.16669C1.16669 11.821 2.23531 13.7768 3.63434 15.3521C5.00766 16.8985 6.75868 18.136 8.12403 19.2123L9.05266 18.0343ZM2.66669 9.25678C2.66669 7.20723 3.82476 5.4901 5.40302 4.76867C6.934 4.06885 8.99543 4.25118 10.9597 6.29194L12.0404 5.25174C9.69227 2.81212 6.96203 2.40677 4.77943 3.40444C2.64411 4.3805 1.16669 6.64603 1.16669 9.25678H2.66669ZM8.12403 19.2123C8.61464 19.5991 9.1433 20.0131 9.67954 20.3265C10.2155 20.6397 10.8305 20.8962 11.5 20.8962V19.3962C11.2113 19.3962 10.8678 19.2835 10.4363 19.0314C10.0051 18.7794 9.55706 18.432 9.05266 18.0343L8.12403 19.2123ZM14.876 19.2123C16.2414 18.136 17.9924 16.8985 19.3657 15.3521C20.7647 13.7768 21.8334 11.821 21.8334 9.25678H20.3334C20.3334 11.3529 19.476 12.969 18.2441 14.3561C16.9865 15.7722 15.4017 16.8878 13.9474 18.0343L14.876 19.2123ZM21.8334 9.25678C21.8334 6.64603 20.3559 4.3805 18.2206 3.40444C16.038 2.40677 13.3078 2.81212 10.9597 5.25174L12.0404 6.29194C14.0046 4.25118 16.066 4.06885 17.597 4.76867C19.1753 5.4901 20.3334 7.20723 20.3334 9.25678H21.8334ZM13.9474 18.0343C13.443 18.432 12.995 18.7794 12.5637 19.0314C12.1322 19.2835 11.7888 19.3962 11.5 19.3962V20.8962C12.1696 20.8962 12.7845 20.6397 13.3205 20.3265C13.8567 20.0131 14.3854 19.5991 14.876 19.2123L13.9474 18.0343Z" />
                           </svg>
                         )}
                       </div>
-                      <span className="text-[#131313] font-medium text-sm">
-                        {" "}
-                        الاعلانات المفضلة{" "}
-                      </span>
+                      <span className="text-[#131313] font-medium text-sm"> الاعلانات المفضلة </span>
                     </div>
                   </Link>
                   {/************ Favorite ADS ************/}
 
                   {/************ My Posts ************/}
                   <Link to={"mypost"}>
-                    <div
-                      onClick={() => sethandleActive("/profile/mypost")}
-                      className="my-post item cursor-pointer flex items-center gap-1"
-                    >
+                    <div onClick={() => sethandleActive("/profile/mypost")} className="my-post item cursor-pointer flex items-center gap-1">
                       <div className="icon">
                         {handleActive === "/profile/mypost" ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="21"
-                            height="21"
-                            viewBox="0 0 21 21"
-                            fill="#28d8ae"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="#28d8ae">
                             <path
                               fill-rule="evenodd"
                               clip-rule="evenodd"
@@ -309,13 +204,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                             />
                           </svg>
                         ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="21"
-                            height="21"
-                            viewBox="0 0 21 21"
-                            fill="#939393"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="#939393">
                             <path
                               fill-rule="evenodd"
                               clip-rule="evenodd"
@@ -334,10 +223,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                           </svg>
                         )}
                       </div>
-                      <span className="text-[#131313] font-medium text-sm">
-                        {" "}
-                        إعلاناتي
-                      </span>
+                      <span className="text-[#131313] font-medium text-sm"> إعلاناتي</span>
                     </div>
                   </Link>
                   {/************ My Posts ************/}
@@ -345,13 +231,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                   {/* *********** Problems ************/}
                   <div className="problem item cursor-pointer flex items-center gap-1">
                     <div className="icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="22"
-                        height="22"
-                        viewBox="0 0 22 22"
-                        fill="none"
-                      >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                         <path
                           d="M2.75 9.54828C2.75 6.61716 2.75 5.1516 3.09606 4.65855C3.44211 4.1655 4.82013 3.6938 7.57617 2.7504L8.10125 2.57066C9.5379 2.07889 10.2562 1.83301 11 1.83301C11.7438 1.83301 12.4621 2.07889 13.8988 2.57067L14.4238 2.7504C17.1799 3.6938 18.5579 4.1655 18.9039 4.65855C19.25 5.1516 19.25 6.61716 19.25 9.54828C19.25 9.99102 19.25 10.4711 19.25 10.9918C19.25 16.16 15.3643 18.668 12.9263 19.733C12.265 20.0219 11.9343 20.1663 11 20.1663C10.0657 20.1663 9.73501 20.0219 9.07368 19.733C6.63571 18.668 2.75 16.16 2.75 10.9918C2.75 10.4711 2.75 9.99102 2.75 9.54828Z"
                           stroke="#FA5057"
@@ -359,32 +239,18 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                           stroke-width="1.5"
                         />
 
-                        <path
-                          d="M11 7.33301V10.9997"
-                          stroke="#FA5057"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
+                        <path d="M11 7.33301V10.9997" stroke="#FA5057" stroke-width="1.5" stroke-linecap="round" />
                         <circle cx="11" cy="13.7497" r="0.916667" fill="none" />
                       </svg>
                     </div>
-                    <span className="text-[#131313] font-medium text-sm">
-                      {" "}
-                      التبليغ عن مشكلة
-                    </span>
+                    <span className="text-[#131313] font-medium text-sm"> التبليغ عن مشكلة</span>
                   </div>
                   {/************ Problems  ************/}
 
                   {/************ Helps ************/}
                   <div className="help item cursor-pointer flex items-center gap-1">
                     <div className="icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path
                           d="M13 8C13 7.44772 12.5523 7 12 7C11.4477 7 11 7.44772 11 8C11 8.55228 11.4477 9 12 9C12.5523 9 13 8.55228 13 8Z"
                           fill="#FFC26F"
@@ -401,10 +267,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                         />
                       </svg>
                     </div>
-                    <span className="text-[#131313] font-medium text-sm">
-                      {" "}
-                      مساعدة
-                    </span>
+                    <span className="text-[#131313] font-medium text-sm"> مساعدة</span>
                   </div>
                   {/************ Helps ************/}
                 </div>

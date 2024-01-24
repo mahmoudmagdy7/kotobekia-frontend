@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import CardSkeleton from "../Card/CardSkeleton";
 
 import Slider from "../slider/Slider";
+import { useTranslation } from "react-i18next";
 
 const PartsOfCategory = ({ title, icon, data, isLoading }) => {
+  const { t } = useTranslation();
   return (
     <>
       {isLoading ? (
@@ -14,7 +16,7 @@ const PartsOfCategory = ({ title, icon, data, isLoading }) => {
           <div className="max-w-screen-2xl m-auto px-3 pt-10">
             <div className="head flex justify-between items-center px-6">
               <div className="title py-2  w-fit  flex items-center gap-1 ">
-                <h2 className="text-[24px] border-b-2 text-[#1F292F] font-bold border-[#C8C5C5]">{title}</h2>
+                <h2 className="text-[24px] border-b-2 text-[#1F292F] font-bold border-[#C8C5C5]">{t(`education_levels.${title}`)}</h2>
                 <span className="mt-2 icon">{icon}</span>
               </div>
 

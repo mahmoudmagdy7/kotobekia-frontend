@@ -7,11 +7,8 @@ const PartnerSection = () => {
     <>
       <section className="partners py-10 ">
         <div className="title mx-auto relative">
-          <h2 style={{ zIndex: "2" }} className="text-center text-[32px] relative  text-[#131313] font-bold">
-            Our Partners
-          </h2>
+          <h2 className="text-center text-[32px] relative  text-[#131313] font-bold">Our Partners</h2>
           <div
-            style={{ zIndex: "1" }}
             className={
               `   absolute bottom-[3px]  stroke-[4px] start-1/2 ${localStorage.getItem("i18nextLng") == "en" ? "-translate-x-1/2" : "translate-x-1/2"}`
               //
