@@ -32,9 +32,10 @@
   -webkit-tap-highlight-color: transparent; /* red highlight */
   min-height: 100vh;
 }
-/* body {
-  height: -webkit-fill-available;
-} */
+body {
+  /* height: -webkit-fill-available; */
+}
+
 .check-button span:nth-child(2) {
   border-radius: 5px;
   background-color: #fff;

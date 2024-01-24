@@ -103,10 +103,10 @@ function Category() {
                   Oldest
                 </SelectItem>
                 <SelectItem onClick={() => sortingWith("priceHighToLow")} key="priceHighToLow" value="priceHighToLow" className="text-black">
-                  Price: Low to High
+                  Price: High to Low
                 </SelectItem>
                 <SelectItem onClick={() => sortingWith("priceLowToHigh")} key="priceLowToHigh" value="priceLowToHigh" className="text-black">
-                  Price: High to Low
+                  Price: Low to High
                 </SelectItem>
                 <SelectItem onClick={() => sortingWith("viewsHighToLow")} key="MostPopular" value="MostPopular" className="text-black">
                   Most Popular
