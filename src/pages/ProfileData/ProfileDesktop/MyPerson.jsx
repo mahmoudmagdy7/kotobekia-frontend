@@ -6,7 +6,7 @@ const MyPerson = () => {
 
   return (
     <>
-      <div className="info  px-12 bg-white rounded-b-[14px]  ">
+      <div className="info hidden md:block px-12 bg-white rounded-b-[14px]  ">
         <div className="title pt-9 pb-5  border-b-1 border-[#EDEDED] ">
           <h5 className="text-[#28D8AE] font-medium text-xl">
             المعلومات الشخصية
