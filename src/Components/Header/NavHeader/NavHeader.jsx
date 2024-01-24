@@ -6,13 +6,14 @@ import { Button } from "@nextui-org/react";
 import config from "../../../../config";
 import ArrowTop from "../../arrowTop/ArrowTop";
 import Navbar from "./Navbar";
+import { useTranslation } from "react-i18next";
 
 const NavHeader = () => {
   const [makeScroll, setMakeScroll] = useState(false);
   const [location, setLocation] = useState(false);
   const locationList = config.getCityList();
   const [isTop, setIsTop] = useState(false);
-
+  const { t } = useTranslation();
   const [locationName, setLocationName] = useState("");
   const handleLocationName = (item) => {
     localStorage.setItem("locationName", item.city);
@@ -62,9 +63,10 @@ const NavHeader = () => {
         style={{
           background: "linear-gradient(90deg, #e0e1f5 0%, #f2f1e3 100.31%)",
         }}
-        className={`${
-          makeScroll ? "fixed w-full top-0 z-[9999999] py-2 shadow-[0_10px_20px_-15px_rgba(0,0,0,0.2)] " : "block pb-3 border-1 border-[#F3F4F7]"
-        } transition-all`}
+        // className={`${
+        //   makeScroll ? " w-full top-0 z-[9999999] py-2 shadow-[0_10px_20px_-15px_rgba(0,0,0,0.2)] " : "block pb-3 border-1 border-[#F3F4F7]"
+        //   } transition-all`}
+        className={`${"block pb-3 border-1 border-[#F3F4F7]"} transition-all`}
       >
         <div className="container">
           <div className="nav_top flex items-center justify-between">
@@ -101,7 +103,7 @@ const NavHeader = () => {
                 <div className="flex justify-center items-center gap-[10px]">
                   <div className="txt" style={{ "font-family": "Noto Sans Arabic" }}>
                     {locationName ? (
-                      <span className="text-[#939393] text-[12px] font-bold block">{locationName}</span>
+                      <span className="text-[#939393] text-[12px] font-bold block">{t(`governorates.${locationName}`)}</span>
                     ) : (
                       <span className="text-[#939393] text-[10px] font-medium block">
                         {localStorage.getItem("i18nextLng") == "en" ? "Your Location" : "موقعك"}

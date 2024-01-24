@@ -214,7 +214,7 @@ const PostDetails = () => {
   }, [id]);
 
   useLayoutEffect(() => {
-    data?.data?.result?.userFavorite.includes(loggedInUserInfo?.id) ? setAddFavourite(true) : setAddFavourite(false);
+    data?.data?.result?.userFavorite?.includes(loggedInUserInfo?.id) ? setAddFavourite(true) : setAddFavourite(false);
   }, [data]);
 
   useEffect(() => {

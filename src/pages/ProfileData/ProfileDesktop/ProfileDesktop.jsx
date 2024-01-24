@@ -33,7 +33,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
   return (
     <>
       {userData ? (
-        <section className="profile-desktop hidden lg:block profile-data py-20">
+        <section className="profile-desktop hidden md:block profile-data py-20">
           <div className="container">
             {/* Profile Title  */}
             <div className="head-profile pt-12 mb-12 bg-white rounded-t-[14px]  ">
@@ -96,7 +96,7 @@ const ProfileDesktop = ({ addActive, removeActive }) => {
                 {/* ----------- Logout ----------- */}
               </div>
               {/* data setting  */}
-              <div className="data-setting select-none  mt-14 py-3 border-t-1 border-[#EDEDED] px-24 flex  items-center">
+              <div className="data-setting select-none  mt-14 py-3 border-t-1 border-[#EDEDED] lg:ps-10 flex  items-center">
                 <div className="parent flex items-center gap-6">
                   {/*********** Personal data ***********/}
                   <Link to={"/profile"}>
