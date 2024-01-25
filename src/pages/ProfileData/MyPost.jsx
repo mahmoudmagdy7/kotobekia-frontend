@@ -31,9 +31,15 @@ const MyPost = () => {
     <>
       <div className="user-Post px-1 lg:px-12 my-10 bg-white rounded-b-[14px]">
         <div className="title  pt-9 pb-5 ps-10 flex md:block   border-b-1 border-[#EDEDED] ">
-          <h5 className="text-black md:text-[#28D8AE] font-medium text-xl mx-auto  ">إعلاناتي</h5>
+          <h5 className="text-black md:text-[#28D8AE] font-medium text-xl mx-auto  ">
+            إعلاناتي
+          </h5>
           <Link to={"/profile"} className="icon md:hidden">
-            <solarIcons.AltArrowLeft size={32} color="#1C274C" />
+            {localStorage.getItem("i18nextLng") === "en" ? (
+              <solarIcons.AltArrowRight size={32} color="#1C274C" />
+            ) : (
+              <solarIcons.AltArrowLeft size={32} color="#1C274C" />
+            )}
           </Link>
         </div>
 
