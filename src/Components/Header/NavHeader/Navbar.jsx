@@ -10,12 +10,16 @@ import { useSelector } from "react-redux";
 import { Search } from "../Search/Search";
 import NotificationList from "../Notification/NotificationList";
 import Cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
   // to show location list
   const [location, setLocation] = useState(false);
 
   // get data of location to append in location list
   const locationList = config.getCityList();
+
+
+  const { t } = useTranslation();
 
   // get user data form redux
   const { userData } = useSelector((state) => state.userData);
@@ -59,22 +63,23 @@ const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
       <div
         // this is the classes can be used if you want to change the behaviour
         // className={`navBar flex items-center gap-5 fixed transition-all  duration-1000 ${scrollPosition == "down" ? "-translate-y-full" : "translate-y-full"}`}
-        className={`navBar flex items-center gap-5 `}
+        className={`navBar flex items-center `}
       >
-        {makeScroll ? (
-          <div className="logo">
-            <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" />
+          <div className={`logo ${makeScroll?"me-2 md:me-5":""} `}>
+            <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" className={`${makeScroll?"w-[100px]":"absolute top-[10px]"} `} />
           </div>
-        ) : null}
+
 
         {/* ------------ Add Book btn ------------ */}
-        <div className="navbar-btn hidden lg:block">
+        <div className="navbar-btn hidden lg:block me-5">
           <Link to={"/book/new"}>
             <button
               style={{
                 "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
               }}
-              className={`bg-[#28D8AE] ${makeScroll?"w-fit px-5":""} w-[142px] rounded-[14px] text-[16px] h-12 flex items-center justify-center gap-1`}
+              className={`bg-[#28D8AE] ${
+                makeScroll ? "w-fit px-5" : ""
+              } w-[142px] rounded-[14px] text-[16px] h-12 flex items-center justify-center gap-1`}
             >
               <solarIcons.AddCircle size={26} />
               {makeScroll ? null : <span className="text-base">Add Book</span>}
@@ -84,12 +89,12 @@ const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
         {/* ------------ Add Book btn ------------ */}
 
         {/* Desktop-Location */}
-        <div className="navbar-location relative hidden lg:block h-[48px] w-[150px] rounded-[10px] py-1  cursor-pointer bg-[#F3F4F7]">
+        <div className="navbar-location me-5 relative hidden lg:block h-[48px] w-[150px] rounded-[10px] py-1  cursor-pointer bg-[#F3F4F7]">
           <div className="flex justify-center items-center gap-[10px]">
             <div className="txt" style={{ "font-family": "Noto Sans Arabic" }}>
               {locationName ? (
                 <span className="text-[#939393] text-[12px] font-bold block">
-                  {locationName}
+                  {t(`governorates.${locationName}`)}
                 </span>
               ) : (
                 <span className="text-[#939393] text-[10px] font-medium block">
@@ -157,7 +162,7 @@ const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
         {/* Desktop-Location */}
 
         {/* ------------ Search ------------ */}
-        <div className="navbar-form flex-1 md:lg:w-[590px] lg:lg:w-[600px] rounded-[12px] ">
+        <div className="navbar-form md:me-5 flex-1 md:lg:w-[590px] lg:lg:w-[600px] rounded-[12px] ">
           <Search />
         </div>
         {/* ------------ Search ------------ */}
@@ -174,7 +179,7 @@ const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
 
         {/* ------------ Desktop-Lang ------------ */}
         <div
-          className="navbar-lang h-[48px] hidden   bg-[#F3F4F7] max-w-[45px] cursor-pointer lg:flex items-center justify-center gap-[5px] rounded-[10px]"
+          className="navbar-lang me-5 h-[48px] hidden   bg-[#F3F4F7] max-w-[45px] cursor-pointer lg:flex items-center justify-center gap-[5px] rounded-[10px]"
           style={{ fontFamily: "Noto Sans Arabic" }}
         >
           <Button
@@ -201,7 +206,7 @@ const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
         {userData ? (
           <>
             {/* ------------ Desktop user ------------ */}
-            <div className="user hidden lg:flex items-center gap-3">
+            <div className="user me-5 hidden lg:flex items-center gap-3">
               <img src={userAvatar} alt="User" />
               <div className="name text-[12px]">
                 <span className="block text-[#464646] ">
@@ -215,7 +220,7 @@ const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
             {/* ------------ Desktop user ------------ */}
 
             {/* ------------ Desktop notifications ------------ */}
-            <div className="notifications hidden lg:flex items-center cursor-pointer gap-4">
+            <div className="notifications  hidden lg:flex items-center cursor-pointer gap-4">
               <Link to={"/chat"} className="alarm relative">
                 <div className="msg relative fill-[#1C274C]">
                   <svg

@@ -66,18 +66,16 @@ const NavHeader = () => {
         // className={`${
         //   makeScroll ? " w-full top-0 z-[9999999] py-2 shadow-[0_10px_20px_-15px_rgba(0,0,0,0.2)] " : "block pb-3 border-1 border-[#F3F4F7]"
         //   } transition-all`}
-        className={`${"block pb-3 border-1 border-[#F3F4F7]"} transition-all`}
+        className={`pb-3 sticky border-1 border-[#F3F4F7] transition-all`}
       >
-        <div className="container">
+        <div className=" container ">
           <div className="nav_top flex items-center justify-between">
-            <div className=" flex items-center  flex-1 justify-between  md:justify-start gap-6">
-              {!makeScroll ? (
-                <div className="logo py-4">
-                  <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" />
+            <div className=" flex items-center flex-1 justify-between  md:justify-start gap-5">
+                <div className={`logo${makeScroll?" py-1 relative ":" py-10 "}`}>
+                  {/* <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" className={` transition-all`} /> */}
                 </div>
-              ) : null}
               {/* ---------- mobile-Lang ----------*/}
-              <div className="navbar-lang  flex bg-[#F3F4F7] w-10 cursor-pointer lg:hidden items-center justify-center gap-[5px] rounded-[10px]">
+              <div className={`navbar-lang ${makeScroll?"hidden":""} flex bg-[#F3F4F7] w-10 cursor-pointer lg:hidden items-center justify-center gap-[5px] rounded-[10px]`}>
                 <Button
                   size="sm"
                   className=" text-[#464646] text-[14px] font-bold w-full text-center"
@@ -99,7 +97,7 @@ const NavHeader = () => {
               </div>
               {/* ---------- mobile-Lang ---------- */}
               {/* ---------- Mobile/Tablet-Location ---------- */}
-              <div className="navbar-location relative lg:hidden block h-[48px] w-[150px] rounded-[10px] py-1  cursor-pointer bg-[#F3F4F7]">
+              <div className={`navbar-location ${makeScroll?"hidden":""} relative lg:hidden block h-[48px] w-[150px] rounded-[10px] py-1  cursor-pointer bg-[#F3F4F7]`}>
                 <div className="flex justify-center items-center gap-[10px]">
                   <div className="txt" style={{ "font-family": "Noto Sans Arabic" }}>
                     {locationName ? (
