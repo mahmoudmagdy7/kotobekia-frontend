@@ -11,7 +11,7 @@ const MainHeader = () => {
       // Get the current scroll position
       const currentScrollPosition = window.scrollY;
       // Check if the user is scrolling down
-      if (currentScrollPosition > lastScrollPosition && window.scrollY > 200) {
+      if (currentScrollPosition > lastScrollPosition && window.scrollY > 100) {
         console.log("Scrolling down");
         // Add your code for when the user is scrolling down
         setScrollPosition("down");
@@ -28,7 +28,7 @@ const MainHeader = () => {
   }, []);
   return (
     <>
-      <header className={`sticky z-50 transition-all ${scrollPosition === "up" ? "top-0" : "top-[-200px]"}`}>
+      <header className={` sticky z-50 transition-all ${scrollPosition === "up" ? "top-0" : "top-[-200px]"}`}>
         {/* top header  */}
         <div className=" py-[9px] h-[37px] flex items-center justify-center bg-[#1F292F] text-center relative ">
           <div className="flex items-center ">
