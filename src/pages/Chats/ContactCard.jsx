@@ -41,7 +41,7 @@ export const ContactCard = ({ conv }) => {
         <div className="relative  w-14 h-12 shrink-0">
           <img
             className="w-12 h-12 rounded-full"
-            alt={`${conv.users[0]._id === myId ? conv.users[1].fullName : conv.users[0].fullName} avatar`}
+            alt={`${conv?.users[0]?._id === myId ? conv?.users[1]?.fullName : conv?.users[0]?.fullName} avatar`}
             src={
               conv.users[0]._id === myId
                 ? conv.users[1].gender == "male"
@@ -56,7 +56,7 @@ export const ContactCard = ({ conv }) => {
         </div>
         <div className="w-full shrink">
           <div className="flex  ">
-            <h3 className="font-semibold">{conv.users[0]._id === myId ? conv.users[1].fullName : conv.users[0].fullName}</h3>
+            <h3 className="font-semibold">{conv.users[0]?._id === myId ? conv.users[1]?.fullName : conv?.users[0]?.fullName}</h3>
             <span className="text-sm ms-auto">{moment(conv?.latestMessage?.createdAt).fromNow()}</span>
           </div>
           <div className="flex  ">

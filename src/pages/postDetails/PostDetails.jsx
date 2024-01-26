@@ -227,7 +227,7 @@ const PostDetails = () => {
         <div className="container">
           {
             isLoading ? (
-              <CardSkeleton />
+              <CardSkeleton isLoading={isLoading} />
             ) : (
               <div className="lg:grid lg:grid-cols-12 gap-8">
                 <div className="books lg:col-span-8  mb-3">
