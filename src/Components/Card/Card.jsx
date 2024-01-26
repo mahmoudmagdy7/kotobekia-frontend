@@ -11,8 +11,8 @@ function Card(props) {
   const gridView = function () {
     return (
       <>
-        <div className="mb-4 ">
-          <div className=" hover:cursor-pointer    shadow-[0_11px_22.5px_-15px_rgba(0,0,0,0.1)] rounded-xl " onClick={() => router("/book/" + props.post?._id)}>
+        <div className="mb-4">
+          <div className=" hover:cursor-pointer  shadow-[0_11px_22.5px_-15px_rgba(0,0,0,0.1)] rounded-xl " onClick={() => router("/book/" + props.post?._id)}>
             <figure className="w-full max-h-48 overflow-hidden rounded-t-xl relative">
               {/* <img className="w-full object-fill " src={"https://kotobekia-backend.onrender.com/" + props.post?.images[0]} alt="img" /> */}
               <img className="  " src="/assets/placeholder.png" alt="img" />
