@@ -4,20 +4,38 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import * as solarIcons from "solar-icon-set";
 import isLoggedIn, { isLoggedInUser } from "../../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { gotTop } from "../../hooks/useTop";
 import Cookies from "js-cookie";
+import { getUpdatedUserData } from "../../app/Slices/userDataSlice";
 
 function NavigationBar() {
   const { t } = useTranslation();
   const [currentLocation, setCurrentLocation] = useState(window.location.pathname);
+  const [chatCount, setChatCount] = useState(0);
+
   const { userConversationsCount } = useSelector((state) => state.chat);
   const location = useLocation();
+  const { updatedUserData } = useSelector((state) => state.userData);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setCurrentLocation(location.pathname);
-    console.log(currentLocation);
-    console.log(isLoggedInUser());
   }, [location]);
+
+  useEffect(() => {
+    if (updatedUserData?.conversationChatCounts) {
+      let counter = 0;
+      for (const item in updatedUserData?.conversationChatCounts) {
+        counter += updatedUserData?.conversationChatCounts[item];
+      }
+      setChatCount(counter);
+    }
+  }, [updatedUserData]);
+  useEffect(() => {
+    dispatch(getUpdatedUserData());
+  }, []);
   return (
     <div>
       <ul className="flex z-48 text-black items-center justify-around lg:hidden gap-1 fixed start-0 end-0 bg-white bottom-0 pb-1 pt-2 rounded-t-3xl text-xs sm:text-sm   px-3">
@@ -46,16 +64,20 @@ function NavigationBar() {
           >
             {currentLocation === "/chat" ? (
               <div className="relative">
-                <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center text-white">
-                  <span className="text-[10px] font-semibold"> {userConversationsCount}</span>
-                </div>
+                {chatCount ? (
+                  <div className="num text-white absolute top-[-7px] end-[-6px] w-5 h-5 rounded-[50%] border-2 border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
+                    <span className="text-[10px] font-semibold"> {chatCount}</span>
+                  </div>
+                ) : null}
                 <solarIcons.Letter size={23} color="#28D8AE" />
               </div>
             ) : (
               <div className="relative">
-                <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
-                  <span className="text-[10px] font-semibold"> {userConversationsCount}</span>
-                </div>
+                {chatCount ? (
+                  <div className="num text-white absolute top-[-7px] end-[-6px] w-5 h-5 rounded-[50%] border-2 border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
+                    <span className="text-[10px] font-semibold"> {chatCount}</span>
+                  </div>
+                ) : null}
                 <solarIcons.Letter size={23} color="#000" />
               </div>
             )}

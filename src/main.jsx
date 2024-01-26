@@ -35,10 +35,11 @@ import MyFavorite from "./pages/ProfileData/MyFavorite.jsx";
 import UbdateDesktop from "./pages/ProfileData/ProfileDesktop/UbdateDesktop.jsx";
 import UbdateUserMobile from "./pages/ProfileData/ProfileMobile/UbdateUserMobile.jsx";
 import { LocationProvider } from "./app/LocationContext.jsx";
+import { PageNotFound } from "./pages/Issues/PageNotFound.jsx";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
-  { path: "*", element: <h1>Not found</h1> },
+  { path: "*", element: <PageNotFound /> },
   // { path: "not-authorized", element: <NoAccess /> },
 
   { path: "/auth/banned", element: <h1>Banned</h1> },

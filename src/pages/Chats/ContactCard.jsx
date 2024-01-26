@@ -15,12 +15,12 @@ export const ContactCard = ({ conv }) => {
   const [isOnline, setIsOnline] = useState(false);
 
   const dispatch = useDispatch();
-  const currentUser = conv.users[0]._id === myId ? conv.users[1] : conv.users[0];
+  const currentUser = conv.users[0]?._id === myId ? conv.users[1] : conv.users[0];
 
   const { onlineUsers } = useSelector((state) => state.chat);
   const socket = useSocket();
   useEffect(() => {
-    if (onlineUsers.some((user) => user.userId === currentUser._id)) {
+    if (onlineUsers.some((user) => user.userId === currentUser?._id)) {
       setIsOnline(true);
     } else {
       setIsOnline(false);

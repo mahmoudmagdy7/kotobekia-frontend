@@ -5,27 +5,28 @@ import userAvatar from "../../../../public/assets/images/user.png";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import config from "../../../../config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Search } from "../Search/Search";
 import NotificationList from "../Notification/NotificationList";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
+import { getUpdatedUserData } from "../../../app/Slices/userDataSlice";
 
 const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
   // to show location list
   const [location, setLocation] = useState(false);
-
+  const [chatCount, setChatCount] = useState(0);
   // get data of location to append in location list
   const locationList = config.getCityList();
 
   const { t } = useTranslation();
 
   // get user data form redux
-  const { userData } = useSelector((state) => state.userData);
+  const { userData, updatedUserData } = useSelector((state) => state.userData);
   const { userConversationsCount } = useSelector((state) => state.chat);
-
+  const dispatch = useDispatch();
   /**
    * =================================================================================================
    *
@@ -38,27 +39,18 @@ const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
    * */
 
   useEffect(() => {
-    // let lastScrollPosition = 0;
-    // // Add an event listener for the scroll event
-    // window.addEventListener("scroll", function () {
-    //   // Get the current scroll position
-    //   const currentScrollPosition = window.scrollY;
-    //   // Check if the user is scrolling down
-    //   if (currentScrollPosition > lastScrollPosition && window.scrollY > 200) {
-    //     console.log("Scrolling down");
-    //     // Add your code for when the user is scrolling down
-    //     setScrollPosition("down");
-    //   }
-    //   // Check if the user is scrolling up
-    //   if (currentScrollPosition < lastScrollPosition) {
-    //     console.log("Scrolling up");
-    //     setScrollPosition("up");
-    //     // Add your code for when the user is scrolling up
-    //   }
-    //   // Update the last known scroll position
-    //   lastScrollPosition = currentScrollPosition;
-    // });
+    dispatch(getUpdatedUserData());
   }, []);
+
+  useEffect(() => {
+    if (updatedUserData?.conversationChatCounts) {
+      let counter = 0;
+      for (const item in updatedUserData?.conversationChatCounts) {
+        counter += updatedUserData?.conversationChatCounts[item];
+      }
+      setChatCount(counter);
+    }
+  }, [updatedUserData]);
   return (
     <>
       <div
@@ -202,9 +194,11 @@ const Navbar = ({ locationName, handleLocationName, makeScroll }) => {
                       fill="#1C274C"
                     />
                   </svg>
-                  <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
-                    <span className="text-[10px] font-semibold">{userConversationsCount}</span>
-                  </div>
+                  {chatCount ? (
+                    <div className="num absolute top-[-7px] end-[-4px] w-4 h-4 rounded-[50%] border-[1.5px] border-[#FAFAFA] bg-[#FA5057] flex justify-center items-center">
+                      <span className="text-[10px] font-semibold">{chatCount}</span>
+                    </div>
+                  ) : null}
                 </div>
               </Link>
               {/********      notifications list items           *********/}

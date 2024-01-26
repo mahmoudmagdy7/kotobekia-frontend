@@ -14,7 +14,6 @@ import DotsLoading from "../../Components/Loaders/DotsLoading";
 import { gotTop } from "../../hooks/useTop";
 import isLoggedIn from "../../hooks/useAuth";
 const AddPost = () => {
-  console.log(config.getCityList());
   const year = new Date().getFullYear();
   const yearsArray = [];
   for (let index = 2010; index <= year; index++) {
@@ -40,7 +39,6 @@ const AddPost = () => {
   const { t } = i18next;
   const maxPrice = 50;
   siteDirection;
-  console.log(isLoggedIn);
   const city = config.getCityList();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -136,9 +134,7 @@ const AddPost = () => {
     }
     // value.images = imagesRef?.current;
     // console.log(postData);
-    for (const pair of postData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
+
     try {
       const { data } = await axios(`${config.bseUrl}/api/v1/posts/`, {
         data: postData,
@@ -147,7 +143,6 @@ const AddPost = () => {
       }); // Fetch the data
       // Notify the student that login success
       // setIsSubmit(false);
-      console.log(data);
       if (data.message === "success") {
         setIsSuccess(true);
       }
@@ -157,7 +152,6 @@ const AddPost = () => {
     } catch (error) {
       // const { msgError } = error.response?.data;
       // setIsSubmit(false);
-      console.log(error?.response?.data?.msgError);
       if (error?.response?.data?.msgError) {
         setAPIErrors(error?.response?.data?.msgError);
       }
@@ -903,7 +897,6 @@ const AddPost = () => {
                   type="submit"
                   id="submit"
                   onClick={() => {
-                    console.log("click");
                     // return the user to the first page if there is an error in the validation
 
                     activeStep == 1 && Object.keys(formik.errors).length > 0 && !formik.errors.bookEdition ? setActiveStep(0) : null; // insure that the second page has no errors

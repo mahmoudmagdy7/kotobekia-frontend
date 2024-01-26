@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import config from "../../../../config";
 import Cookies from "js-cookie";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { useSocket } from "../../../app/SocketContext";
 
 function NotificationList() {
   const [notificationCount, setNotificationCont] = useState(0);
@@ -21,7 +22,7 @@ function NotificationList() {
     __v: 0,
   };
 
-  const { data } = useQuery("getUserNotifications", getUserNotifications, {
+  const { data, refetch } = useQuery("getUserNotifications", getUserNotifications, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
@@ -59,6 +60,14 @@ function NotificationList() {
     setNotificationCont(counter);
   }, [data]);
 
+  const socket = useSocket();
+  useEffect(() => {
+    socket.on("new-notification", (notification) => {
+      console.log(notification);
+      console.log("new notification");
+      refetch();
+    });
+  }, []);
   return (
     <>
       <div className="relative ">
