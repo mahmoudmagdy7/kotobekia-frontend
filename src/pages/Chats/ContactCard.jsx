@@ -43,11 +43,11 @@ export const ContactCard = ({ conv }) => {
             className="w-12 h-12 rounded-full"
             alt={`${conv?.users[0]?._id === myId ? conv?.users[1]?.fullName : conv?.users[0]?.fullName} avatar`}
             src={
-              conv.users[0]._id === myId
-                ? conv.users[1].gender == "male"
+              conv.users[0]?._id === myId
+                ? conv.users[1]?.gender == "male"
                   ? "/assets/images/male.png"
                   : "/assets/images/female.png"
-                : conv.users[0].gender == "male"
+                : conv.users[0]?.gender == "male"
                 ? "/assets/images/male.png"
                 : "/assets/images/female.png"
             }
@@ -67,7 +67,7 @@ export const ContactCard = ({ conv }) => {
               </p>
             </p>
             <span className="ms-auto inline-flex w-5 h-5 items-center justify-center rounded-full text-sm text-black bg-[#28D8AE] p-1">
-              {conv.unreadMessages[0].count}
+              {conv.unreadMessages[0]?.count}
             </span>
           </div>
         </div>
