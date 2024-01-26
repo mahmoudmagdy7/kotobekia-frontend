@@ -7,16 +7,19 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import config from "../../../config";
 import { useSocket } from "../../app/SocketContext";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import { LocationContext, LocationProvider } from "../../app/LocationContext";
 
 function Home() {
   const { isLoggedIn } = useSelector((state) => state.userData);
   const dispatch = useDispatch();
+
+  const { location } = useContext(LocationContext);
   function getHomeData() {
-    return axios.get(`${config.bseUrl}/api/v1/levels/levels-posts`);
+    return axios.get(`${config.bseUrl}/api/v1/levels/levels-posts${location ? `?city=` + location : ""}`);
   }
   document.body.classList.remove("overflow-hidden");
 
@@ -25,7 +28,10 @@ function Home() {
   });
 
   const socket = useSocket();
-
+  useEffect(() => {
+    refetch();
+    console.log(location);
+  }, [location]);
   return (
     <>
       <MainSlider />

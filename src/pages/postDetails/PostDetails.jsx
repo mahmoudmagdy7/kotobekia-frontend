@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import "./postDetails.css";
 import { getConversationMessages, setActiveUser } from "../../app/Slices/chatSlice";
 import toast from "react-hot-toast";
-import { loggedInUserInfo } from "../../hooks/useAuth";
+import isLoggedIn, { loggedInUserInfo } from "../../hooks/useAuth";
 import { siteDirection } from "../../hooks/useLocale";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Spinner } from "@nextui-org/react";
 import ShareModal from "./ShareModal";
@@ -38,7 +38,7 @@ const PostDetails = () => {
   function getPostData(postId) {
     return axios.get(`${config.bseUrl}/api/v1/posts/specific/${postId}`, {
       headers: {
-        token: Cookies.get("userToken"),
+        // token: Cookies.get("userToken"),
       },
     });
   }
@@ -48,7 +48,7 @@ const PostDetails = () => {
     try {
       const res = await axios({
         method: "post",
-        url: `${config.bseUrl}/api/v1/posts/add-to-favorite/${data?.data?.result._id}`,
+        url: `${config.bseUrl}/api/v1/posts/add-to-favorite/${id}`,
         headers: {
           token: Cookies.get("userToken"),
         },
@@ -64,7 +64,7 @@ const PostDetails = () => {
     try {
       const res = await axios({
         method: "post",
-        url: `${config.bseUrl}/api/v1/posts/remove-from-favorite/${data?.data?.result._id}`,
+        url: `${config.bseUrl}/api/v1/posts/remove-from-favorite/${id}`,
         headers: {
           token: Cookies.get("userToken"),
         },
@@ -505,6 +505,7 @@ const PostDetails = () => {
                           color="transparent"
                           className="flex  items-center"
                           onClick={() => {
+                            console.log(isLoggedIn);
                             addFavourite ? handleRemoveFavourite() : handleAddFavourite();
                             setLoadingFavourite(true);
                           }}

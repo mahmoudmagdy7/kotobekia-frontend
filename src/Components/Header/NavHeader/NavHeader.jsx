@@ -1,18 +1,13 @@
 import * as solarIcons from "solar-icon-set";
 import logo from "/assets/logo.png";
-import { useEffect, useState } from "react";
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/react";
+import { useContext, useEffect, useState } from "react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 
 import config from "../../../../config";
 import ArrowTop from "../../arrowTop/ArrowTop";
 import Navbar from "./Navbar";
 import { useTranslation } from "react-i18next";
+import { LocationContext } from "../../../app/LocationContext";
 
 const NavHeader = () => {
   const [makeScroll, setMakeScroll] = useState(false);
@@ -21,10 +16,12 @@ const NavHeader = () => {
   const [isTop, setIsTop] = useState(false);
   const { t } = useTranslation();
   const [locationName, setLocationName] = useState("");
+  const { changeLocation } = useContext(LocationContext);
   const handleLocationName = (item) => {
     localStorage.setItem("locationName", item.city);
     setLocationName(localStorage.getItem("locationName"));
     setLocation(false);
+    changeLocation();
   };
 
   // const { isLoggedIn } = useSelector((state) => state.userData);
@@ -36,11 +33,11 @@ const NavHeader = () => {
   useEffect(() => {
     window.onscroll = () => {
       // to make navBar Fixed
-      if (window.scrollY > 100) {
-        setMakeScroll(true);
-      } else {
-        setMakeScroll(false);
-      }
+      // if (window.scrollY > 100) {
+      //   setMakeScroll(true);
+      // } else {
+      //   setMakeScroll(false);
+      // }
 
       // to show Arrow Top
       if (window.scrollY > 600) {
@@ -75,17 +72,15 @@ const NavHeader = () => {
         className={`pb-3 sticky border-1 border-[#F3F4F7] transition-all`}
       >
         <div className=" container ">
-          <div className="nav_top flex items-center justify-between">
+          <div className={`${makeScroll ? "hidden" : ""} nav_top flex items-center justify-between `}>
             <div className=" flex items-center flex-1 justify-between    gap-5">
-              <div
-                className={`logo${makeScroll ? " py-1 relative " : " py-10 "}`}
-              >
-                {/* <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" className={` transition-all`} /> */}
+              <div className={`logo py-2 `}>
+                <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" className={` transition-all`} />
               </div>
               {/* ---------- mobile-Lang ----------*/}
               <div
                 className={`navbar-lang ${
-                  makeScroll ? "hidden" : ""
+                  makeScroll ? "absolute bottom-0 right-0" : ""
                 } flex bg-[#F3F4F7] w-10 cursor-pointer lg:hidden items-center justify-center gap-[5px] rounded-[10px]`}
               >
                 <Button
@@ -108,7 +103,6 @@ const NavHeader = () => {
                 </Button>
               </div>
               {/* ---------- mobile-Lang ---------- */}
-
               {/* ---------- Mobile/Tablet-Location ---------- */}
               <div
                 className={`navbar-location ${
@@ -120,56 +114,33 @@ const NavHeader = () => {
                   {/* for btn  */}
                   <DropdownTrigger>
                     <div className="flex justify-center items-center gap-[10px]">
-                      <div
-                        className="txt"
-                        style={{ "font-family": "Noto Sans Arabic" }}
-                      >
+                      <div className="txt" style={{ "font-family": "Noto Sans Arabic" }}>
                         {locationName ? (
-                          <span className="text-[#939393] text-[12px] font-bold block">
-                            {t(`governorates.${locationName}`)}
-                          </span>
+                          <span className="text-[#939393] text-[12px] font-bold block">{t(`governorates.${locationName}`)}</span>
                         ) : (
                           <span className="text-[#939393] text-[10px] font-medium block">
-                            {localStorage.getItem("i18nextLng") == "en"
-                              ? "Your Location"
-                              : "موقعك"}
+                            {localStorage.getItem("i18nextLng") == "en" ? "Your Location" : "موقعك"}
                           </span>
                         )}
                         {locationName ? (
                           <span className="text-[#30A79F] text-[10px] font-bold underline ">
-                            {localStorage.getItem("i18nextLng") == "en"
-                              ? "Change the Location"
-                              : "تغيير الموقع"}
+                            {localStorage.getItem("i18nextLng") == "en" ? "Change the Location" : "تغيير الموقع"}
                           </span>
                         ) : (
                           <span className="text-[#30A79F] text-[10px] font-bold ">
-                            {localStorage.getItem("i18nextLng") == "en"
-                              ? "Select a Location"
-                              : "أختر الموقع"}
+                            {localStorage.getItem("i18nextLng") == "en" ? "Select a Location" : "أختر الموقع"}
                           </span>
                         )}
                       </div>
                       <div className="arrows">
                         {!locationName ? (
                           location ? (
-                            <div
-                              className="icon"
-                              onClick={() => setLocation(false)}
-                            >
-                              <solarIcons.CloseSquare
-                                size={16}
-                                color="#1C274C"
-                              />
+                            <div className="icon" onClick={() => setLocation(false)}>
+                              <solarIcons.CloseSquare size={16} color="#1C274C" />
                             </div>
                           ) : (
-                            <div
-                              className="icon"
-                              onClick={() => setLocation(true)}
-                            >
-                              <solarIcons.AltArrowDown
-                                size={16}
-                                color="#1C274C"
-                              />
+                            <div className="icon" onClick={() => setLocation(true)}>
+                              <solarIcons.AltArrowDown size={16} color="#1C274C" />
                             </div>
                           )
                         ) : null}
@@ -178,16 +149,9 @@ const NavHeader = () => {
                   </DropdownTrigger>
 
                   {/* Dropdown list  */}
-                  <DropdownMenu
-                    aria-label=""
-                    className="max-h-[400px] py-2 outline-none border-none overflow-auto "
-                  >
+                  <DropdownMenu aria-label="" className="max-h-[400px] py-2 outline-none border-none overflow-auto ">
                     {locationList.map((item) => (
-                      <DropdownItem
-                        key={`${item.city}`}
-                        className="text-[#333]"
-                        onClick={() => handleLocationName(item)}
-                      >
+                      <DropdownItem key={`${item.city}`} className="text-[#333]" onClick={() => handleLocationName(item)}>
                         {item?.value}
                       </DropdownItem>
                     ))}
@@ -198,11 +162,7 @@ const NavHeader = () => {
               {/* ---------- Mobile/Tablet-Location ---------- */}
             </div>
           </div>
-          <Navbar
-            makeScroll={makeScroll}
-            locationName={locationName}
-            handleLocationName={handleLocationName}
-          />
+          <Navbar makeScroll={makeScroll} locationName={locationName} handleLocationName={handleLocationName} />
           {/* {makeScroll ? (
             <NavScroll locationName={locationName} handleLocationName={handleLocationName} />
           ) : (
