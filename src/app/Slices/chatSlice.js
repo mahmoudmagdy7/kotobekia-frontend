@@ -10,6 +10,7 @@ export const getUserConversations = createAsyncThunk("chat/getUserConversations"
         token: Cookies.get("userToken"),
       },
     });
+    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
