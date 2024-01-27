@@ -132,7 +132,7 @@ export const MainChat = () => {
           </div>
         </aside>
         <section className={isOpen ? "col-span-8 w-full overflow-hidden " : " col-span-full w-full overflow-hidden"}>
-          {
+tea m          {
             activeConversation && activeUser ? (
               <Outlet context={sideToggler} />
             ) : loadingConversationMessages ? (
