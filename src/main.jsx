@@ -36,6 +36,7 @@ import UbdateDesktop from "./pages/ProfileData/ProfileDesktop/UbdateDesktop.jsx"
 import UbdateUserMobile from "./pages/ProfileData/ProfileMobile/UbdateUserMobile.jsx";
 import { LocationProvider } from "./app/LocationContext.jsx";
 import { PageNotFound } from "./pages/Issues/PageNotFound.jsx";
+import { OurTeam } from "./pages/OurTeam/OurTeam.jsx";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
@@ -53,6 +54,7 @@ const route = createBrowserRouter([
       { path: "/book/new", element: <AddBook /> },
       { path: "/account/:id", element: <h1>User account</h1> },
       { path: "/user-posts/", element: <h1>User posts</h1> },
+      { path: "/our-team/", element: <OurTeam /> },
       {
         path: "/chat/",
         element: (
