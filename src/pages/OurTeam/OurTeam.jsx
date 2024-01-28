@@ -1,7 +1,8 @@
 import { Alert } from "@material-tailwind/react";
 import { document } from "postcss";
-import React from "react";
+import React, { useEffect } from "react";
 import * as solarIcons from "solar-icon-set";
+import { gotTop } from "../../hooks/useTop";
 export const OurTeam = () => {
   const team = [
     {
@@ -159,7 +160,9 @@ export const OurTeam = () => {
       facebook: "https://www.linkedin.com/in/mahmoud-magdy/",
     },
   ];
-
+  useEffect(() => {
+    gotTop();
+  }, []);
   const TeamMember = ({ name, title, image, position, gender }) => {
     return (
       <div className="team-card">
@@ -192,7 +195,7 @@ export const OurTeam = () => {
   };
 
   return (
-    <section className="container text-gray-900 text-center my-5 ">
+    <section className="max-w-screen-2xl mx-auto  text-gray-900 text-center my-5 ">
       {/* ================= heading ================ */}
       <div>
         <h1 className="capitalize text-3xl font-semibold ">our great team</h1>
@@ -202,7 +205,7 @@ export const OurTeam = () => {
         </p>
       </div>
       {/* ================= body ================ */}
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-2 mt-10 ">
+      <div className="grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 mt-10 px-5 gap-y-5">
         {team.map((member) => (
           <TeamMember {...member} />
         ))}

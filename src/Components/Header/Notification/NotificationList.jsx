@@ -62,11 +62,12 @@ function NotificationList() {
 
   const socket = useSocket();
   useEffect(() => {
-    console.log(socket);
     socket.on("new-notification", (notification) => {
-      console.log(notification);
-      console.log("new notification");
       refetch();
+      console.log("notification");
+    });
+    socket.on("get-online-users", (onlineUsers) => {
+      console.log(onlineUsers);
     });
   }, []);
   return (
