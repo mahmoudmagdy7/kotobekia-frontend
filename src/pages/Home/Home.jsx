@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import { LocationContext, LocationProvider } from "../../app/LocationContext";
+import { getUserData } from "../../app/Slices/userDataSlice";
 
 function Home() {
   const { isLoggedIn } = useSelector((state) => state.userData);
@@ -26,7 +27,6 @@ function Home() {
   const { isLoading, isError, data, refetch, isRefetching } = useQuery("getHomeData", getHomeData, {
     refetchOnWindowFocus: false, // to prevent the refetching on window focus
   });
-
   const socket = useSocket();
   useEffect(() => {
     refetch();
@@ -39,6 +39,7 @@ function Home() {
         sameSite: true,
         secure: true,
       });
+      dispatch(getUserData());
     }
   }, [location]);
   return (
