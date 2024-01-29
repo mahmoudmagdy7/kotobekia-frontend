@@ -30,7 +30,16 @@ function Home() {
   const socket = useSocket();
   useEffect(() => {
     refetch();
-    console.log(location);
+
+    if (window.location.search.includes("token")) {
+      const userToken = window.location.search.split("?token=")[1];
+
+      Cookies.set("userToken", userToken, {
+        expires: 365,
+        sameSite: true,
+        secure: true,
+      });
+    }
   }, [location]);
   return (
     <>
