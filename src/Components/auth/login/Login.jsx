@@ -1,4 +1,4 @@
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { useState } from "react";
 import * as solarIcons from "solar-icon-set";
 import { Link, useNavigate } from "react-router-dom";
@@ -38,8 +38,7 @@ const Login = () => {
     if (!value.password) {
       error.password = "Password is Required";
     } else if (!/^[A-Za-z0-9]{8,}$/i.test(value.password)) {
-      error.password =
-        "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
+      error.password = "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
     }
 
     return error;
@@ -107,7 +106,13 @@ const Login = () => {
     },
   });
   // Login Formik
-
+  // async function authWithGoogle() {
+  //   try {
+  //     axios(`${config.bseUrl}/api/v1/auth/google/callback`);
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // }
   return (
     <>
       <section className="login py-10 max-w-2xl mx-auto select-none">
@@ -243,7 +248,7 @@ const Login = () => {
           {/* -------- Social --------  */}
           <div style={{ direction: `${siteDirection}` }} className="socials">
             {/*------- Facebook ------- */}
-            <div className="social cursor-pointer bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
+            {/* <div className="social cursor-pointer bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
               <div className="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                   <rect width="28" height="28" rx="14" fill="#E6E6E6" />
@@ -258,10 +263,15 @@ const Login = () => {
                 </svg>
               </div>
               <span className="text-lg text-[#131313]  font-normal">التسجيل باستخدام حساب فيسبوك</span>
-            </div>
+            </div> */}
             {/* ------- Facebook ------- */}
             {/* ------- Google ------- */}
-            <div className="social cursor-pointer bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
+            <Button
+              as={Link}
+              target="blanck"
+              to={`${config.bseUrl}/api/v1/auth/google/callback`}
+              className="social cursor-pointer bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5"
+            >
               <div className="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                   <rect y="0.560059" width="28" height="26.88" rx="13.44" fill="#E6E6E6" />
@@ -284,7 +294,7 @@ const Login = () => {
                 </svg>
               </div>
               <span className="text-lg text-[#131313]  font-normal">التسجيل باستخدام حساب جوجل </span>
-            </div>
+            </Button>
             {/* ------- Google ------- */}
           </div>
           {/* -------- Social --------  */}

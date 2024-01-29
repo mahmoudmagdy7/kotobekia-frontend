@@ -66,9 +66,11 @@ export const ContactCard = ({ conv }) => {
                 {conv?.latestMessage?.message}
               </p>
             </p>
-            <span className="ms-auto inline-flex w-5 h-5 items-center justify-center rounded-full text-sm text-black bg-[#28D8AE] p-1">
-              {conv.unreadMessages[0]?.count}
-            </span>
+            {conv.unreadMessages[0]?.count ? (
+              <span className="ms-auto inline-flex w-5 h-5 items-center justify-center rounded-full text-sm text-black bg-[#28D8AE] p-1">
+                {conv.unreadMessages[0]?.count}
+              </span>
+            ) : null}
           </div>
         </div>
       </div>

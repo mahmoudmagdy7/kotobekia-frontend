@@ -191,15 +191,7 @@ const AddPost = () => {
     void animation.parentNode.offsetWidth;
     animation.classList.add("animated");
   }
-  useEffect(() => {
-    if (!Cookies.get("userToken")) {
-      Cookies.set(
-        "userToken",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzRlMDU4ODVjZDBkYTczZmRhYmE5MiIsImZ1bGxOYW1lIjoiTW9qYW5hZCIsImVtYWlsIjoibW9qYW5hZEBrb3RvYmVraWEuY29tIiwicm9sZSI6InVzZXIiLCJpc0NvbmZpcm1lZCI6ZmFsc2UsImlhdCI6MTcwMjE1ODQyNH0.j0VMeWdxwoy7idBLUI-jvWD0r38MS0o_s4goAL_Gp4k",
-        { expires: 50 }
-      );
-    }
-  }, []);
+
   return (
     <div className="w-full  py-4 container">
       <Stepper
