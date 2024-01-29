@@ -8,7 +8,6 @@ import CardSkeleton from "../../Components/Card/CardSkeleton";
 const UserPosts = ({ id }) => {
   const getUsrePosts = async () => {
     try {
-      
       return axios.get(`${config.bseUrl}/api/v1/user/user-posts/${id}`, {
         headers: {
           token: Cookies.get("userToken"),
@@ -18,16 +17,12 @@ const UserPosts = ({ id }) => {
       return error;
     }
   };
-  const { data , isLoading } = useQuery("getUserPosts", getUsrePosts);
-  console.log(data);
-
-
+  const { data, isLoading } = useQuery("getUserPosts", getUsrePosts);
 
   // To Render Loading Screen if data was not found
   if (isLoading) {
     return <CardSkeleton isLoading={isLoading} />;
   }
-
 
   return (
     <>
