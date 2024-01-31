@@ -41,7 +41,6 @@ export const MainChat = () => {
     // Listen for the "get-online-users" event
     socket.on("get-online-users", (onlineUsers) => {
       // Handle the onlineUsers data received from the backend
-      console.log("Online Users:", onlineUsers);
       // setOnlineUsers(onlineUsers);
       dispatch(setOnlineUsers(onlineUsers));
       // You can update the state or perform any other actions based on the onlineUsers data
@@ -106,8 +105,11 @@ export const MainChat = () => {
   return (
     <section className="container ">
       <div className="text-black bg-white mb-5 lg:h-[40rem] grid grid-cols-12 z-[49] fixed lg:relative  inset-0 h-screen">
-        <aside id="chat-sidebar" className={` w-full ${isOpen ? "border-e-2 col-span-12 lg:col-span-4 lg:h-auto h-screen" : "hidden col-span-4"}`}>
-          <div className="flex items-center  p-3 gap-2 border-b-2 relative">
+        <aside
+          id="chat-sidebar"
+          className={` overflow-y-scroll  w-full flex flex-col ${isOpen ? "border-e-2 col-span-12 lg:col-span-4 lg:h-auto h-screen" : "hidden col-span-4"}`}
+        >
+          <div className="grow-0 flex items-center  p-3 gap-2 border-b-2 relative">
             <h3>Inbox</h3>
             {/* <span className="inline-flex items-center justify-center h-5 w-5 bg-[#28D8AE] rounded-md">{userConversationsCount} </span> */}
 
@@ -121,15 +123,15 @@ export const MainChat = () => {
             )}
           </div>
           {/* ---------- contacts ------------ */}
-          <div className=" h-[37rem]">
+          <div className=" grow overflow-y-scroll">
             {userConversations?.conversations?.map((conv) => (
-              <div key={conv._id} onClick={sideToggler}>
-                <ContactCard conv={conv} key={conv._id} />
+              <div key={conv?._id} onClick={sideToggler}>
+                <ContactCard conv={conv} key={conv?._id} />
               </div>
             ))}
           </div>
         </aside>
-        <section id="conversation-screen" className={isOpen ? "col-span-8 w-full overflow-hidden " : " col-span-full w-full overflow-hidden"}>
+        <section className={isOpen ? "col-span-8 w-full overflow-hidden " : " col-span-full w-full overflow-hidden"}>
           {
             activeConversation && activeUser ? (
               <Outlet context={sideToggler} />

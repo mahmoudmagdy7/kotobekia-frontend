@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import {  RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider } from "@material-tailwind/react";
 import Layout from "./pages/Layout.jsx";
@@ -34,10 +34,13 @@ import PersonalDataMobile from "./pages/ProfileData/ProfileMobile/PersonalDataMo
 import MyFavorite from "./pages/ProfileData/MyFavorite.jsx";
 import UbdateDesktop from "./pages/ProfileData/ProfileDesktop/UbdateDesktop.jsx";
 import UbdateUserMobile from "./pages/ProfileData/ProfileMobile/UbdateUserMobile.jsx";
+import { LocationProvider } from "./app/LocationContext.jsx";
+import { PageNotFound } from "./pages/Issues/PageNotFound.jsx";
+import { OurTeam } from "./pages/OurTeam/OurTeam.jsx";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
-  { path: "*", element: <h1>Not found</h1> },
+  { path: "*", element: <PageNotFound /> },
   // { path: "not-authorized", element: <NoAccess /> },
 
   { path: "/auth/banned", element: <h1>Banned</h1> },
@@ -51,6 +54,7 @@ const route = createBrowserRouter([
       { path: "/book/new", element: <AddBook /> },
       { path: "/account/:id", element: <h1>User account</h1> },
       { path: "/user-posts/", element: <h1>User posts</h1> },
+      { path: "/our-team/", element: <OurTeam /> },
       {
         path: "/chat/",
         element: (
@@ -74,7 +78,7 @@ const route = createBrowserRouter([
         ),
         children: [
           {
-            path:"",
+            path: "",
             element: (
               <>
                 <MyPerson /> <PersonalDataMobile />
@@ -83,7 +87,14 @@ const route = createBrowserRouter([
           },
           { path: "mypost", element: <MyPost /> },
           { path: "fav", element: <MyFavorite /> },
-          { path: "ubdate", element: <><UbdateDesktop /> <UbdateUserMobile/></> },
+          {
+            path: "ubdate",
+            element: (
+              <>
+                <UbdateDesktop /> <UbdateUserMobile />
+              </>
+            ),
+          },
         ],
       },
 
@@ -127,9 +138,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       {/* -------------------------------------- */}
       <Provider store={store}>
         <SocketProvider>
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={route} />
-          </QueryClientProvider>
+          <LocationProvider>
+            <QueryClientProvider client={queryClient}>
+              <RouterProvider router={route} />
+            </QueryClientProvider>
+          </LocationProvider>
         </SocketProvider>
       </Provider>
       {/* -------------------------------------- */}

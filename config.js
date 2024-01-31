@@ -426,6 +426,7 @@ const config = {
   getCityList() {
     if (localStorage.getItem("i18nextLng") == "en") {
       return [
+        { city: "", value: "Egypt" },
         { city: "cairo", value: "Cairo" },
         { city: "alexandria", value: "Alexandria" },
         { city: "ismailia", value: "Ismailia" },
@@ -455,6 +456,7 @@ const config = {
       ];
     } else {
       return [
+        { city: "", value: "كل مصر" },
         { city: "cairo", value: "القاهرة" },
         { city: "alexandria", value: "الإسكندرية" },
         { city: "ismailia", value: "الإسماعيلية" },

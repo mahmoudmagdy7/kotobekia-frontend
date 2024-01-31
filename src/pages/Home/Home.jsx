@@ -7,25 +7,41 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import config from "../../../config";
 import { useSocket } from "../../app/SocketContext";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import { LocationContext, LocationProvider } from "../../app/LocationContext";
+import { getUserData } from "../../app/Slices/userDataSlice";
 
 function Home() {
   const { isLoggedIn } = useSelector((state) => state.userData);
   const dispatch = useDispatch();
+
+  const { location } = useContext(LocationContext);
   function getHomeData() {
-    return axios.get(`${config.bseUrl}/api/v1/levels/levels-posts`);
+    return axios.get(`${config.bseUrl}/api/v1/levels/levels-posts${location ? `?city=` + location : ""}`);
   }
   document.body.classList.remove("overflow-hidden");
 
   const { isLoading, isError, data, refetch, isRefetching } = useQuery("getHomeData", getHomeData, {
     refetchOnWindowFocus: false, // to prevent the refetching on window focus
   });
-
   const socket = useSocket();
+  useEffect(() => {
+    refetch();
 
+    if (window.location.search.includes("token")) {
+      const userToken = window.location.search.split("?token=")[1];
+
+      Cookies.set("userToken", userToken, {
+        expires: 365,
+        sameSite: true,
+        secure: true,
+      });
+      dispatch(getUserData());
+    }
+  }, [location]);
   return (
     <>
       <MainSlider />

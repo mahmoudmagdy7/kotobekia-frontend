@@ -99,3 +99,10 @@ body {
   border-bottom: none !important;
   padding-bottom: 0 !important;
 }
+.team-card img {
+  filter: grayscale(100);
+  transition: filter 0.3s ease;
+}
+.team-card:hover img {
+  filter: grayscale(0);
+}

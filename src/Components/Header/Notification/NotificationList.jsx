@@ -1,4 +1,4 @@
-import { Popover, PopoverContent, PopoverTrigger, Button } from "@nextui-org/react";
+import { Popover, PopoverContent, PopoverTrigger, Button, Spinner } from "@nextui-org/react";
 import * as solarIcons from "solar-icon-set";
 import { siteDirection } from "../../../hooks/useLocale";
 import axios from "axios";
@@ -6,7 +6,8 @@ import { useQuery } from "react-query";
 import config from "../../../../config";
 import Cookies from "js-cookie";
 import { useEffect, useLayoutEffect, useState } from "react";
-
+import { useSocket } from "../../../app/SocketContext";
+import moment from "moment";
 function NotificationList() {
   const [notificationCount, setNotificationCont] = useState(0);
   const [seeMore, setSeeMore] = useState(false);
@@ -21,7 +22,7 @@ function NotificationList() {
     __v: 0,
   };
 
-  const { data } = useQuery("getUserNotifications", getUserNotifications, {
+  const { data, refetch, isLoading } = useQuery("getUserNotifications", getUserNotifications, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
@@ -59,6 +60,16 @@ function NotificationList() {
     setNotificationCont(counter);
   }, [data]);
 
+  const socket = useSocket();
+  useEffect(() => {
+    socket.on("new-notification", (notification) => {
+      refetch();
+      console.log("notification");
+    });
+    socket.on("get-online-users", (onlineUsers) => {
+      console.log(onlineUsers);
+    });
+  }, []);
   return (
     <>
       <div className="relative ">
@@ -83,15 +94,43 @@ function NotificationList() {
           </PopoverTrigger>
           {/* ----------------- notification content -------------------- */}
 
-          {data ? (
+          {isLoading ? (
+            <PopoverContent className="notification-list px-5 py-3 text-black flex items-center gap-2 overflow-hidden pt-4">
+              <Spinner size="sm" /> <p className="mt-2">Loading your notifications</p>
+            </PopoverContent>
+          ) : data?.length ? (
             <PopoverContent className="notification-list p-0 overflow-hidden ">
               <div className={`${data.length > 6 && "border-success-200"} ${seeMore ? "max-h-[400px]" : "max-h-96"} overflow-y-scroll p-4 pb-0 border-b-2 `}>
                 {data
-                  ?.map(({ title, body, image, isRead, status, _id }) => (
-                    <div key={_id} className=" text-black flex gap-4 pb-3 items-center max-w-96 notification-item">
+                  ?.map(({ title, body, image, isRead, status, reference_id, notification_type, createdAt }) => (
+                    <div key={reference_id} className=" text-black flex gap-4 pb-3 items-center max-w-96 notification-item">
                       <div className="w-12 self-start">
-                        <span className="border-2 bg-success-50 border-white outline-success  outline outline-2 h-10 w-10 rounded-full  p-1 flex items-center justify-center">
-                          <solarIcons.HashtagSquare iconStyle="Bold" size={24} color="#28D8AE" />
+                        <span
+                          className={`border-2 ${
+                            status == "approved"
+                              ? "bg-success-50 outline-success"
+                              : status == "pending"
+                              ? "bg-warning-50 outline-warning"
+                              : status == "rejected"
+                              ? "bg-[#FA5057] outline-[#FA5057] bg-opacity-15"
+                              : "bg-[rgb(68,202,255)] outline-[rgb(68,202,255)] bg-opacity-15"
+                          }  border-white   outline outline-2 h-10 w-10 rounded-2xl  p-1 flex items-center justify-center`}
+                        >
+                          {notification_type == "post-update" ? (
+                            <solarIcons.HashtagSquare
+                              iconStyle="Bold"
+                              size={24}
+                              color={status == "approved" ? "#28D8AE" : status == "pending" ? "#fa0" : "#FA5057"}
+                            />
+                          ) : notification_type == "report-update" ? (
+                            <solarIcons.ShieldWarning
+                              iconStyle="Bold"
+                              size={24}
+                              color={status == "approved" ? "#28D8AE" : status == "pending" ? "#fa0" : "#FA5057"}
+                            />
+                          ) : (
+                            <solarIcons.InfoCircle iconStyle="Bold" size={24} color="rgb(68,202,255)" />
+                          )}
                         </span>
                       </div>
                       <div className="w-full border-b-2 pb-2 flex notification-text">
@@ -100,9 +139,9 @@ function NotificationList() {
                           <p className="text-sm ">{body}</p>
                           {/* <img src={image} alt="Notification image" /> */} {/* image item */}
                         </div>
-                        <div className="text-end max-w-[4rem] relative">
+                        <div className="text-end  relative">
                           {/* -------------- time and is read dot ------------ */}
-                          <p className="text-xs">yesterday </p>
+                          <p className="text-[10px]"> {moment(createdAt).fromNow()} </p>
                           {!isRead && <span className="w-2 h-2 bg-red-500 rounded-full  inline-block absolute bottom-0 end-0"></span>}
                         </div>
                       </div>
@@ -116,30 +155,11 @@ function NotificationList() {
                 </h6>
               )}
             </PopoverContent>
-          ) : null}
+          ) : (
+            <PopoverContent className="notification-list px-5 py-3 text-black  overflow-hidden ">No Notifications To Show</PopoverContent>
+          )}
         </Popover>
       </div>
-      {/* <Popover showArrow placement="bottom-start">
-        <PopoverTrigger>open</PopoverTrigger> */}
-      {/* <Popover showArrow placement="bottom-end" className="absolute bg-white top-14 w-96 end-0 z-50 rounded-xl py-2"> */}
-      {/* <PopoverContent>
-          <div className="hover:bg-gray-100 text-black flex gap-4 p-2 px-4 items-center">
-            <div className="w-12 self-start">
-              <span className="border-2 bg-success-50 border-white outline-success  outline outline-2 h-12 w-12 rounded-full  p-1 flex items-center justify-center">
-                <solarIcons.HashtagSquare iconStyle="Bold" size={24} color="#28D8AE" />
-              </span>
-            </div>
-            <div className="w-full border-b-2 pb-2 flex">
-              <div className="w-full">
-                <h4 className="font-semibold">{title}</h4>
-                <p className="text-sm">{body}</p> */}
-      {/* <img src={image} alt="Notification image" /> */}
-      {/* </div>
-              <span className="w-2 h-2 bg-red-500 rounded-full text-center m-2"></span>
-            </div>
-          </div>
-        </PopoverContent>
-      </Popover> */}
     </>
   );
 }

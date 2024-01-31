@@ -11,8 +11,11 @@ const Footer = () => {
     <>
       <footer className="pt-10 pb-4 lg:pb-0 bg-[#f3f4f7] border-b-2 border-[#dddcde] mb-10 lg:mb-0 ">
         <div className="container">
-          <div className="parent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
-            <div className="item py-5 px-6">
+          <div className="parent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+            <ContactUs />
+            <ReviewSection />
+            {/* <ReviewSection /> */}
+            <div className="item px-6 ">
               <img src={footerLogo} alt="Kotobekia Logo" />
 
               <div className="icons my-4 flex justify-start lg:justify-center ">
@@ -203,9 +206,6 @@ const Footer = () => {
                 <img src={appStore} alt="" />
               </div>
             </div>
-            <ReviewSection />
-            <ContactUs />
-            <ReviewSection />
           </div>
         </div>
         <div className="copyRight pt-2 mt-2 pb-1  border-t-2  text-black">

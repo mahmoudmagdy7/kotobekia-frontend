@@ -1,4 +1,4 @@
-import { Input, RadioGroup, Radio } from "@nextui-org/react";
+import { Input, RadioGroup, Radio, Button } from "@nextui-org/react";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -45,8 +45,7 @@ const Register = () => {
     if (!value.password) {
       error.password = "Password is Required";
     } else if (!/^[A-Za-z0-9]{8,}$/i.test(value.password)) {
-      error.password =
-        "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
+      error.password = "Password length must be larger than 8 , include Uppercase and Lowercase and Number";
     }
 
     // validate Gender
@@ -72,31 +71,19 @@ const Register = () => {
         year: null,
       };
     }
-    if (
-      !value.birthDate ||
-      !value.birthDate.day ||
-      value.birthDate.day === "00"
-    ) {
+    if (!value.birthDate || !value.birthDate.day || value.birthDate.day === "00") {
       error.birthDate.day = "Required";
     } else if (!/^([1-9]|[1-2][0-9]|30|31)$/.test(value.birthDate.day)) {
       error.birthDate.day = "Enter valid year";
     }
 
-    if (
-      !value.birthDate ||
-      !value.birthDate.month ||
-      value.birthDate.month === "00"
-    ) {
+    if (!value.birthDate || !value.birthDate.month || value.birthDate.month === "00") {
       error.birthDate.month = "Required";
     } else if (!/^([1-9]|1[0-2])$/.test(value.birthDate.month)) {
       error.birthDate.month = "Enter valid year";
     }
 
-    if (
-      !value.birthDate ||
-      !value.birthDate.year ||
-      !/^[1-2]{1}[0-9]{1}[0-9]{1}[0-9]{1}$/.test(value.birthDate.year)
-    ) {
+    if (!value.birthDate || !value.birthDate.year || !/^[1-2]{1}[0-9]{1}[0-9]{1}[0-9]{1}$/.test(value.birthDate.year)) {
       error.birthDate.year = "Enter valid year";
     }
 
@@ -141,12 +128,7 @@ const Register = () => {
       value.birthDate.month = `0${value.birthDate.month}`;
     }
     // Reset date formatting
-    value.birthDate =
-      value.birthDate.day +
-      "-" +
-      value.birthDate.month +
-      "-" +
-      value.birthDate.year;
+    value.birthDate = value.birthDate.day + "-" + value.birthDate.month + "-" + value.birthDate.year;
     await apiRegister(value);
   };
   // Submit Form
@@ -173,13 +155,7 @@ const Register = () => {
   const vaidateVerify = (value) => {
     const error = {};
 
-    if (
-      !value.OTP ||
-      !value.OTP.num1 ||
-      !value.OTP.num2 ||
-      !value.OTP.num3 ||
-      !value.OTP.num4
-    ) {
+    if (!value.OTP || !value.OTP.num1 || !value.OTP.num2 || !value.OTP.num3 || !value.OTP.num4) {
       error.OTP = {
         num1: "",
         num2: "",
@@ -250,20 +226,18 @@ const Register = () => {
       value.OTP = `${value.OTP.num1}${value.OTP.num2}${value.OTP.num3}${value.OTP.num4}`;
       setSpinner(true);
       try {
-        await axios
-          .post(`${config.bseUrl}/api/v1/auth/verify-OTP`, value)
-          .then(({ data }) => {
-            dispatch(getUserData());
+        await axios.post(`${config.bseUrl}/api/v1/auth/verify-OTP`, value).then(({ data }) => {
+          dispatch(getUserData());
 
-            if (data.message) {
-              setSpinner(false);
-              // toast.success(data.message);
-              toast.success("احلي مسا علي عيونك ي رايق");
-              setTimeout(() => {
-                nav("/");
-              }, 2000);
-            }
-          });
+          if (data.message) {
+            setSpinner(false);
+            // toast.success(data.message);
+            toast.success("احلي مسا علي عيونك ي رايق");
+            setTimeout(() => {
+              nav("/");
+            }, 2000);
+          }
+        });
       } catch ({ response }) {
         setSpinner(false);
         inputDefault(value);
@@ -296,27 +270,15 @@ const Register = () => {
   return (
     <>
       <section className={`register py-10 max-w-2xl mx-auto select-none`}>
-        <div
-          className={`container ${
-            verify ? "bg-white" : ""
-          }  py-6 rounded-[14px]`}
-        >
+        <div className={`container ${verify ? "bg-white" : ""}  py-6 rounded-[14px]`}>
           {/* $$$$$$$$$$$$$$$$$ Head Title $$$$$$$$$$$$$$$$$  */}
           <div className="title ">
             {verify ? (
               <>
-                <h2 className="text-xl text-[#131313] font-bold text-center">
-                  التحقق من البيانات
-                </h2>
+                <h2 className="text-xl text-[#131313] font-bold text-center">التحقق من البيانات</h2>
 
                 <div className="icon flex justify-center my-8">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="110"
-                    height="88"
-                    viewBox="0 0 110 88"
-                    fill="none"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="110" height="88" viewBox="0 0 110 88" fill="none">
                     <g clip-path="url(#clip0_1930_10584)">
                       <path
                         d="M86.3298 29.1143L62.6806 46.1295C58.2051 49.2651 51.9313 49.2651 47.4558 46.1295L23.6035 29.1143"
@@ -337,12 +299,7 @@ const Register = () => {
                     </g>
                     <defs>
                       <clipPath id="clip0_1930_10584">
-                        <rect
-                          width="109"
-                          height="87.0584"
-                          fill="white"
-                          transform="translate(0.5 0.5)"
-                        />
+                        <rect width="109" height="87.0584" fill="white" transform="translate(0.5 0.5)" />
                       </clipPath>
                     </defs>
                   </svg>
@@ -350,12 +307,8 @@ const Register = () => {
               </>
             ) : (
               <>
-                <h2 className="text-xl text-[#131313] font-bold text-center">
-                  إنشاء حساب
-                </h2>
-                <h4 className="text-xl text-[#131313] font-bold mt-[50px] text-center md:text-start">
-                  أنشئ حساب وابحث عن الخير او اصنع خير جديد .
-                </h4>
+                <h2 className="text-xl text-[#131313] font-bold text-center">إنشاء حساب</h2>
+                <h4 className="text-xl text-[#131313] font-bold mt-[50px] text-center md:text-start">أنشئ حساب وابحث عن الخير او اصنع خير جديد .</h4>
               </>
             )}
           </div>
@@ -366,60 +319,33 @@ const Register = () => {
               {/*########## Social {/*########## */}
               <div className="social">
                 {/*------- Facebook ------- */}
-                <div className="soial bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
+                {/* <div className="soial bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
                   <div className="icon">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="28"
-                      height="28"
-                      viewBox="0 0 28 28"
-                      fill="none"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                       <rect width="28" height="28" rx="14" fill="#E6E6E6" />
-                      <circle
-                        cx="14"
-                        cy="14"
-                        r="12.25"
-                        fill="url(#paint0_linear_1605_6547)"
-                      />
+                      <circle cx="14" cy="14" r="12.25" fill="url(#paint0_linear_1605_6547)" />
                       <path
                         d="M18.562 17.7464L19.1061 14.2888H15.7021V12.0461C15.7021 11.1 16.1767 10.1772 17.7014 10.1772H19.25V7.23362C19.25 7.23362 17.8452 7 16.5027 7C13.698 7 11.8665 8.65632 11.8665 11.6536V14.2888H8.75V17.7464H11.8665V26.1052C12.4921 26.201 13.1322 26.25 13.7843 26.25C14.4363 26.25 15.0764 26.201 15.7021 26.1052V17.7464H18.562Z"
                         fill="white"
                       />
                       <defs>
-                        <linearGradient
-                          id="paint0_linear_1605_6547"
-                          x1="14"
-                          y1="1.75"
-                          x2="14"
-                          y2="26.1773"
-                          gradientUnits="userSpaceOnUse"
-                        ></linearGradient>
+                        <linearGradient id="paint0_linear_1605_6547" x1="14" y1="1.75" x2="14" y2="26.1773" gradientUnits="userSpaceOnUse"></linearGradient>
                       </defs>
                     </svg>
                   </div>
-                  <span className="text-lg text-[#131313]  font-normal">
-                    التسجيل باستخدام حساب فيسبوك
-                  </span>
-                </div>
+                  <span className="text-lg text-[#131313]  font-normal">التسجيل باستخدام حساب فيسبوك</span>
+                </div> */}
                 {/* ------- Facebook ------- */}
                 {/* ------- Google ------- */}
-                <div className="soial bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5">
+                <Button
+                  as={Link}
+                  target="blanck"
+                  to={`${config.bseUrl}/api/v1/auth/google/callback`}
+                  className="social cursor-pointer bg-[#eee] py-3 px-2 flex mt-8 rounded-xl  items-center gap-5"
+                >
                   <div className="icon">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="28"
-                      height="28"
-                      viewBox="0 0 28 28"
-                      fill="none"
-                    >
-                      <rect
-                        y="0.560059"
-                        width="28"
-                        height="26.88"
-                        rx="13.44"
-                        fill="#E6E6E6"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                      <rect y="0.560059" width="28" height="26.88" rx="13.44" fill="#E6E6E6" />
                       <path
                         d="M26.2512 14.2612C26.2512 13.2943 26.1678 12.5887 25.9873 11.8569H14.2512V16.2211H21.14C21.0012 17.3057 20.2512 18.9391 18.5845 20.0366L18.5612 20.1827L22.2719 22.8872L22.529 22.9113C24.89 20.8598 26.2512 17.8414 26.2512 14.2612Z"
                         fill="#4285F4"
@@ -438,19 +364,15 @@ const Register = () => {
                       />
                     </svg>
                   </div>
-                  <span className="text-lg text-[#131313]  font-normal">
-                    التسجيل باستخدام حساب جوجل{" "}
-                  </span>
-                </div>
+                  <span className="text-lg text-[#131313]  font-normal">التسجيل باستخدام حساب جوجل </span>
+                </Button>
                 {/* ------- Google ------- */}
               </div>
               {/*########## Social {/*########## */}
               {/*********** Or Line {/*********** */}
               <div className="or mt-8 relative">
                 <div className="line h-[2px] bg-[#909091] w-[75%] mx-auto"></div>
-                <span className=" block text-[#909091] px-3 text-xl font-medium bg-[#eae9eb] absolute top-[-20px] start-[50%] translate-x-[50%]">
-                  او
-                </span>
+                <span className=" block text-[#909091] px-3 text-xl font-medium bg-[#eae9eb] absolute top-[-20px] start-[50%] translate-x-[50%]">او</span>
               </div>
               {/*********** Or Line {/*********** */}
             </>
@@ -463,29 +385,19 @@ const Register = () => {
                 <form onSubmit={verifyFormik.handleSubmit}>
                   {/* -------  OTP Head------- */}
                   <div className="otp-head">
-                    <h5 className="text-base text-center block mb-8 text-[#131313] font-medium">
-                      أدخل رمز OTP
-                    </h5>
+                    <h5 className="text-base text-center block mb-8 text-[#131313] font-medium">أدخل رمز OTP</h5>
 
                     <p className="text-sm text-center text-black font-normal">
-                      تم إرسال كود OTP مكون من{" "}
-                      <span className="text-[#939393]">4</span> ارقام علي بريدك
-                      الإلكتروني.
+                      تم إرسال كود OTP مكون من <span className="text-[#939393]">4</span> ارقام علي بريدك الإلكتروني.
                     </p>
-                    <span className="text-sm text-black font-normal text-center block  ">
-                      قم بإدخال الكود:
-                    </span>
+                    <span className="text-sm text-black font-normal text-center block  ">قم بإدخال الكود:</span>
                   </div>
                   {/* -------  OTP Head------- */}
 
                   {/* ------ Inputs Form ------ */}
-                  <div
-                    style={{ direction: "ltr" }}
-                    className="nums mt-4 mb-8 flex gap-5  justify-center  "
-                  >
+                  <div style={{ direction: "ltr" }} className="nums mt-4 mb-8 flex gap-5  justify-center  ">
                     {/* Start num1  */}
-                    {verifyFormik.errors?.OTP?.num1 &&
-                    verifyFormik.touched?.OTP?.num1 ? (
+                    {verifyFormik.errors?.OTP?.num1 && verifyFormik.touched?.OTP?.num1 ? (
                       <Input
                         type="text"
                         id="num1"
@@ -514,8 +426,7 @@ const Register = () => {
                     )}
                     {/* End num1  */}
                     {/* Start num2  */}
-                    {verifyFormik.errors?.OTP?.num2 &&
-                    verifyFormik.touched?.OTP?.num2 ? (
+                    {verifyFormik.errors?.OTP?.num2 && verifyFormik.touched?.OTP?.num2 ? (
                       <Input
                         type="text"
                         id="num2"
@@ -545,8 +456,7 @@ const Register = () => {
                     {/* End num2  */}
 
                     {/* Start num3  */}
-                    {verifyFormik.errors?.OTP?.num3 &&
-                    verifyFormik.touched?.OTP?.num3 ? (
+                    {verifyFormik.errors?.OTP?.num3 && verifyFormik.touched?.OTP?.num3 ? (
                       <Input
                         type="text"
                         id="num3"
@@ -575,8 +485,7 @@ const Register = () => {
                     )}
                     {/* End num3  */}
                     {/* Start num4  */}
-                    {verifyFormik.errors?.OTP?.num4 &&
-                    verifyFormik.touched?.OTP?.num4 ? (
+                    {verifyFormik.errors?.OTP?.num4 && verifyFormik.touched?.OTP?.num4 ? (
                       <Input
                         type="text"
                         id="num4"
@@ -630,10 +539,7 @@ const Register = () => {
                 {/* Resend Otp  */}
                 {verify ? (
                   <p className="text-[#131313] text-[13px] font-bold text-center  mt-6">
-                    <span
-                      className="text-[#28D8AE] underline cursor-pointer"
-                      onClick={() => resendOtp()}
-                    >
+                    <span className="text-[#28D8AE] underline cursor-pointer" onClick={() => resendOtp()}>
                       إعادة ارسال الكود
                     </span>
                     <span> OTP </span>
@@ -649,15 +555,11 @@ const Register = () => {
                 <form onSubmit={registerFormik.handleSubmit}>
                   {/* ------- User Name ------- */}
                   <div className="form-group mb-4">
-                    <label
-                      htmlFor=""
-                      className="text-base text-[#131313] font-medium"
-                    >
+                    <label htmlFor="" className="text-base text-[#131313] font-medium">
                       الإسم بالكامل
                     </label>
 
-                    {registerFormik.errors.fullName &&
-                    registerFormik.touched.fullName ? (
+                    {registerFormik.errors.fullName && registerFormik.touched.fullName ? (
                       <Input
                         type="text"
                         id="fullName"
@@ -688,14 +590,10 @@ const Register = () => {
                   {/* ------- User Name ------- */}
                   {/* ------- Email ------- */}
                   <div className="form-group mb-4">
-                    <label
-                      htmlFor=""
-                      className="text-base text-[#131313] font-medium"
-                    >
+                    <label htmlFor="" className="text-base text-[#131313] font-medium">
                       البريد الالكتروني
                     </label>
-                    {registerFormik.errors.email &&
-                    registerFormik.touched.email ? (
+                    {registerFormik.errors.email && registerFormik.touched.email ? (
                       <Input
                         type="email"
                         id="email"
@@ -745,14 +643,10 @@ const Register = () => {
                   {/* ------- Phone Number ------- */}
                   {/* ------- Password ------- */}
                   <div className="form-group  mb-4">
-                    <label
-                      htmlFor=""
-                      className="text-base text-[#131313] font-medium"
-                    >
+                    <label htmlFor="" className="text-base text-[#131313] font-medium">
                       الرقم السري
                     </label>
-                    {registerFormik.errors.password &&
-                    registerFormik.touched.password ? (
+                    {registerFormik.errors.password && registerFormik.touched.password ? (
                       <Input
                         type={isVisible ? "text" : "password"}
                         id="password"
@@ -765,11 +659,7 @@ const Register = () => {
                         errorMessage={registerFormik.errors.password}
                         placeholder="********"
                         endContent={
-                          <button
-                            className="focus:outline-none"
-                            type="button"
-                            onClick={toggleVisibility}
-                          >
+                          <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                             {isVisible ? (
                               <solarIcons.Eye color="#000" />
                             ) : (
@@ -791,11 +681,7 @@ const Register = () => {
                         value={registerFormik.values.password}
                         placeholder="********"
                         endContent={
-                          <button
-                            className="focus:outline-none"
-                            type="button"
-                            onClick={toggleVisibility}
-                          >
+                          <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                             {isVisible ? (
                               <solarIcons.Eye color="#000" />
                             ) : (
@@ -812,11 +698,8 @@ const Register = () => {
                   {/* ------- Password ------- */}
                   {/* ------- Gendar ------- */}
                   <div className="form-group mb-4">
-                    <span className="text-base text-[#131313] font-medium">
-                      الجنس
-                    </span>
-                    {registerFormik.errors.gender &&
-                    registerFormik.touched.gender ? (
+                    <span className="text-base text-[#131313] font-medium">الجنس</span>
+                    {registerFormik.errors.gender && registerFormik.touched.gender ? (
                       <RadioGroup
                         label=""
                         orientation="horizontal"
@@ -863,16 +746,12 @@ const Register = () => {
 
                   {/* ------- date ------- */}
                   <div className="form-group  mb-8">
-                    <label
-                      htmlFor=""
-                      className="text-base text-[#131313] font-medium block mb-1 "
-                    >
+                    <label htmlFor="" className="text-base text-[#131313] font-medium block mb-1 ">
                       تاريخ الميلاد
                     </label>
 
                     <div className="date text-[#333] flex gap-5">
-                      {registerFormik.errors?.birthDate?.day &&
-                      registerFormik.touched?.birthDate?.day ? (
+                      {registerFormik.errors?.birthDate?.day && registerFormik.touched?.birthDate?.day ? (
                         <div className="day">
                           <Input
                             type="text"
@@ -908,8 +787,7 @@ const Register = () => {
                         </div>
                       )}
                       <div className="month">
-                        {registerFormik.errors?.birthDate?.month &&
-                        registerFormik.touched?.birthDate?.month ? (
+                        {registerFormik.errors?.birthDate?.month && registerFormik.touched?.birthDate?.month ? (
                           <div className="month">
                             <Input
                               type="text"
@@ -921,9 +799,7 @@ const Register = () => {
                               maxLength={2}
                               // ref={month}
                               value={registerFormik.values?.birthDate?.month}
-                              errorMessage={
-                                registerFormik.errors?.birthDate?.month
-                              }
+                              errorMessage={registerFormik.errors?.birthDate?.month}
                               onBlur={registerFormik.handleBlur}
                               onChange={registerFormik.handleChange}
                               className={`text-center w-[100px]   focus:bg-white rounded-xl  py-3`}
@@ -948,8 +824,7 @@ const Register = () => {
                         )}
                       </div>
                       <div className="year flex-1 ">
-                        {registerFormik.errors?.birthDate?.year &&
-                        registerFormik.touched?.birthDate?.year ? (
+                        {registerFormik.errors?.birthDate?.year && registerFormik.touched?.birthDate?.year ? (
                           <div className="year w-full">
                             <Input
                               type="text"
@@ -961,9 +836,7 @@ const Register = () => {
                               maxLength={4}
                               // ref={year}
                               value={registerFormik.values?.birthDate?.year}
-                              errorMessage={
-                                registerFormik.errors?.birthDate?.year
-                              }
+                              errorMessage={registerFormik.errors?.birthDate?.year}
                               onBlur={registerFormik.handleBlur}
                               onChange={registerFormik.handleChange}
                               className={`text-center w-full  focus:bg-white rounded-xl  py-3`}
@@ -1003,9 +876,7 @@ const Register = () => {
                       style={{
                         "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
                       }}
-                      disabled={
-                        !(registerFormik.isValid && registerFormik.dirty)
-                      }
+                      disabled={!(registerFormik.isValid && registerFormik.dirty)}
                       className="bg-[#28D8AE] rounded-[14px]  text-base h-12 flex items-center cursor-pointer justify-center gap-1 w-full"
                       value={"إنشاء حساب"}
                     />
@@ -1016,10 +887,7 @@ const Register = () => {
                 {verify ? null : (
                   <p className="text-[#131313] text-[13px] font-bold text-center mt-6">
                     لديك حساب؟
-                    <Link
-                      to={"/auth/login"}
-                      className="text-[#28D8AE] underline"
-                    >
+                    <Link to={"/auth/login"} className="text-[#28D8AE] underline">
                       {" "}
                       تسجيل الدخول
                     </Link>

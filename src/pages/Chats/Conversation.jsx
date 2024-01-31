@@ -37,8 +37,6 @@ export const Conversation = (props) => {
       msgRef.current.value = null;
     }
 
-    console.log(activeConversation[0]?.conversation?.conversation_post);
-
     return () => setActiveUser(null);
   }, [activeConversation]);
 
