@@ -18,8 +18,6 @@ import { Conversation } from "./pages/Chats/Conversation.jsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import PostDetails from "./pages/postDetails/PostDetails";
-import Login from "./Components/auth/login/Login";
-import Register from "./Components/auth/register/Register";
 import { SocketProvider } from "./app/SocketContext";
 import { LoginProtector } from "./Components/Protectors/LoginProtector.jsx";
 import AddBook from "./pages/AddBook/AddBook.jsx";
@@ -129,7 +127,9 @@ i18n
 
 if (import.meta.hot) {
   import.meta.hot.accept();
-}
+}import Login from './pages/auth/login/Login';
+import Register from './pages/auth/register/Register';
+
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
