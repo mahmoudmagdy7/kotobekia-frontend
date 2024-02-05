@@ -66,6 +66,7 @@ const route = createBrowserRouter([
       { path: "/auth/login", element: <Login /> },
       { path: "/auth/register", element: <Register /> },
       { path: "/auth/verify", element: <Register /> },
+      { path: "/changePass", element: <ChangePassword /> },
 
       {
         path: "/profile",
@@ -129,6 +130,7 @@ if (import.meta.hot) {
   import.meta.hot.accept();
 }import Login from './pages/auth/login/Login';
 import Register from './pages/auth/register/Register';
+import ChangePassword from "./pages/auth/changePassword/ChangePassword.jsx";
 
 const queryClient = new QueryClient();
 

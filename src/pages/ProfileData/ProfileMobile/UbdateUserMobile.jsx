@@ -147,15 +147,15 @@ const UbdateUserMobile = () => {
             </div>
             {/* Ubdate  User Date And gender */}
             {/* Change Password */}
-            <input
-              type="submit"
+            <Link
+              to={"/changePass"}
               style={{
                 "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
               }}
-              // disabled={!(verifyFormik.isValid && verifyFormik.dirty)}
               className="border-1 border-[#28D8AE] hover:bg-[#28D8AE]  hover:text-white transition-all text-black  rounded-[14px]  text-base h-12 cursor-pointer flex items-center justify-center gap-1 w-full"
-              value={" تعديل كلمة المرور"}
-            />
+            >
+              تعديل كلمة المرور
+            </Link>
             {/* Change Password */}
             {/* Making Submit */}
             {spinner ? (

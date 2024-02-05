@@ -7,9 +7,9 @@ import Cookies from "js-cookie";
 import { useState } from "react";
 import DotsLoading from "../../../Components/Loaders/DotsLoading";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const UbdateDesktop = () => {
-  
   const { userData } = useSelector((state) => state.userData);
   const [spinner, setSpinner] = useState(false);
 
@@ -134,21 +134,34 @@ const UbdateDesktop = () => {
             </div>
             {/* Ubdate  User Date And gender */}
 
-            {spinner ? (
-              <div className="flex justify-center items-center">
-                <DotsLoading />
-              </div>
-            ) : (
-              <input
-                type="submit"
+            {/* Change Password */}
+            <div className=" flex gap-4 items-center">
+              <Link
+                to={"/changePass"}
                 style={{
                   "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
                 }}
-                // disabled={!(verifyFormik.isValid && verifyFormik.dirty)}
-                className="bg-[#28D8AE] hover:bg-[#5dbfa8] transition-all  rounded-[14px]  text-base h-12 cursor-pointer flex items-center justify-center gap-1 w-full"
-                value={"تأكيد"}
-              />
-            )}
+                className="border-1 border-[#28D8AE]  h-[55px] hover:bg-[#28D8AE]  hover:text-white transition-all text-black  rounded-[14px]  text-base cursor-pointer flex items-center justify-center gap-1 w-full"
+              >
+                تعديل كلمة المرور
+              </Link>
+              {/* Change Password */}
+              {spinner ? (
+                <div className="flex justify-center items-center">
+                  <DotsLoading />
+                </div>
+              ) : (
+                <input
+                  type="submit"
+                  style={{
+                    "box-shadow": "0px 4px 5px 0px rgba(0, 0, 0, 0.16)",
+                  }}
+                  // disabled={!(verifyFormik.isValid && verifyFormik.dirty)}
+                  className="bg-[#28D8AE] hover:bg-[#5dbfa8] transition-all  rounded-[14px]  text-base h-[55px] cursor-pointer flex items-center justify-center gap-1 w-full"
+                  value={"تأكيد"}
+                />
+              )}
+            </div>
           </div>
         </form>
       </div>
