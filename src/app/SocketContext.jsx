@@ -27,7 +27,7 @@ export const SocketProvider = ({ children }) => {
         const id = jwtDecode(userToken).id;
         // socket?.emit("join-conversation", "659e9e51a3b98aed7c42a68b");
         // socket?.emit("leave-conversation", "convId");
-        // socket.emit("disconnect", id);
+        socket.emit("disconnect", id);
       }
     };
   }, []);

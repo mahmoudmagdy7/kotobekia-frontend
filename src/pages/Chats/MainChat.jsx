@@ -103,7 +103,7 @@ export const MainChat = () => {
   }, []);
 
   return (
-    <section className="container ">
+    <section className="container">
       <div className="text-black bg-white mb-5 lg:h-[40rem] grid grid-cols-12 z-[49] fixed lg:relative  inset-0 h-screen">
         <aside
           id="chat-sidebar"

@@ -21,7 +21,12 @@ export const ContactCard = ({ conv }) => {
   const socket = useSocket();
   useEffect(() => {
     if (onlineUsers.some((user) => user.userId === currentUser?._id)) {
+      onlineUsers.some((user) => (user.userId === currentUser?._id ? console.log(user, "online") : null));
+    }
+
+    if (onlineUsers.some((user) => user.userId === currentUser?._id)) {
       setIsOnline(true);
+      console.log(onlineUsers);
     } else {
       setIsOnline(false);
     }

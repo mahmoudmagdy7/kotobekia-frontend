@@ -1,10 +1,10 @@
 import { Skeleton } from "@nextui-org/skeleton";
 import React from "react";
 
-const CardSkeleton = ({isLoading}) => {
+const CardSkeleton = ({ isLoading, repeating }) => {
   return (
     <>
-      <div className="grid lg:grid-cols-3 grid-cols-2 mt-3 ">
+      <div className="grid lg:grid-cols-4 grid-cols-2 mt-3 container">
         <div className=" space-y-5 p-4" radius="lg">
           <Skeleton isLoaded={!isLoading} className="rounded-lg">
             <div className="h-24 rounded-lg bg-gray-400"></div>
@@ -69,7 +69,7 @@ const CardSkeleton = ({isLoading}) => {
             </Skeleton>
           </div>
         </div>{" "}
-        <div className=" space-y-5 p-4" radius="lg">
+        {/*   <div className=" space-y-5 p-4" radius="lg">
           <Skeleton isLoaded={!isLoading} className="rounded-lg">
             <div className="h-24 rounded-lg bg-gray-400"></div>
           </Skeleton>
@@ -132,7 +132,7 @@ const CardSkeleton = ({isLoading}) => {
               <div className="h-3 w-full rounded-lg bg-gray-200"></div>
             </Skeleton>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

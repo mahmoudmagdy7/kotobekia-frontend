@@ -8,6 +8,7 @@ import ArrowTop from "../../arrowTop/ArrowTop";
 import Navbar from "./Navbar";
 import { useTranslation } from "react-i18next";
 import { LocationContext } from "../../../app/LocationContext";
+import { Link } from "react-router-dom";
 
 const NavHeader = () => {
   const [makeScroll, setMakeScroll] = useState(false);
@@ -75,7 +76,10 @@ const NavHeader = () => {
           <div className={`${makeScroll ? "hidden" : ""} nav_top flex items-center justify-between `}>
             <div className=" flex items-center flex-1 justify-between    gap-5">
               <div className={`logo py-2 `}>
-                <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" className={` transition-all`} />
+                <Link to="/">
+                  {" "}
+                  <img src={logo} alt="Kotobekia Logo" title="Kotobekia Logo" className={` transition-all`} />
+                </Link>
               </div>
               {/* ---------- mobile-Lang ----------*/}
               <div

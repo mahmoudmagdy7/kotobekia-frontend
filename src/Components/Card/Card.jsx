@@ -11,11 +11,11 @@ function Card(props) {
   const gridView = function () {
     return (
       <>
-        <div className="mb-4">
+        <div className="mb-4 ">
           <div className=" hover:cursor-pointer  shadow-[0_11px_22.5px_-15px_rgba(0,0,0,0.1)] rounded-xl " onClick={() => router("/book/" + props.post?._id)}>
             <figure className="w-full max-h-48 overflow-hidden rounded-t-xl relative">
               {/* <img className="w-full object-fill " src={"https://kotobekia-backend.onrender.com/" + props.post?.images[0]} alt="img" /> */}
-              <img className="  " src="/assets/placeholder.png" alt="img" />
+              <img src={config.bseUrl + "/" + props?.post?.images[0]} alt={props?.post?.title} />
             </figure>{" "}
             <div className="txt h-full bg-white shadow-xl py-2 px-3 rounded-b-[14px] ">
               <div className="card-title flex items-center justify-between gap-2 flex-wrap">

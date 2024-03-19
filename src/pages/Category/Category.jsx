@@ -16,7 +16,9 @@ function Category() {
   const location = useLocation();
   // Get the 'page' parameter from the URL or use the default value of 1
   const pageFromUrl = new URLSearchParams(location.search).get("page") || 1;
+
   const [currentPage, setCurrentPage] = useState(parseInt(pageFromUrl, 10));
+
   const [filters, setFilters] = useState(null);
   const [sortingValues, setSortingValues] = useState(null);
   const { id } = useParams();

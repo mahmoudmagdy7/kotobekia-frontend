@@ -37,6 +37,7 @@ import UbdateUserMobile from "./pages/ProfileData/ProfileMobile/UbdateUserMobile
 import { LocationProvider } from "./app/LocationContext.jsx";
 import { PageNotFound } from "./pages/Issues/PageNotFound.jsx";
 import { OurTeam } from "./pages/OurTeam/OurTeam.jsx";
+import { onMessageListener } from "./firebase.js";
 
 const route = createBrowserRouter([
   // { path: "/", element: <Home /> },
@@ -130,6 +131,21 @@ i18n
 if (import.meta.hot) {
   import.meta.hot.accept();
 }
+/**
+ * Method that listens to firebase FCM notification.
+ * Messages that are sent when the app is in use
+ * trigger this method.
+ */
+onMessageListener()
+  .then((payload) =>
+    alert({
+      open: true,
+      message: `🗓 ${payload.data.body}`,
+    })
+  )
+  .catch((err) => {
+    alert(`An error occured when showing notif ${err}`);
+  });
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(

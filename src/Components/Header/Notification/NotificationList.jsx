@@ -58,16 +58,18 @@ function NotificationList() {
       !isRead ? counter++ : null;
     });
     setNotificationCont(counter);
+    // console.log(Notification.requestPermission());
   }, [data]);
 
   const socket = useSocket();
   useEffect(() => {
     socket.on("new-notification", (notification) => {
       refetch();
-      console.log("notification");
-    });
-    socket.on("get-online-users", (onlineUsers) => {
-      console.log(onlineUsers);
+      console.log(notification);
+      // new Notification("new notification", {
+      //   body: notification.title + " " + notification.body,
+      //   badge: "success",
+      // });
     });
   }, []);
   return (
@@ -113,7 +115,7 @@ function NotificationList() {
                               ? "bg-warning-50 outline-warning"
                               : status == "rejected"
                               ? "bg-[#FA5057] outline-[#FA5057] bg-opacity-15"
-                              : "bg-[rgb(68,202,255)] outline-[rgb(68,202,255)] bg-opacity-15"
+                              : "bg-[#44caff] outline-[rgb(68,202,255)] bg-opacity-15"
                           }  border-white   outline outline-2 h-10 w-10 rounded-2xl  p-1 flex items-center justify-center`}
                         >
                           {notification_type == "post-update" ? (

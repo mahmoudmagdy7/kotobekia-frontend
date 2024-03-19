@@ -63,21 +63,29 @@ const Slider = ({ data, isLoading }) => {
       </span>
     );
   }
+  useEffect(() => {
+    // data.posts
+    console.log("data.posts: ", data.posts);
+  }, [data, isLoading]);
   return (
     <>
-      <div className="navigation-wrapper relative px-8 sliders">
+      <div className="navigation-wrapper relative px-8 sliders  min-h-96">
         {data || instanceRef?.current?.slides ? (
           <>
             <div ref={sliderRef} className="keen-slider flex">
-              {data?.posts.map((post, idx) => {
-                return (
-                  <>
-                    <div key={post._id} className={`keen-slider__slide number-slide${idx} item`}>
-                      <Card post={post} />
-                    </div>
-                  </>
-                );
-              })}
+              {data?.posts.length ? (
+                data?.posts.map((post, idx) => {
+                  return (
+                    <>
+                      <div key={post._id} className={`keen-slider__slide number-slide${idx} item`}>
+                        <Card post={post} />
+                      </div>
+                    </>
+                  );
+                })
+              ) : (
+                <div className=" w-full text-center min-h-96 flex items-center justify-center text-black">No Books found in your location </div>
+              )}
             </div>
             {loaded && instanceRef.current && (
               <>

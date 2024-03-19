@@ -38,6 +38,19 @@ function Layout() {
     }
   };
   useLayoutEffect(() => {
+    // ============================== get google auth token ============================== //
+    if (window.location.search.includes("token")) {
+      const userToken = window.location.search.split("?token=")[1];
+
+      Cookies.set("userToken", userToken, {
+        expires: 365,
+        sameSite: true,
+        secure: true,
+      });
+      dispatch(getUserData());
+    }
+    // ============================== languages ============================== //
+
     if (localStorage.getItem("i18nextLng") == "en") {
       document.body.dir = "ltr";
     } else {
@@ -48,14 +61,6 @@ function Layout() {
     if (!userData && Cookies.get("userToken")) {
       dispatch(getUserData());
     }
-    // dispatch(getCategory("655b4ec133dd362ae53081f7", 1));
-    // window.onscroll = () => {
-    //   if (window.scrollY > 600) {
-    //     setIsTop(true);
-    //   } else {
-    //     setIsTop(false);
-    //   }
-    // };
   }, []);
 
   const toastOption = {

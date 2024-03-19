@@ -57,7 +57,6 @@ const AddPost = () => {
     if (selectedImages?.length > 5) {
       error.images = "max is 5 images";
     }
-
     // book City
     if (!values.city) {
       error.city = "This field is required";

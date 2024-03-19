@@ -30,22 +30,17 @@ function Home() {
   const socket = useSocket();
   useEffect(() => {
     refetch();
-
-    if (window.location.search.includes("token")) {
-      const userToken = window.location.search.split("?token=")[1];
-
-      Cookies.set("userToken", userToken, {
-        expires: 365,
-        sameSite: true,
-        secure: true,
-      });
-      dispatch(getUserData());
-    }
   }, [location]);
   return (
     <>
       <MainSlider />
-      <PartsOfCategory isLoading={isLoading} title={"KG"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[0]} />
+      <PartsOfCategory
+        isLoading={isLoading}
+        isRefetching={isRefetching}
+        title={"KG"}
+        icon={<solarIcons.Backpack size={24} className="icon-outline" />}
+        data={data?.data?.result[0]}
+      />
       <PartsOfCategory isLoading={isLoading} title={"primary"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[1]} />
       <PartsOfCategory
         isLoading={isLoading}
