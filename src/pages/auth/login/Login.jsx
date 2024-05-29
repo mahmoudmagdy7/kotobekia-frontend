@@ -6,13 +6,14 @@ import { useFormik } from "formik";
 import axios from "axios";
 import config from "../../../../config";
 import { siteDirection, siteLanguage } from "../../../hooks/useLocale";
-import DotsLoading from "../../Loaders/DotsLoading";
+
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
 import { getUserData } from "../../../app/Slices/userDataSlice";
 
 import { useDispatch } from "react-redux";
+import DotsLoading from './../../../Components/Loaders/DotsLoading';
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);

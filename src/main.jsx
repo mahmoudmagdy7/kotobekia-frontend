@@ -18,8 +18,6 @@ import { Conversation } from "./pages/Chats/Conversation.jsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import PostDetails from "./pages/postDetails/PostDetails";
-import Login from "./Components/auth/login/Login";
-import Register from "./Components/auth/register/Register";
 import { SocketProvider } from "./app/SocketContext";
 import { LoginProtector } from "./Components/Protectors/LoginProtector.jsx";
 import AddBook from "./pages/AddBook/AddBook.jsx";
@@ -69,6 +67,7 @@ const route = createBrowserRouter([
       { path: "/auth/login", element: <Login /> },
       { path: "/auth/register", element: <Register /> },
       { path: "/auth/verify", element: <Register /> },
+      { path: "/changePass", element: <ChangePassword /> },
 
       {
         path: "/profile",
@@ -131,21 +130,6 @@ i18n
 if (import.meta.hot) {
   import.meta.hot.accept();
 }
-/**
- * Method that listens to firebase FCM notification.
- * Messages that are sent when the app is in use
- * trigger this method.
- */
-onMessageListener()
-  .then((payload) =>
-    alert({
-      open: true,
-      message: `🗓 ${payload.data.body}`,
-    })
-  )
-  .catch((err) => {
-    alert(`An error occured when showing notif ${err}`);
-  });
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(

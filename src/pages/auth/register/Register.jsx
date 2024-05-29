@@ -6,10 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import * as solarIcons from "solar-icon-set";
 import config from "../../../../config";
 import Cookies from "js-cookie";
-import DotsLoading from "./../../Loaders/DotsLoading";
 import toast from "react-hot-toast";
 import { getUserData } from "../../../app/Slices/userDataSlice";
 import { useDispatch } from "react-redux";
+import DotsLoading from './../../../Components/Loaders/DotsLoading';
 
 const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
