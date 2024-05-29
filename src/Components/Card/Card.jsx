@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 function Card(props) {
   const { t } = useTranslation();
   const router = useNavigate();
-  console.log(props);
   // const [viewMode, setViewMode] = useState(view);
   const gridView = function () {
     return (

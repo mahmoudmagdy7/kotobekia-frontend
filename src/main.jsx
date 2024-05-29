@@ -130,6 +130,10 @@ i18n
 if (import.meta.hot) {
   import.meta.hot.accept();
 }
+import Login from "./pages/auth/login/Login";
+import Register from "./pages/auth/register/Register";
+import ChangePassword from "./pages/auth/changePassword/ChangePassword.jsx";
+
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
