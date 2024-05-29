@@ -201,7 +201,10 @@ const Footer = () => {
               </div>
 
               <div className="download flex items-center gap-[10px]">
-                <img src={googlePlay} alt="" />
+                <Link to={"https://play.google.com/store/apps/details?id=com.kotobekia"}>
+                  {" "}
+                  <img src={googlePlay} alt="googel play link" />
+                </Link>
 
                 <img src={appStore} alt="" />
               </div>
