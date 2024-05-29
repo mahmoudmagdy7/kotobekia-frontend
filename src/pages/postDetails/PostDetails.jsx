@@ -238,7 +238,7 @@ const PostDetails = () => {
                       {data?.data?.result?.images.map((image) => {
                         return (
                           <div className="keen-slider__slide overflow-hidden number-slide2">
-                            <img src={config.bseUrl + "/" + data?.data?.result?.images} alt="" className=" mb-6 h-full" />
+                            <img src={config.bseUrl + "/" + image} alt="" className=" mb-6 h-full" />
                           </div>
                         );
                       })}
@@ -251,7 +251,7 @@ const PostDetails = () => {
                         {data?.data?.result?.images.map((image) => {
                           return (
                             <div className="keen-slider__slide overflow-hidden rounded-2xl">
-                              <img src={config.bseUrl + "/" + data?.data?.result?.images} alt="" className=" mb-6 h-full" />
+                              <img src={config.bseUrl + "/" + image} alt="" className=" mb-6 h-full" />
                             </div>
                           );
                         })}
