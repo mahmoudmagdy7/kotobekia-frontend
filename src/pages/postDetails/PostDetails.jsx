@@ -235,42 +235,26 @@ const PostDetails = () => {
                   <div className="slider ">
                     {/* --------- slider images large ---------  */}
                     <div ref={sliderRef} className="keen-slider  mb-4 rounded-2xl overflow-hidden">
-                      <div className="keen-slider__slide  number-slide1">
-                        <img src="/assets/imgPost.png" alt="" className=" mb-6 h-full" />
-                      </div>
-                      <div className="keen-slider__slide overflow-hidden number-slide2">
-                        <img src="/assets/imgPost.png" alt="" className=" mb-6 h-full" />
-                      </div>
-                      <div className="keen-slider__slide overflow-hidden number-slide3">
-                        <img src="/assets/imgPost.png" alt="" className=" mb-6 h-full" />
-                      </div>
-                      <div className="keen-slider__slide overflow-hidden number-slide4">
-                        <img src="/assets/imgPost.png" alt="" className=" mb-6 h-full" />
-                      </div>
-                      <div className="keen-slider__slide overflow-hidden number-slide5 ">
-                        <img src="/assets/imgPost.png" alt="" className=" mb-6 h-full" />
-                      </div>
+                      {data?.data?.result?.images.map((image) => {
+                        return (
+                          <div className="keen-slider__slide overflow-hidden number-slide2">
+                            <img src={config.bseUrl + "/" + data?.data?.result?.images} alt="" className=" mb-6 h-full" />
+                          </div>
+                        );
+                      })}
                     </div>
                     {/* --------- slider images large ---------  */}
                     {/* ----------- imags thumps ----------- */}
                     <div className={`thumps flex gap-2 md:gap-6 relative mb-6 flex-row-reverse ${siteDirection === "ltr" ? null : "flex-row-reverse"}`}>
                       {/* ------------ THUMBNAILS ------------ */}
                       <div ref={thumbnailRef} className="keen-slider thumbnail  ">
-                        <div className="keen-slider__slide overflow-hidden number-slide1 rounded-2xl  ">
-                          <img src="/assets/imgPost.png" alt="" className=" mb-6  w-[200px] h-full" />
-                        </div>
-                        <div className="keen-slider__slide overflow-hidden rounded-2xl  number-slide2">
-                          <img src="/assets/imgPost.png" alt="" className=" w-[200px] h-full mb-6 " />
-                        </div>
-                        <div className="keen-slider__slide overflow-hidden rounded-2xl  number-slide3">
-                          <img src="/assets/imgPost.png" alt="" className=" w-[200px] h-full mb-6 " />
-                        </div>
-                        <div className="keen-slider__slide overflow-hidden rounded-2xl  number-slide4">
-                          <img src="/assets/imgPost.png" alt="" className=" w-[200px] h-full mb-6 " />
-                        </div>
-                        <div className="keen-slider__slide overflow-hidden rounded-2xl  number-slide5">
-                          <img src="/assets/imgPost.png" alt="" className=" w-[200px] h-full mb-6 " />
-                        </div>
+                        {data?.data?.result?.images.map((image) => {
+                          return (
+                            <div className="keen-slider__slide overflow-hidden rounded-2xl">
+                              <img src={config.bseUrl + "/" + data?.data?.result?.images} alt="" className=" mb-6 h-full" />
+                            </div>
+                          );
+                        })}
                       </div>
                       {/* ------------ THUMBNAILS ------------ */}
 
