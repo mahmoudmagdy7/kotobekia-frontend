@@ -34,6 +34,25 @@ function Home() {
   return (
     <>
       <MainSlider />
+      {/* general section */}
+      <PartsOfCategory isLoading={isLoading} title={"general"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[4]} />
+      {/* secondary */}
+      <PartsOfCategory
+        isLoading={isLoading}
+        title={"secondary"}
+        icon={<solarIcons.Backpack size={24} className="icon-outline" />}
+        data={data?.data?.result[3]}
+      />
+      {/* mid level  */}
+      <PartsOfCategory
+        isLoading={isLoading}
+        title={"mid_level"}
+        icon={<solarIcons.Backpack size={24} className="icon-outline" />}
+        data={data?.data?.result[2]}
+      />
+      {/* primary level */}
+      <PartsOfCategory isLoading={isLoading} title={"primary"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[1]} />
+
       <PartsOfCategory
         isLoading={isLoading}
         isRefetching={isRefetching}
@@ -41,20 +60,7 @@ function Home() {
         icon={<solarIcons.Backpack size={24} className="icon-outline" />}
         data={data?.data?.result[0]}
       />
-      <PartsOfCategory isLoading={isLoading} title={"primary"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[1]} />
-      <PartsOfCategory
-        isLoading={isLoading}
-        title={"mid_level"}
-        icon={<solarIcons.Backpack size={24} className="icon-outline" />}
-        data={data?.data?.result[2]}
-      />
-      <PartsOfCategory
-        isLoading={isLoading}
-        title={"secondary"}
-        icon={<solarIcons.Backpack size={24} className="icon-outline" />}
-        data={data?.data?.result[3]}
-      />
-      <PartsOfCategory isLoading={isLoading} title={"general"} icon={<solarIcons.Backpack size={24} className="icon-outline" />} data={data?.data?.result[4]} />
+
       <PartnerSection />
     </>
   );
