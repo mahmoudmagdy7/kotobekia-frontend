@@ -1,6 +1,6 @@
 const config = {
   bseUrl: import.meta.env.VITE_BASE_URL,
-  domain: "https://kotobekia.bbfsoft.com",
+  domain: "https://api.kotobekia.cloud",
   // domain: "kotobekia.vercel.app",
   any: "",
   categories: [

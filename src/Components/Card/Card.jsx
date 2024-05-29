@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 function Card(props) {
   const { t } = useTranslation();
   const router = useNavigate();
+  console.log(props);
   // const [viewMode, setViewMode] = useState(view);
   const gridView = function () {
     return (
@@ -84,7 +85,7 @@ function Card(props) {
           >
             <figure className="h-full max-w-48 md:max-w-64  overflow-hidden rounded-xl relative">
               {/* <img className="w-full object-fill " src={"https://kotobekia-backend.onrender.com/" + props.post?.images[0]} alt="img" /> */}
-              <img className="  " src="/assets/placeholder.png" alt="img" />
+              <img src={config.bseUrl + "/" + props?.post?.images[0]} alt={props?.post?.title} />
             </figure>
             <div className="w-full  min-h-48 md:h-64  pt-3 sm:px-4 px-2 relative">
               <div className="card-title flex items-center justify-between gap-2">
